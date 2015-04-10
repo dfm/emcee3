@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "3.0.0-dev"
+__version__ = "3.0.0.dev0"
 
 try:
-    __EMCEE_SETUP__
+    __EMCEE3_SETUP__
 except NameError:
-    __EMCEE_SETUP__ = False
+    __EMCEE3_SETUP__ = False
 
-if not __EMCEE_SETUP__:
+if not __EMCEE3_SETUP__:
     __all__ = ["moves", "pools", "Sampler", "Ensemble",
                "BaseWalker", "SimpleWalker"]
 
