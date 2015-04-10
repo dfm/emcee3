@@ -16,9 +16,9 @@ else:
         import __builtin__ as builtins
     else:
         import builtins
-    builtins.__EMCEE_SETUP__ = True
-    import emcee
-    version = emcee.__version__
+    builtins.__EMCEE3_SETUP__ = True
+    import emcee3
+    version = emcee3.__version__
 
 # Publish to PyPI.
 if "publish" in sys.argv:
@@ -52,18 +52,18 @@ class PyTest(TestCommand):
         sys.exit(errno)
 
 setup(
-    name="emcee",
+    name="emcee3",
     version=version,
     author="Daniel Foreman-Mackey",
     author_email="danfm@nyu.edu",
     packages=[
-        "emcee",
-        "emcee.moves",
-        "emcee.samplers",
-        "emcee.pools",
-        "emcee.backends",
+        "emcee3",
+        "emcee3.moves",
+        "emcee3.samplers",
+        "emcee3.pools",
+        "emcee3.backends",
     ],
-    url="http://dan.iel.fm/emcee/",
+    url="http://dan.iel.fm/emcee3/",
     license="MIT",
     description="Kick ass affine-invariant ensemble MCMC sampling",
     long_description=(open("README.rst").read() + "\n\n"
