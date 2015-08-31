@@ -4,14 +4,12 @@ from __future__ import division, print_function
 
 __all__ = ["DefaultBackend"]
 
-import copy
 import numpy as np
 
 
 class DefaultBackend(object):
 
-    def __init__(self, store_walkers=False):
-        self.store_walkers = store_walkers
+    def __init__(self):
         self.reset()
 
     def reset(self):
@@ -28,7 +26,6 @@ class DefaultBackend(object):
         self._coords = None
         self._lnprior = None
         self._lnlike = None
-        self._walkers = []
 
     def check_dimensions(self, ens):
         if self.nwalkers is None:
@@ -55,12 +52,10 @@ class DefaultBackend(object):
         i = self.niter
         if i >= self.size:
             self.extend(i - self.size + 1)
-        self._coords[i] = ensemble.coords
-        self._lnprior[i] = ensemble.lnprior
-        self._lnlike[i] = ensemble.lnlike
+        ensemble.get_coords(self._coords[i])
+        ensemble.get_lnprior(self._lnprior[i])
+        ensemble.get_lnlike(self._lnlike[i])
         self._acceptance += ensemble.acceptance
-        if self.store_walkers:
-            self._walkers.append(copy.deepcopy(ensemble.walkers))
         self.niter += 1
 
     @property
@@ -78,14 +73,6 @@ class DefaultBackend(object):
     @property
     def lnprob(self):
         return self.lnprior + self.lnlike
-
-    @property
-    def walkers(self):
-        if not self.store_walkers:
-            raise AttributeError("You need to store the walkers using the "
-                                 "'store_walkers' keyword argument to the "
-                                 "DefaultBackend class")
-        return self._walkers
 
     @property
     def acceptance(self):

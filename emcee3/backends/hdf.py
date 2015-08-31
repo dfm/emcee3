@@ -4,13 +4,7 @@ from __future__ import division, print_function
 
 __all__ = ["HDFBackend"]
 
-import base64
 import numpy as np
-
-try:
-    import cPickle as pickle
-except ImportError:
-    import pickle
 
 try:
     import h5py
@@ -55,11 +49,6 @@ class HDFBackend(DefaultBackend):
                                  maxshape=(None, k))
                 g.create_dataset("acceptance",
                                  data=np.zeros(k, dtype=np.uint64))
-
-                if self.store_walkers:
-                    dt = h5py.special_dtype(vlen=bytes)
-                    g.create_dataset("walkers", (n, k), dtype=dt,
-                                     maxshape=(None, k))
             self.initialized = True
 
         else:
@@ -76,8 +65,6 @@ class HDFBackend(DefaultBackend):
                 g["coords"].resize(l, axis=0)
                 g["lnprior"].resize(l, axis=0)
                 g["lnlike"].resize(l, axis=0)
-                if self.store_walkers:
-                    g["walkers"].resize(l, axis=0)
 
     def update(self, ensemble):
         # Get the current file shape and dimensions.
@@ -93,16 +80,12 @@ class HDFBackend(DefaultBackend):
         # Update the file.
         with self.open("a") as f:
             g = f[self.name]
-            g["coords"][niter, :, :] = ensemble.coords
-            g["lnprior"][niter, :] = ensemble.lnprior
-            g["lnlike"][niter, :] = ensemble.lnlike
+            for w, walker in enumerate(ensemble.walkers):
+                g["coords"][niter, w, :] = walker.coords
+                g["lnprior"][niter, w] = walker.lnprior
+                g["lnlike"][niter, w] = walker.lnlike
             g["acceptance"][:] += ensemble.acceptance
             g.attrs["niter"] = niter + 1
-
-            if self.store_walkers:
-                g0 = g["walkers"]
-                for j, w in enumerate(ensemble.walkers):
-                    g0[niter, j] = base64.b64encode(pickle.dumps(w))
 
     @property
     def niter(self):
@@ -136,25 +119,6 @@ class HDFBackend(DefaultBackend):
             g = f[self.name]
             i = g.attrs["niter"]
             return g["lnlike"][:i, :]
-
-    @property
-    def walkers(self):
-        if not self.store_walkers:
-            raise AttributeError("You need to store the walkers using the "
-                                 "'store_walkers' keyword argument to the "
-                                 "HDFBackend class")
-
-        # Build the list of lists of walkers. They're pickled in the HDF file.
-        walkers = []
-        with self.open() as f:
-            g = f[self.name]
-            niter = g.attrs["niter"]
-            for i, row in enumerate(g["walkers"][:niter]):
-                walkers.append([])
-                for w in row:
-                    s = base64.b64decode(w)
-                    walkers[-1].append(pickle.loads(s))
-        return walkers
 
     @property
     def acceptance(self):

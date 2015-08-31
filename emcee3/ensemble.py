@@ -12,11 +12,11 @@ from .pools import DefaultPool
 
 class Ensemble(object):
     """
-    An :class:`Ensemble` is a set of walkers (usually subclasses of
-    :class:`BaseWalker`).
+    The state of the ensemble of walkers.
 
-    :param walker:
-        The walker class.
+    :param model:
+        The model specification. Should be, inherit from, or otherwise quack
+        like a :class:`Model`.
 
     :param coords:
         The 2-D array of walker coordinate vectors. The shape of this array
@@ -36,7 +36,8 @@ class Ensemble(object):
               walker initialization.
 
     """
-    def __init__(self, walker, coords, *args, **kwargs):
+    def __init__(self, model, coords, *args, **kwargs):
+        self.model = model
         self.pool = kwargs.pop("pool", DefaultPool())
         self.random = kwargs.pop("random", np.random.RandomState())
 
@@ -47,57 +48,38 @@ class Ensemble(object):
         self.nwalkers, self.ndim = self._coords.shape
 
         # Initialize the walkers at these coordinates.
-        self.walkers = list(self.pool.map(_mapping_pickler(walker, "propose"),
-                                          self._coords))
-
-        # Save the initial prior and likelihood values.
-        self._lnprior = np.empty(self.nwalkers, dtype=np.float64)
-        self._lnlike = np.empty(self.nwalkers, dtype=np.float64)
-        for i, w in enumerate(self.walkers):
-            self._lnprior[i] = w.lnprior
-            self._lnlike[i] = w.lnlike
+        self.walkers = self.propose(self._coords)
         self.acceptance = np.ones(self.nwalkers, dtype=bool)
 
-        # Check the initial probabilities.
-        if not (np.all(np.isfinite(self._lnprior))
-                and np.all(np.isfinite(self._lnlike))):
-            raise ValueError("Invalid (un-allowed) initial coordinates")
+        if not (np.all(np.isfinite(self.lnprior)) and
+                np.all(np.isfinite(self.lnlike))):
+            raise ValueError("invalid (zero-probability) coordinates")
 
-    def propose(self, coords, slice=slice(None)):
+    def propose(self, coords):
         """
-        Given a new set of coordinates return a list of new walkers evaluated
-        at these locations.
+        Given a new set of coordinates return arrays of log-prior and
+        log-likelihood values.
 
         :param coords:
             The new coordinate matrix. It should be ``(nwalkers, ndim)``.
 
-        :param slice: (optional)
-            The update can optionally only be applied to a subset of the
-            walkers. This should be a ``slice`` object that can be used to
-            index the walkers list.
-
         """
-        return list(self.pool.map(_mapping_zipper("propose"),
-                                  izip(self.walkers[slice], coords)))
+        return list(self.pool.map(self.model, coords))
 
-    def update(self):
+    def update(self, walkers, slice=slice(None)):
         """
         Update the coordinate matrix and probability containers given the
         current list of walkers. Moves should call this after proposing and
         accepting the walkers.
 
         """
-        for i, w in enumerate(self.walkers):
-            self._coords[i, :] = w.coords
-            self._lnprior[i] = w.lnprior
-            self._lnlike[i] = w.lnlike
-
-        # Check the probabilities and make sure that no invalid samples were
-        # accepted.
-        if not (np.all(np.isfinite(self._coords))
-                and np.all(np.isfinite(self._lnprior))
-                and np.all(np.isfinite(self._lnlike))):
-            raise RuntimeError("An invalid proposal was accepted")
+        for j, s in izip(np.arange(self.nwalkers)[slice], walkers):
+            self.acceptance[j] = s.accepted
+            if s.accepted:
+                self.walkers[j] = s
+                if not np.all(np.isfinite([s.lnlike, s.lnprior])):
+                    raise RuntimeError("invalid (zero-probability) proposal "
+                                       "accepted")
 
     def __getstate__(self):
         # In order to be generally picklable, we need to discard the pool
@@ -113,48 +95,43 @@ class Ensemble(object):
     def __len__(self):
         return self.nwalkers
 
+    def get_coords(self, out=None):
+        if out is None:
+            out = np.empty((self.nwalkers, self.ndim), dtype=np.float64)
+        for i, s in enumerate(self.walkers):
+            out[i:i+1] = s.coords
+        return out
+
+    def get_lnprior(self, out=None):
+        if out is None:
+            out = np.empty(self.nwalkers, dtype=np.float64)
+        for i, s in enumerate(self.walkers):
+            out[i] = s.lnprior
+        return out
+
+    def get_lnlike(self, out=None):
+        if out is None:
+            out = np.empty(self.nwalkers, dtype=np.float64)
+        for i, s in enumerate(self.walkers):
+            out[i] = s.lnlike
+        return out
+
     @property
     def coords(self):
         """The coordinate vectors of the walkers."""
-        return self._coords
+        return self.get_coords()
 
     @property
     def lnprior(self):
         """The ln-priors of the walkers up to a constant."""
-        return self._lnprior
+        return self.get_lnprior()
 
     @property
     def lnlike(self):
         """The ln-likelihoods of the walkers up to a constant."""
-        return self._lnlike
+        return self.get_lnlike()
 
     @property
     def lnprob(self):
         """The ln-probabilities of the walker up to a constant."""
-        return self._lnprior + self._lnlike
-
-
-class _mapping_zipper(object):
-    """
-    This is a picklable helper object for the parallel ensemble mapper.
-
-    """
-    def __init__(self, method):
-        self.method = method
-
-    def __call__(self, args):
-        obj, a = args
-        return getattr(obj, self.method)(a)
-
-
-class _mapping_pickler(object):
-    """
-    This is a picklable helper object for the parallel ensemble mapper.
-
-    """
-    def __init__(self, obj, method):
-        self.obj = obj
-        self.method = method
-
-    def __call__(self, args):
-        return getattr(self.obj, self.method)(args)
+        return self.lnprior + self.lnlike

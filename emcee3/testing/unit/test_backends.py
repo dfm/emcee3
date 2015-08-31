@@ -22,9 +22,9 @@ def run_sampler(backend, nwalkers=32, ndim=3, nsteps=5, seed=1234):
 
 def test_hdf():
     # Run a sampler with the default backend.
-    sampler1 = run_sampler(backends.DefaultBackend(store_walkers=True))
+    sampler1 = run_sampler(backends.DefaultBackend())
 
-    with TempHDFBackend(store_walkers=True) as backend:
+    with TempHDFBackend() as backend:
         sampler2 = run_sampler(backend)
 
         # Check all of the components.
@@ -34,18 +34,9 @@ def test_hdf():
             b = getattr(sampler2, k)
             assert np.allclose(a, b), "inconsistent {0}".format(k)
 
-        # Check the walkers.
-        for r1, r2 in izip(sampler1.walkers, sampler2.walkers):
-            for w1, w2 in izip(r1, r2):
-                for k in ["coords", "lnprior", "lnlike", "lnprob"]:
-                    a = getattr(w1, k)
-                    b = getattr(w2, k)
-                    assert np.allclose(a, b), \
-                        "inconsistent walker {0}".format(k)
-
 
 def test_hdf_reload():
-    with TempHDFBackend(store_walkers=True) as backend1:
+    with TempHDFBackend() as backend1:
         run_sampler(backend1)
 
         # Load the file using a new backend object.

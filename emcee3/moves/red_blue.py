@@ -54,7 +54,6 @@ class RedBlueMove(object):
             raise RuntimeError("It is unadvisable to use a red-blue move "
                                "with fewer walkers than twice the number of "
                                "dimensions.")
-        ensemble.acceptance[:] = False
 
         # Run any move-specific setup.
         self.setup(ensemble)
@@ -71,17 +70,17 @@ class RedBlueMove(object):
             q, factors = self.get_proposal(ensemble, s, c)
 
             # Compute the lnprobs of the proposed position.
-            new_walkers = ensemble.propose(q, S1)
+            states = ensemble.propose(q)
 
             # Loop over the walkers and update them accordingly.
-            for i, f, w in izip(np.arange(nwalkers)[S1], factors, new_walkers):
-                lnpdiff = f + w.lnprob - ensemble.walkers[i].lnprob
+            for i, (j, f, state) in enumerate(izip(
+                    np.arange(len(ensemble))[S1], factors, states)):
+                lnpdiff = f + state.lnprob - ensemble.walkers[j].lnprob
                 if lnpdiff > np.log(ensemble.random.rand()):
-                    ensemble.walkers[i] = w
-                    ensemble.acceptance[i] = True
+                    state.accepted = True
 
             # Update the ensemble with the accepted walkers.
-            ensemble.update()
+            ensemble.update(states, slice=S1)
 
         # Do any move-specific cleanup.
         self.finalize(ensemble)

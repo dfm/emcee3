@@ -166,11 +166,6 @@ class Sampler(object):
 
     @property
     @_check_run
-    def walkers(self):
-        return self.backend.walkers
-
-    @property
-    @_check_run
     def acceptance_fraction(self):
         return self.backend.acceptance_fraction
 
@@ -253,28 +248,3 @@ class Sampler(object):
 
         """
         return self._getter("lnprob", **kwargs)
-
-    def get_walkers(self, flat=False, thin=1, discard=0):
-        """
-        Get the stored chain of walker objects. This will only work if the
-        chain was stored using a backend with walker storage enabled.
-
-        :param flat: (optional)
-            Flatten the chain across the ensemble. (default: ``False``)
-
-        :param thin: (optional)
-            Take only every ``thin`` steps from the chain. (default: ``1``)
-
-        :param discard: (optional)
-            Discard the first ``discard`` steps in the chain as burn-in.
-            (default: ``0``)
-
-        """
-        v = self.walkers[discard::thin]
-        if flat:
-            r = []
-            for row in v:
-                for w in row:
-                    r.append(w)
-            return r
-        return v

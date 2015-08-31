@@ -42,18 +42,3 @@ def test_inf_init(nwalkers=32, ndim=5, seed=1234):
         assert False, \
             "If the initial ensemble coordinates are -inf, we should get a " \
             "ValueError."
-
-
-def test_invalid_acceptance(nwalkers=32, ndim=5, seed=1234):
-    np.random.seed(seed)
-    coords = np.zeros((nwalkers, ndim)) + 0.1*np.random.randn(nwalkers, ndim)
-    ensemble = Ensemble(UniformWalker(), coords)
-    ensemble.walkers[0]._lnlike = -np.inf
-
-    try:
-        ensemble.update()
-    except RuntimeError:
-        pass
-    else:
-        assert False, \
-            "Invalid proposals should *never* be accepted."

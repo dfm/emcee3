@@ -8,10 +8,15 @@ except NameError:
     __EMCEE3_SETUP__ = False
 
 if not __EMCEE3_SETUP__:
-    __all__ = ["moves", "pools", "Sampler", "Ensemble",
-               "BaseWalker", "SimpleWalker"]
+    __all__ = [
+        "moves",
+        "pools",
+        "Sampler",
+        "Ensemble",
+        "Model",
+    ]
 
     from . import moves, pools
+    from .model import Model
     from .ensemble import Ensemble
-    from .walker import BaseWalker, SimpleWalker
     from .samplers import Sampler

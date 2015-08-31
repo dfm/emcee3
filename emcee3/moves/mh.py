@@ -47,16 +47,14 @@ class MHMove(object):
 
         # Compute the proposal.
         q, factor = self.proposal(ensemble.random, ensemble.coords)
-        new_walkers = ensemble.propose(q)
+        states = ensemble.propose(q)
 
         # Loop over the walkers and update them accordingly.
-        ensemble.acceptance[:] = False
-        for i, w in enumerate(new_walkers):
-            lnpdiff = w.lnprob - ensemble.walkers[i].lnprob + factor
+        for i, state in enumerate(states):
+            lnpdiff = state.lnprob - ensemble.walkers[i].lnprob + factor
             if lnpdiff > 0.0 or ensemble.random.rand() < np.exp(lnpdiff):
-                ensemble.walkers[i] = w
-                ensemble.acceptance[i] = True
+                state.accepted = True
 
         # Update the ensemble's coordinates and log-probabilities.
-        ensemble.update()
+        ensemble.update(states)
         return ensemble

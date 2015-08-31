@@ -8,7 +8,7 @@ import pickle
 import numpy as np
 from multiprocessing import Pool
 
-from ... import moves, pools, Ensemble, SimpleWalker
+from ... import moves, pools, Ensemble, Model
 
 from ..common import NormalWalker
 
@@ -23,7 +23,7 @@ def test_walker_pickle():
     pickle.dumps(walker)
 
     # And the "simple" form with function pointers.
-    walker = SimpleWalker(f, f)
+    walker = Model(f, f)
     pickle.dumps(walker)
 
 

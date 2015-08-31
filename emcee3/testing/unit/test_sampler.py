@@ -2,7 +2,7 @@
 
 from __future__ import division, print_function
 
-__all__ = ["test_schedule", "test_shapes", "test_errors", "test_walkers",
+__all__ = ["test_schedule", "test_shapes", "test_errors",
            "test_thin"]
 
 import numpy as np
@@ -26,15 +26,9 @@ def test_schedule():
 
 
 def test_shapes():
-    run_shapes(backends.DefaultBackend(store_walkers=True))
-    with TempHDFBackend(store_walkers=True) as backend:
+    run_shapes(backends.DefaultBackend())
+    with TempHDFBackend() as backend:
         run_shapes(backend)
-
-
-def test_walkers():
-    run_walkers(backends.DefaultBackend(store_walkers=True))
-    with TempHDFBackend(store_walkers=True) as backend:
-        run_walkers(backend)
 
 
 def run_shapes(backend, nwalkers=32, ndim=3, nsteps=5, seed=1234):
@@ -65,11 +59,6 @@ def run_shapes(backend, nwalkers=32, ndim=3, nsteps=5, seed=1234):
     assert sampler.acceptance_fraction.shape == (nwalkers,), \
         "incorrect acceptance fraction dimensions"
 
-    assert len(sampler.walkers) == nsteps, \
-        "incorrect walker dimensions"
-    assert len(sampler.walkers[0]) == nwalkers, \
-        "incorrect walker row dimensions"
-
     # Check the shape of the flattened coords.
     assert sampler.get_coords(flat=True).shape == (nsteps * nwalkers, ndim), \
         "incorrect coordinate dimensions"
@@ -79,8 +68,6 @@ def run_shapes(backend, nwalkers=32, ndim=3, nsteps=5, seed=1234):
         "incorrect likelihood dimensions"
     assert sampler.get_lnprob(flat=True).shape == (nsteps * nwalkers,), \
         "incorrect probability dimensions"
-    assert len(sampler.get_walkers(flat=True)) == nsteps * nwalkers, \
-        "incorrect walker dimensions"
 
     # This should work (even though it's dumb).
     sampler.reset()
@@ -99,35 +86,6 @@ def run_shapes(backend, nwalkers=32, ndim=3, nsteps=5, seed=1234):
         "incorrect acceptance fraction dimensions"
 
 
-def run_walkers(backend, nwalkers=5, ndim=2, nsteps=5, seed=1234):
-    # Set up the random number generator.
-    rnd = np.random.RandomState()
-    rnd.seed(seed)
-
-    # Initialize the ensemble, proposal, and sampler.
-    coords = rnd.randn(nwalkers, ndim)
-    ensemble = Ensemble(NormalWalker(1.0), coords, random=rnd)
-    sampler = Sampler(backend=backend)
-
-    # Run the sampler.
-    list(sampler.sample(ensemble, nsteps))
-
-    # Check that walker coordinates are all right.
-    for i, row in enumerate(sampler.walkers):
-        for j, w in enumerate(row):
-            assert np.allclose(sampler.coords[i, j], w.coords), \
-                "invalid walker coordinates"
-
-    # What about the flattened distributions?
-    c = sampler.get_coords(flat=True)
-    lp = sampler.get_lnprob(flat=True)
-    for i, w in enumerate(sampler.get_walkers(flat=True)):
-        assert np.allclose(c[i], w.coords), \
-            "invalid flattened walker coordinates"
-        assert np.allclose(lp[i], w.lnprob), \
-            "invalid flattened walker probability"
-
-
 def test_errors(nwalkers=32, ndim=3, nsteps=5, seed=1234):
     # Set up the random number generator.
     rnd = np.random.RandomState()
@@ -136,16 +94,6 @@ def test_errors(nwalkers=32, ndim=3, nsteps=5, seed=1234):
     # Initialize the ensemble, proposal, and sampler.
     coords = rnd.randn(nwalkers, ndim)
     ensemble = Ensemble(NormalWalker(1.0), coords, random=rnd)
-
-    # Test for saving the walker list.
-    sampler = Sampler()
-    list(sampler.sample(ensemble, nsteps))
-    try:
-        sampler.walkers
-    except AttributeError:
-        pass
-    else:
-        assert 0, "shouldn't save walkers"
 
     # Test for not running.
     sampler = Sampler()

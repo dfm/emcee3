@@ -8,30 +8,31 @@ import os
 import numpy as np
 from tempfile import NamedTemporaryFile
 
-from .. import BaseWalker, backends
+from .. import backends
+from ..model import Model
 
 
-class NormalWalker(BaseWalker):
+class NormalWalker(Model):
 
     def __init__(self, ivar, width=np.inf):
         self.ivar = ivar
         self.width = width
 
-    def lnpriorfn(self, p):
+    def get_lnprior(self, p):
         if np.any(np.abs(p) > self.width):
             return -np.inf
         return 0.0
 
-    def lnlikefn(self, p):
+    def get_lnlike(self, p):
         return -0.5 * np.sum(p ** 2 * self.ivar)
 
 
-class UniformWalker(BaseWalker):
+class UniformWalker(Model):
 
-    def lnpriorfn(self, p):
+    def get_lnprior(self, p):
         return 0.0 if np.all((-1 < p) * (p < 1)) else -np.inf
 
-    def lnlikefn(self, p):
+    def get_lnlike(self, p):
         return 0.0
 
 
