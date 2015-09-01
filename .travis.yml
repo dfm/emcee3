@@ -2,26 +2,14 @@ sudo: false
 
 language: python
 
+python:
+    - "2.7"
+    - "3.3"
+    - "3.4"
+
 env:
-    global:
-        - NUMPY_VERSION=1.9
-
-matrix:
-    include:
-        # All the versions of Python.
-        - python: 2.6
-        - python: 2.7
-        - python: 3.3
-        - python: 3.4
-
-        # Old versions of NumPy.
-        - python: 2.7
-          env: NUMPY_VERSION=1.8
-        - python: 3.4
-          env: NUMPY_VERSION=1.8
-
-        - python: 2.7
-          env: NUMPY_VERSION=1.7
+    - NUMPY_VERSION=1.8
+    - NUMPY_VERSION=1.9
 
 before_install:
     - wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
@@ -33,7 +21,7 @@ before_install:
 install:
     - conda create --yes -n test python=$TRAVIS_PYTHON_VERSION
     - source activate test
-    - conda install --yes numpy=$NUMPY_VERSION scipy pytest setuptools h5py pip
+    - conda install --yes numpy=$NUMPY_VERSION pytest setuptools h5py pip
     - pip install pytest-cov coveralls
 
 script:

@@ -6,8 +6,8 @@ __all__ = ["Sampler"]
 
 import logging
 import numpy as np
+from functools import wraps
 from collections import Iterable
-from functools import wraps, partial
 
 from .. import moves
 from ..backends import DefaultBackend
