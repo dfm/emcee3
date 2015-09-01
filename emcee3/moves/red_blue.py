@@ -5,7 +5,7 @@ from __future__ import division, print_function
 __all__ = ["RedBlueMove"]
 
 import numpy as np
-from ..compat import izip
+from ..compat import izip, xrange
 
 
 class RedBlueMove(object):
@@ -23,7 +23,8 @@ class RedBlueMove(object):
         @dstndstn for this wonderful terminology.
 
     """
-    def __init__(self, live_dangerously=False):
+    def __init__(self, live_dangerously=False, nsplits=2):
+        self.nsplits = nsplits
         self.live_dangerously = live_dangerously
 
     def setup(self, ensemble):
@@ -59,9 +60,11 @@ class RedBlueMove(object):
         self.setup(ensemble)
 
         # Split the ensemble in half and iterate over these two halves.
-        halfk = int(nwalkers / 2)
-        first, second = slice(halfk), slice(halfk, nwalkers)
-        for S1, S2 in [(first, second), (second, first)]:
+        inds = np.arange(nwalkers) % self.nsplits
+        for i in xrange(self.nsplits):
+            S1 = inds == i
+            S2 = inds != i
+
             # Get the two halves of the ensemble.
             s = ensemble.coords[S1]
             c = ensemble.coords[S2]
