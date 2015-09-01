@@ -99,7 +99,7 @@ class Ensemble(object):
         return [(k, m.shape, np.asarray(m).dtype)
                 for k, m in
                 ((k0, np.asarray(m0)) for k0, m0 in iteritems(md)
-                 if k0 is not "accepted")]
+                 if k0 is not "accepted" and not k0.startswith("_"))]
 
     def get_value(self, key, out=None):
         if out is None:

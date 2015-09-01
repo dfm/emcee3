@@ -14,9 +14,11 @@ if not __EMCEE3_SETUP__:
         "Sampler",
         "Ensemble",
         "Model",
+        "State",
     ]
 
     from . import moves, pools
     from .model import Model
     from .ensemble import Ensemble
     from .samplers import Sampler
+    from .state import State

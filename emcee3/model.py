@@ -18,33 +18,33 @@ class Model(object):
         self.lnlikefn = lnlikefn
         self.args = args
 
-    def setup(self, state):
+    def setup(self, state, **kwargs):
         pass
 
-    def get_lnprior(self, state):
+    def get_lnprior(self, state, **kwargs):
         return self.lnpriorfn(state.coords, *(self.args))
 
-    def get_lnlike(self, state):
+    def get_lnlike(self, state, **kwargs):
         return self.lnlikefn(state.coords, *(self.args))
 
-    def get_state(self, coords):
+    def get_state(self, coords, **kwargs):
         state = State(coords, -np.inf, -np.inf, False)
-        self.setup(state)
+        self.setup(state, **kwargs)
 
         # Compute the prior.
-        state.lnprior = self.get_lnprior(state)
+        state.lnprior = self.get_lnprior(state, **kwargs)
         if not np.isfinite(state.lnprior):
             state.lnprior = -np.inf
             return state
 
         # Compute the likelihood.
-        state.lnlike = self.get_lnlike(state)
+        state.lnlike = self.get_lnlike(state, **kwargs)
         if not np.isfinite(state.lnlike):
             state.lnlike = -np.inf
         return state
 
-    def __call__(self, coords):
-        return self.get_state(coords)
+    def __call__(self, coords, **kwargs):
+        return self.get_state(coords, **kwargs)
 
 
 def _default_lnprior_function(x, *args):

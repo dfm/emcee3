@@ -5,7 +5,8 @@ __all__ = [
     "WalkMove",
     "DEMove",
     "MHMove",
-    "GaussianMove"
+    "GaussianMove",
+    "HMCMove",
 ]
 
 from .walk import WalkMove
@@ -14,3 +15,5 @@ from .de import DEMove
 
 from .mh import MHMove
 from .gaussian import GaussianMove
+
+from .hmc import HMCMove

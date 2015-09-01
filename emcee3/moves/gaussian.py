@@ -53,7 +53,7 @@ class _isotropic_proposal(object):
         self.scale = scale
 
     def __call__(self, rng, x0):
-        return x0 + self.scale * rng.randn(*(x0.shape)), 0.0
+        return x0 + self.scale * rng.randn(*(x0.shape)), np.zeros(len(x0))
 
 
 class _diagonal_proposal(object):
@@ -62,7 +62,7 @@ class _diagonal_proposal(object):
         self.scale = scale
 
     def __call__(self, rng, x0):
-        return x0 + self.scale * rng.randn(*(x0.shape)), 0.0
+        return x0 + self.scale * rng.randn(*(x0.shape)), np.zeros(len(x0))
 
 
 class _proposal(object):
@@ -73,4 +73,4 @@ class _proposal(object):
 
     def __call__(self, rng, x0):
         return (x0+rng.multivariate_normal(self.zero, self.cov, size=len(x0)),
-                0.0)
+                np.zeros(len(x0)))

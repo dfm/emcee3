@@ -51,7 +51,7 @@ class MHMove(object):
 
         # Loop over the walkers and update them accordingly.
         for i, state in enumerate(states):
-            lnpdiff = state.lnprob - ensemble.walkers[i].lnprob + factor
+            lnpdiff = state.lnprob - ensemble.walkers[i].lnprob + factor[i]
             if lnpdiff > 0.0 or ensemble.random.rand() < np.exp(lnpdiff):
                 state.accepted = True
 
