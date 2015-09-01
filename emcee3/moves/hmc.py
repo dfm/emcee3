@@ -19,10 +19,10 @@ class _hmc_wrapper(object):
 
     def leapfrog(self, theta, r):
         state = self.model.get_state(theta, compute_grad=True)
-        r = r + 0.5 * self.epsilon * state._grad_lnprob
+        r = r + 0.5 * self.epsilon * state.grad_lnprob
         theta = theta + self.epsilon * r
         state = self.model.get_state(theta, compute_grad=True)
-        r += 0.5 * self.epsilon * state._grad_lnprob
+        r += 0.5 * self.epsilon * state.grad_lnprob
         return theta, r, state
 
     def __call__(self, theta0):

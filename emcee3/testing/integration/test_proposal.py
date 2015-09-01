@@ -12,7 +12,8 @@ from ...compat import xrange
 from ..common import NormalWalker, UniformWalker
 
 
-def _test_normal(proposal, ndim=1, nwalkers=32, nsteps=2000, seed=1234):
+def _test_normal(proposal, ndim=1, nwalkers=32, nsteps=2000, seed=1234,
+                 check_acceptance=True):
     # Set up the random number generator.
     rnd = np.random.RandomState()
     rnd.seed(seed)
@@ -30,9 +31,10 @@ def _test_normal(proposal, ndim=1, nwalkers=32, nsteps=2000, seed=1234):
         acc += ensemble.acceptance
 
     # Check the acceptance fraction.
-    acc = acc / nsteps
-    assert np.all((acc < 0.9) * (acc > 0.1)), \
-        "Invalid acceptance fraction\n{0}".format(acc)
+    if check_acceptance:
+        acc = acc / nsteps
+        assert np.all((acc < 0.9) * (acc > 0.1)), \
+            "Invalid acceptance fraction\n{0}".format(acc)
 
     # Check the resulting chain using a K-S test and compare to the mean and
     # standard deviation.

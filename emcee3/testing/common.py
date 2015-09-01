@@ -18,14 +18,16 @@ class NormalWalker(Model):
         self.ivar = ivar
         self.width = width
 
-    def get_lnprior(self, state):
+    def get_lnprior(self, state, **kwargs):
         p = state.coords
         if np.any(np.abs(p) > self.width):
             return -np.inf
         return 0.0
 
-    def get_lnlike(self, state):
+    def get_lnlike(self, state, compute_grad=False, **kwargs):
         p = state.coords
+        if compute_grad:
+            state._grad_lnlike = -p*self.ivar
         return -0.5 * np.sum(p ** 2 * self.ivar)
 
 
