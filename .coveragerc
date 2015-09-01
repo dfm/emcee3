@@ -1,10 +1,10 @@
 [report]
 omit =
     docs/*
-    emcee/pools/*
-    emcee/compat.py
-    emcee/autocorr.py
-    emcee/testing/*
+    emcee3/pools/*
+    emcee3/compat.py
+    emcee3/autocorr.py
+    emcee3/testing/*
     *__init__*
 
 exclude_lines =
