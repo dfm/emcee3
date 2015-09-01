@@ -4,19 +4,18 @@ from __future__ import division, print_function
 
 __all__ = ["State"]
 
+from .compat import iteritems
+
 
 class State(object):
 
-    __slots__ = (
-        "coords", "lnprior", "lnlike", "accepted", "metadata"
-    )
-
-    def __init__(self, coords, lnprior, lnlike, accepted=True, metadata=None):
+    def __init__(self, coords, lnprior, lnlike, accepted=False, **metadata):
         self.coords = coords
         self.lnprior = lnprior
         self.lnlike = lnlike
         self.accepted = accepted
-        self.metadata = metadata
+        for k, v in iteritems(metadata):
+            setattr(self, k, v)
 
     @property
     def lnprob(self):

@@ -25,21 +25,21 @@ def test_metadata():
 
     # Check to make sure that the metadata was stored in the right order.
     assert np.allclose(np.mean(sampler1.coords, axis=-1),
-                       sampler1.get_metadata("mean"))
+                       sampler1.get_value("mean"))
     assert np.allclose(np.mean(sampler1.get_coords(flat=True), axis=-1),
-                       sampler1.get_metadata("mean", flat=True))
+                       sampler1.get_value("mean", flat=True))
     assert np.allclose(np.median(sampler1.coords, axis=-1),
-                       sampler1.get_metadata("median"))
+                       sampler1.get_value("median"))
     assert np.allclose(np.median(sampler1.get_coords(flat=True), axis=-1),
-                       sampler1.get_metadata("median", flat=True))
+                       sampler1.get_value("median", flat=True))
 
     with TempHDFBackend() as backend:
         sampler2 = run_sampler(backend, MetadataWalker(1.0))
 
-        assert np.allclose(sampler1.get_metadata("mean"),
-                           sampler2.get_metadata("mean"))
-        assert np.allclose(sampler1.get_metadata("median"),
-                           sampler2.get_metadata("median"))
+        assert np.allclose(sampler1.get_value("mean"),
+                           sampler2.get_value("mean"))
+        assert np.allclose(sampler1.get_value("median"),
+                           sampler2.get_value("median"))
 
 
 def test_hdf():

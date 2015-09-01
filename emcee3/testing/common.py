@@ -18,30 +18,33 @@ class NormalWalker(Model):
         self.ivar = ivar
         self.width = width
 
-    def get_lnprior(self, p):
+    def get_lnprior(self, state):
+        p = state.coords
         if np.any(np.abs(p) > self.width):
             return -np.inf
         return 0.0
 
-    def get_lnlike(self, p):
+    def get_lnlike(self, state):
+        p = state.coords
         return -0.5 * np.sum(p ** 2 * self.ivar)
 
 
 class MetadataWalker(NormalWalker):
 
-    def get_metadata(self, p):
-        return dict(
-            mean=np.mean(p),
-            median=np.median(p)
-        )
+    def get_lnlike(self, state):
+        p = state.coords
+        state.mean = np.mean(p)
+        state.median = np.median(p)
+        return super(MetadataWalker, self).get_lnlike(state)
 
 
 class UniformWalker(Model):
 
-    def get_lnprior(self, p):
+    def get_lnprior(self, state):
+        p = state.coords
         return 0.0 if np.all((-1 < p) * (p < 1)) else -np.inf
 
-    def get_lnlike(self, p):
+    def get_lnlike(self, state):
         return 0.0
 
 

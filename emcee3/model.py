@@ -18,45 +18,29 @@ class Model(object):
         self.lnlikefn = lnlikefn
         self.args = args
 
-    def setup(self, coords):
+    def setup(self, state):
         pass
 
-    def get_metadata(self, coords):
-        return None
+    def get_lnprior(self, state):
+        return self.lnpriorfn(state.coords, *(self.args))
 
-    def get_lnprior(self, coords):
-        return self.lnpriorfn(coords, *(self.args))
-
-    def get_lnlike(self, coords):
-        return self.lnlikefn(coords, *(self.args))
+    def get_lnlike(self, state):
+        return self.lnlikefn(state.coords, *(self.args))
 
     def get_state(self, coords):
-        self.setup(coords)
         state = State(coords, -np.inf, -np.inf, False)
+        self.setup(state)
 
         # Compute the prior.
-        lnprior = self.get_lnprior(coords)
-        if not np.isfinite(lnprior):
-            state.metadata = self.get_metadata(coords)
+        state.lnprior = self.get_lnprior(state)
+        if not np.isfinite(state.lnprior):
+            state.lnprior = -np.inf
             return state
 
-        # Update the prior value.
-        state.lnprior = lnprior
-
         # Compute the likelihood.
-        lnlike = self.get_lnlike(coords)
-
-        # Update the metadata.
-        meta = self.get_metadata(coords)
-        if meta is not None:
-            if state.metadata is None:
-                state.metadata = meta
-            else:
-                state.metadata.update(meta)
-
-        # Update the likelihood value.
-        if np.isfinite(lnlike):
-            state.lnlike = lnlike
+        state.lnlike = self.get_lnlike(state)
+        if not np.isfinite(state.lnlike):
+            state.lnlike = -np.inf
         return state
 
     def __call__(self, coords):

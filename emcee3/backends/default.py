@@ -10,7 +10,7 @@ import numpy as np
 class DefaultBackend(object):
 
     def __init__(self):
-        self._metadata = None
+        self._data = None
         self.reset()
 
     def reset(self):
@@ -18,45 +18,34 @@ class DefaultBackend(object):
         Clear the chain and reset it to its default state.
 
         """
-        # Clear the chain dimensions.
         self.niter = 0
         self.size = 0
-        self.nwalkers, self.ndim = None, None
-
-        # Clear the chain wrappers.
-        self._coords = None
-        self._lnprior = None
-        self._lnlike = None
-        self._metadata = None
+        self.nwalkers = None
+        self.spec = None
+        del self._data
+        self._data = None
 
     def check_dimensions(self, ens):
         if self.nwalkers is None:
             self.nwalkers = ens.nwalkers
-        if self.ndim is None:
-            self.ndim = ens.ndim
-        if self.nwalkers != ens.nwalkers or self.ndim != ens.ndim:
+        if self.spec is None:
+            self.spec = ens.get_spec()
+        if self.nwalkers != ens.nwalkers:
             raise ValueError("Dimension mismatch")
-        self.metadata_spec = ens.get_metadata_spec()
 
     def extend(self, n):
-        k, d = self.nwalkers, self.ndim
+        k = self.nwalkers
         self.size = l = self.niter + n
-        if self._coords is None:
-            self._coords = np.empty((l, k, d), dtype=np.float64)
-            self._lnprior = np.empty((l, k), dtype=np.float64)
-            self._lnlike = np.empty((l, k), dtype=np.float64)
-            self._acceptance = np.zeros(k, dtype=np.uint64)
-            self._metadata = dict(
+        if self._data is None:
+            self._data = dict(
                 (name, np.empty((l, k) + shape, dtype=dtype))
-                for name, shape, dtype in self.metadata_spec
+                for name, shape, dtype in self.spec
             )
+            self._acceptance = np.zeros(k, dtype=np.uint64)
         else:
-            self._coords = np.resize(self._coords, (l, k, d))
-            self._lnprior = np.resize(self._lnprior, (l, k))
-            self._lnlike = np.resize(self._lnlike, (l, k))
-            for name, shape, dtype in self.metadata_spec:
-                self._metadata[name] = np.resize(
-                    self._metadata[name],
+            for name, shape, dtype in self.spec:
+                self._data[name] = np.resize(
+                    self._data[name],
                     (l, k) + shape
                 )
 
@@ -64,30 +53,28 @@ class DefaultBackend(object):
         i = self.niter
         if i >= self.size:
             self.extend(i - self.size + 1)
-        ensemble.get_coords(self._coords[i])
-        ensemble.get_lnprior(self._lnprior[i])
-        ensemble.get_lnlike(self._lnlike[i])
-        for name, _, _ in self.metadata_spec:
-            ensemble.get_metadata(name, self._metadata[name][i])
+        for name, _, _ in self.spec:
+            ensemble.get_value(name, self._data[name][i])
         self._acceptance += ensemble.acceptance
         self.niter += 1
 
-    def get_metadata(self, name):
-        if self._metadata is None or name not in self._metadata:
+    def get_value(self, name):
+        if self._data is None or name not in self._data:
             raise KeyError(name)
-        return self._metadata[name][:self.niter]
+        return self._data[name][:self.niter]
+
+    def __getattr__(self, name):
+        try:
+            return self.get_value(name)
+        except KeyError:
+            raise AttributeError(name)
 
     @property
     def coords(self):
-        return None if self._coords is None else self._coords[:self.niter]
-
-    @property
-    def lnprior(self):
-        return self._lnprior[:self.niter]
-
-    @property
-    def lnlike(self):
-        return self._lnlike[:self.niter]
+        try:
+            return self.get_value("coords")
+        except KeyError:
+            return None
 
     @property
     def lnprob(self):

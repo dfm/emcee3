@@ -148,35 +148,27 @@ class Sampler(object):
     @property
     @_check_run
     def coords(self):
-        return self.backend.coords
+        return self.get_coords()
 
     @property
     @_check_run
     def lnprior(self):
-        return self.backend.lnprior
+        return self.get_lnprior()
 
     @property
     @_check_run
     def lnlike(self):
-        return self.backend.lnlike
+        return self.get_lnlike()
 
     @property
     @_check_run
     def lnprob(self):
-        return self.backend.lnprob
+        return self.get_lnprob()
 
     @property
     @_check_run
     def acceptance_fraction(self):
         return self.backend.acceptance_fraction
-
-    def _getter(self, attr, flat=False, thin=1, discard=0):
-        v = getattr(self.backend, attr)[discard::thin]
-        if flat:
-            s = list(v.shape[1:])
-            s[0] = np.prod(v.shape[:2])
-            return v.reshape(s)
-        return v
 
     def get_coords(self, **kwargs):
         """
@@ -194,7 +186,7 @@ class Sampler(object):
             (default: ``0``)
 
         """
-        return self._getter("coords", **kwargs)
+        return self.get_value("coords", **kwargs)
 
     def get_lnprior(self, **kwargs):
         """
@@ -212,7 +204,7 @@ class Sampler(object):
             (default: ``0``)
 
         """
-        return self._getter("lnprior", **kwargs)
+        return self.get_value("lnprior", **kwargs)
 
     def get_lnlike(self, **kwargs):
         """
@@ -230,7 +222,7 @@ class Sampler(object):
             (default: ``0``)
 
         """
-        return self._getter("lnlike", **kwargs)
+        return self.get_value("lnlike", **kwargs)
 
     def get_lnprob(self, **kwargs):
         """
@@ -248,10 +240,13 @@ class Sampler(object):
             (default: ``0``)
 
         """
-        return self._getter("lnprob", **kwargs)
+        return (
+            self.get_value("lnprior", **kwargs) +
+            self.get_value("lnlike", **kwargs)
+        )
 
-    def get_metadata(self, name, flat=False, thin=1, discard=0):
-        v = self.backend.get_metadata(name)[discard::thin]
+    def get_value(self, name, flat=False, thin=1, discard=0):
+        v = self.backend.get_value(name)[discard::thin]
         if flat:
             s = list(v.shape[1:])
             s[0] = np.prod(v.shape[:2])

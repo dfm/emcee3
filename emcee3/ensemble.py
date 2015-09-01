@@ -51,8 +51,7 @@ class Ensemble(object):
         self.walkers = self.propose(self._coords)
         self.acceptance = np.ones(self.nwalkers, dtype=bool)
 
-        if not (np.all(np.isfinite(self.lnprior)) and
-                np.all(np.isfinite(self.lnlike))):
+        if not np.all(np.isfinite(self.lnprob)):
             raise ValueError("invalid (zero-probability) coordinates")
 
     def propose(self, coords):
@@ -77,7 +76,7 @@ class Ensemble(object):
             self.acceptance[j] = s.accepted
             if s.accepted:
                 self.walkers[j] = s
-                if not np.all(np.isfinite([s.lnlike, s.lnprior])):
+                if not np.isfinite(s.lnprob):
                     raise RuntimeError("invalid (zero-probability) proposal "
                                        "accepted")
 
@@ -95,52 +94,70 @@ class Ensemble(object):
     def __len__(self):
         return self.nwalkers
 
-    def get_metadata_spec(self):
-        md = self.walkers[0].metadata
-        if md is None:
-            return []
-        return [(k, m.shape, m.dtype) for k, m in iteritems(md)]
+    def get_spec(self):
+        md = self.walkers[0].__dict__
+        return [(k, m.shape, np.asarray(m).dtype)
+                for k, m in
+                ((k0, np.asarray(m0)) for k0, m0 in iteritems(md)
+                 if k0 is not "accepted")]
 
-    def get_metadata(self, key, out=None):
+    def get_value(self, key, out=None):
         if out is None:
-            v = self.walkers[0].metadata[key]
+            v = np.asarray(getattr(self.walkers[0], key))
             out = np.empty((self.nwalkers, ) + v.shape, dtype=v.dtype)
         for i, s in enumerate(self.walkers):
-            out[i] = s.metadata[key]
+            out[i] = getattr(s, key)
         return out
 
-    def _get_value(self, name, shape, out):
-        if out is None:
-            out = np.empty(shape, dtype=np.float64)
-        for i, s in enumerate(self.walkers):
-            out[i] = getattr(s, name)
-        return out
+    def __getattr__(self, key):
+        return self.get_value(key)
 
-    def get_coords(self, out=None):
-        return self._get_value("coords", (self.nwalkers, self.ndim), out)
+    def __getitem__(self, key):
+        try:
+            return self.get_value(key)
+        except AttributeError:
+            raise KeyError(key)
 
-    def get_lnprior(self, out=None):
-        return self._get_value("lnprior", self.nwalkers, out)
+    # def get_metadata(self, key, out=None):
+    #     if out is None:
+    #         v = self.walkers[0].metadata[key]
+    #         out = np.empty((self.nwalkers, ) + v.shape, dtype=v.dtype)
+    #     for i, s in enumerate(self.walkers):
+    #         out[i] = s.metadata[key]
+    #     return out
 
-    def get_lnlike(self, out=None):
-        return self._get_value("lnlike", self.nwalkers, out)
+    # def _get_value(self, name, shape, out):
+    #     if out is None:
+    #         out = np.empty(shape, dtype=np.float64)
+    #     for i, s in enumerate(self.walkers):
+    #         out[i] = getattr(s, name)
+    #     return out
 
-    @property
-    def coords(self):
-        """The coordinate vectors of the walkers."""
-        return self.get_coords()
+    # def get_coords(self, out=None):
+    #     return self._get_value("coords", (self.nwalkers, self.ndim), out)
 
-    @property
-    def lnprior(self):
-        """The ln-priors of the walkers up to a constant."""
-        return self.get_lnprior()
+    # def get_lnprior(self, out=None):
+    #     return self._get_value("lnprior", self.nwalkers, out)
 
-    @property
-    def lnlike(self):
-        """The ln-likelihoods of the walkers up to a constant."""
-        return self.get_lnlike()
+    # def get_lnlike(self, out=None):
+    #     return self._get_value("lnlike", self.nwalkers, out)
 
-    @property
-    def lnprob(self):
-        """The ln-probabilities of the walker up to a constant."""
-        return self.lnprior + self.lnlike
+    # @property
+    # def coords(self):
+    #     """The coordinate vectors of the walkers."""
+    #     return self.get_coords()
+
+    # @property
+    # def lnprior(self):
+    #     """The ln-priors of the walkers up to a constant."""
+    #     return self.get_lnprior()
+
+    # @property
+    # def lnlike(self):
+    #     """The ln-likelihoods of the walkers up to a constant."""
+    #     return self.get_lnlike()
+
+    # @property
+    # def lnprob(self):
+    #     """The ln-probabilities of the walker up to a constant."""
+    #     return self.lnprior + self.lnlike
