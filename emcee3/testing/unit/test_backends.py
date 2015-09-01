@@ -6,18 +6,40 @@ __all__ = ["test_hdf", "test_hdf_reload"]
 
 import numpy as np
 from ... import backends, Sampler, Ensemble
-from ...compat import izip
-from ..common import NormalWalker, TempHDFBackend
+from ..common import NormalWalker, TempHDFBackend, MetadataWalker
 
 
-def run_sampler(backend, nwalkers=32, ndim=3, nsteps=5, seed=1234):
+def run_sampler(backend, model=NormalWalker(1.0), nwalkers=32, ndim=3,
+                nsteps=5, seed=1234):
     rnd = np.random.RandomState()
     rnd.seed(seed)
     coords = rnd.randn(nwalkers, ndim)
-    ensemble = Ensemble(NormalWalker(1.0), coords, random=rnd)
+    ensemble = Ensemble(model, coords, random=rnd)
     sampler = Sampler(backend=backend)
     list(sampler.sample(ensemble, nsteps))
     return sampler
+
+
+def test_metadata():
+    sampler1 = run_sampler(backends.DefaultBackend(), MetadataWalker(1.0))
+
+    # Check to make sure that the metadata was stored in the right order.
+    assert np.allclose(np.mean(sampler1.coords, axis=-1),
+                       sampler1.get_metadata("mean"))
+    assert np.allclose(np.mean(sampler1.get_coords(flat=True), axis=-1),
+                       sampler1.get_metadata("mean", flat=True))
+    assert np.allclose(np.median(sampler1.coords, axis=-1),
+                       sampler1.get_metadata("median"))
+    assert np.allclose(np.median(sampler1.get_coords(flat=True), axis=-1),
+                       sampler1.get_metadata("median", flat=True))
+
+    with TempHDFBackend() as backend:
+        sampler2 = run_sampler(backend, MetadataWalker(1.0))
+
+        assert np.allclose(sampler1.get_metadata("mean"),
+                           sampler2.get_metadata("mean"))
+        assert np.allclose(sampler1.get_metadata("median"),
+                           sampler2.get_metadata("median"))
 
 
 def test_hdf():

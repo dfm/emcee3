@@ -6,8 +6,8 @@ __all__ = ["Ensemble"]
 
 import numpy as np
 
-from .compat import izip
 from .pools import DefaultPool
+from .compat import izip, iteritems
 
 
 class Ensemble(object):
@@ -95,26 +95,35 @@ class Ensemble(object):
     def __len__(self):
         return self.nwalkers
 
-    def get_coords(self, out=None):
+    def get_metadata_spec(self):
+        md = self.walkers[0].metadata
+        if md is None:
+            return []
+        return [(k, m.shape, m.dtype) for k, m in iteritems(md)]
+
+    def get_metadata(self, key, out=None):
         if out is None:
-            out = np.empty((self.nwalkers, self.ndim), dtype=np.float64)
+            v = self.walkers[0].metadata[key]
+            out = np.empty((self.nwalkers, ) + v.shape, dtype=v.dtype)
         for i, s in enumerate(self.walkers):
-            out[i:i+1] = s.coords
+            out[i] = s.metadata[key]
         return out
+
+    def _get_value(self, name, shape, out):
+        if out is None:
+            out = np.empty(shape, dtype=np.float64)
+        for i, s in enumerate(self.walkers):
+            out[i] = getattr(s, name)
+        return out
+
+    def get_coords(self, out=None):
+        return self._get_value("coords", (self.nwalkers, self.ndim), out)
 
     def get_lnprior(self, out=None):
-        if out is None:
-            out = np.empty(self.nwalkers, dtype=np.float64)
-        for i, s in enumerate(self.walkers):
-            out[i] = s.lnprior
-        return out
+        return self._get_value("lnprior", self.nwalkers, out)
 
     def get_lnlike(self, out=None):
-        if out is None:
-            out = np.empty(self.nwalkers, dtype=np.float64)
-        for i, s in enumerate(self.walkers):
-            out[i] = s.lnlike
-        return out
+        return self._get_value("lnlike", self.nwalkers, out)
 
     @property
     def coords(self):

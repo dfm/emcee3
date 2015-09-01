@@ -37,9 +37,7 @@ class Model(object):
         # Compute the prior.
         lnprior = self.get_lnprior(coords)
         if not np.isfinite(lnprior):
-            meta = self.get_metadata(coords)
-            if meta is not None:
-                state.metadata.update(meta)
+            state.metadata = self.get_metadata(coords)
             return state
 
         # Update the prior value.
@@ -51,7 +49,10 @@ class Model(object):
         # Update the metadata.
         meta = self.get_metadata(coords)
         if meta is not None:
-            state.metadata.update(meta)
+            if state.metadata is None:
+                state.metadata = meta
+            else:
+                state.metadata.update(meta)
 
         # Update the likelihood value.
         if np.isfinite(lnlike):

@@ -6,8 +6,9 @@ __all__ = ["Sampler"]
 
 import logging
 import numpy as np
-from functools import wraps
 from collections import Iterable
+from functools import wraps, partial
+
 from .. import moves
 from ..backends import DefaultBackend
 
@@ -170,7 +171,7 @@ class Sampler(object):
         return self.backend.acceptance_fraction
 
     def _getter(self, attr, flat=False, thin=1, discard=0):
-        v = getattr(self, attr)[discard::thin]
+        v = getattr(self.backend, attr)[discard::thin]
         if flat:
             s = list(v.shape[1:])
             s[0] = np.prod(v.shape[:2])
@@ -248,3 +249,11 @@ class Sampler(object):
 
         """
         return self._getter("lnprob", **kwargs)
+
+    def get_metadata(self, name, flat=False, thin=1, discard=0):
+        v = self.backend.get_metadata(name)[discard::thin]
+        if flat:
+            s = list(v.shape[1:])
+            s[0] = np.prod(v.shape[:2])
+            return v.reshape(s)
+        return v

@@ -49,6 +49,11 @@ class HDFBackend(DefaultBackend):
                                  maxshape=(None, k))
                 g.create_dataset("acceptance",
                                  data=np.zeros(k, dtype=np.uint64))
+
+                md = g.create_group("metadata")
+                for name, shape, dtype in self.metadata_spec:
+                    md.create_dataset(name, (n, k) + shape, dtype=dtype)
+
             self.initialized = True
 
         else:
@@ -65,6 +70,10 @@ class HDFBackend(DefaultBackend):
                 g["coords"].resize(l, axis=0)
                 g["lnprior"].resize(l, axis=0)
                 g["lnlike"].resize(l, axis=0)
+
+                md = g["metadata"]
+                for name, _, _ in self.metadata_spec:
+                    md[name].resize(l, axis=0)
 
     def update(self, ensemble):
         # Get the current file shape and dimensions.
@@ -84,8 +93,17 @@ class HDFBackend(DefaultBackend):
                 g["coords"][niter, w, :] = walker.coords
                 g["lnprior"][niter, w] = walker.lnprior
                 g["lnlike"][niter, w] = walker.lnlike
+                md = g["metadata"]
+                for name in md:
+                    md[name][niter, w] = walker.metadata[name]
             g["acceptance"][:] += ensemble.acceptance
             g.attrs["niter"] = niter + 1
+
+    def get_metadata(self, name):
+        with self.open() as f:
+            g = f[self.name]
+            i = g.attrs["niter"]
+            return g["metadata"][name][:i, :]
 
     @property
     def niter(self):

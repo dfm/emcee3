@@ -2,7 +2,7 @@
 
 from __future__ import division, print_function
 
-__all__ = ["NormalWalker", "UniformWalker"]
+__all__ = ["NormalWalker", "MetadataWalker", "UniformWalker"]
 
 import os
 import numpy as np
@@ -25,6 +25,15 @@ class NormalWalker(Model):
 
     def get_lnlike(self, p):
         return -0.5 * np.sum(p ** 2 * self.ivar)
+
+
+class MetadataWalker(NormalWalker):
+
+    def get_metadata(self, p):
+        return dict(
+            mean=np.mean(p),
+            median=np.median(p)
+        )
 
 
 class UniformWalker(Model):
