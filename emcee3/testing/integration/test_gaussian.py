@@ -2,7 +2,8 @@
 
 from __future__ import division, print_function
 
-__all__ = ["test_normal_gaussian", "test_uniform_gaussian"]
+__all__ = ["test_normal_gaussian", "test_uniform_gaussian",
+           "test_normal_gaussian_nd"]
 
 import numpy as np
 from ... import moves
