@@ -4,6 +4,7 @@ __all__ = [
     "StretchMove",
     "WalkMove",
     "DEMove",
+    "KDEMove",
     "MHMove",
     "GaussianMove",
     "HMCMove",
@@ -12,6 +13,7 @@ __all__ = [
 from .walk import WalkMove
 from .stretch import StretchMove
 from .de import DEMove
+from .kde import KDEMove
 
 from .mh import MHMove
 from .gaussian import GaussianMove
