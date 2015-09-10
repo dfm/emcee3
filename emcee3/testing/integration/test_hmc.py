@@ -9,9 +9,9 @@ from .test_proposal import _test_normal
 
 
 def test_normal_hmc(**kwargs):
-    _test_normal(moves.HMCMove(100, 0.05), nsteps=200, check_acceptance=False)
+    _test_normal(moves.HMCMove(10, 0.1), nsteps=200, check_acceptance=False)
 
 
 def test_normal_hmc_nd(**kwargs):
-    _test_normal(moves.HMCMove(100, 0.05), ndim=3, nsteps=200,
+    _test_normal(moves.HMCMove(10, 0.1), ndim=3, nsteps=200,
                  check_acceptance=False)

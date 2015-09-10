@@ -41,7 +41,7 @@ class State(object):
         else:
             some = True
 
-        if some:
+        if some or not np.isfinite(self.lnprob):
             return g
-        raise ValueError("your model must compute the gradients using "
-                         "'_grad_lnlike' and/or '_grad_lnprior'")
+        raise AttributeError("your model must compute the gradients using "
+                             "'_grad_lnlike' and/or '_grad_lnprior'")
