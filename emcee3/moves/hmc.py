@@ -122,24 +122,28 @@ class AdaptiveHMCMove(object):
 
             # Estimate the covariance matrix from the complementary ensemble.
             c = ensemble.coords[S2]
-            mass = np.cov(c, rowvar=0)
+            cov = np.cov(c, rowvar=0)
 
-            # Set up the integrator.
-            integrator = _hmc_wrapper(ensemble.model, L, eps, mass)
-            result = ensemble.pool.map(
-                integrator,
-                (ensemble.walkers[i] for i in np.arange(len(S1))[S1])
-            )
+            # Set up the integrator and sample the initial momenta.
+            integrator = _hmc_wrapper(ensemble.model, L, eps, cov)
+            momenta = integrator.cov.sample(rand, np.sum(S1), ensemble.ndim)
+
+            # Integrate the dynamics in parallel.
+            res = ensemble.pool.map(integrator, izip(
+                (ensemble.walkers[i] for i in np.arange(len(S1))[S1]),
+                momenta
+            ))
 
             # Loop over the walkers and update them accordingly.
-            for i, (j, f, state) in enumerate(izip(
-                    np.arange(len(ensemble))[S1], factors, states)):
-                lnpdiff = f + state.lnprob - ensemble.walkers[j].lnprob
+            states = []
+            for i, (j, (state, factor)) in enumerate(izip(
+                    np.arange(len(ensemble))[S1], res)):
+                lnpdiff = factor + state.lnprob - ensemble.walkers[j].lnprob
                 if lnpdiff > np.log(ensemble.random.rand()):
                     state.accepted = True
+                states.append(state)
 
             ensemble.update(states, slice=S1)
-
         return ensemble
 
 
