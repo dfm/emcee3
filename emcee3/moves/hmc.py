@@ -159,9 +159,6 @@ class _hmc_vector(object):
     def apply(self, x):
         return self.cov * x
 
-    def apply_inverse(self, x):
-        return x * self.inv_cov
-
 
 class _hmc_matrix(object):
 
@@ -176,9 +173,6 @@ class _hmc_matrix(object):
 
     def apply(self, x):
         return np.dot(self.cov, x)
-
-    def apply_inverse(self, x):
-        return np.dot(self.inv_cov, x)
 
 
 class _hmc_wrapper(object):
@@ -212,14 +206,14 @@ class _hmc_wrapper(object):
             # First, a full step in position.
             q = q + self.epsilon * self.cov.apply(p)
 
-            if i < self.nsteps - 1:
-                # Then a full step in momentum.
-                state = self.model.get_state(q, compute_grad=True)
-                p = p + self.epsilon * state.grad_lnprob
+            # if i < self.nsteps - 1:
+            # Then a full step in momentum.
+            state = self.model.get_state(q, compute_grad=True)
+            p = p + self.epsilon * state.grad_lnprob
 
         # Finish with a full position step and half momentum step.
         state = self.model.get_state(q, compute_grad=True)
-        p = p + 0.5 * self.epsilon * state.grad_lnprob
+        p = p - 0.5 * self.epsilon * state.grad_lnprob
 
         # Negate the momentum. This step really isn't necessary but it doesn't
         # hurt to keep it here for completeness.
@@ -231,6 +225,6 @@ class _hmc_wrapper(object):
             return state, 0.0
 
         # Compute the acceptance probability factor.
-        factor = 0.5 * np.dot(current_p, self.cov.apply_inverse(current_p))
-        factor -= 0.5 * np.dot(p, self.cov.apply_inverse(p))
+        factor = 0.5 * np.dot(current_p, self.cov.apply(current_p))
+        factor -= 0.5 * np.dot(p, self.cov.apply(p))
         return state, factor
