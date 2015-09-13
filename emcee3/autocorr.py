@@ -66,6 +66,10 @@ def integrated_time(x, low=10, high=None, step=1, c=10, full_output=False,
     :param step: (optional)
         The step size for the window search. (default: ``1``)
 
+    :param c: (optional)
+        The minimum number of autocorrelation times needed to trust the
+        estimate. (default: ``10``)
+
     :param full_output: (optional)
         Return the final window size as well as the autocorrelation time.
         (default: ``False``)
