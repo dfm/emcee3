@@ -1,0 +1,21 @@
+\begin{thebibliography}{}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+
+\bibitem[{{Foreman-Mackey} {et~al.}(2013){Foreman-Mackey}, {Hogg}, {Lang}, \&
+  {Goodman}}]{Foreman-Mackey:2013}
+{Foreman-Mackey}, D., {Hogg}, D.~W., {Lang}, D., \& {Goodman}, J. 2013, \pasp,
+  125, 306
+
+\bibitem[{Girolami \& Calderhead(2011)}]{Girolami:2011}
+Girolami, M., \& Calderhead, B. 2011, Journal of the Royal Statistical Society:
+  Series B (Statistical Methodology), 73, 123
+
+\bibitem[{Hoffman \& Gelman(2014)}]{Hoffman:2014}
+Hoffman, M.~D., \& Gelman, A. 2014, The Journal of Machine Learning Research,
+  15, 1593
+
+\bibitem[{Wang {et~al.}(2013)Wang, Mohamed, \& de~Freitas}]{Wang:2013}
+Wang, Z., Mohamed, S., \& de~Freitas, N. 2013, in International Conference on
+  Machine Learning (ICML), 1462--1470
+
+\end{thebibliography}
