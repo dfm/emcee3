@@ -46,6 +46,20 @@ class Model(object):
     def __call__(self, coords, **kwargs):
         return self.get_state(coords, **kwargs)
 
+    def check_grad(self, coords, eps=1.234e-7):
+        good = True
+        grad = self.get_state(coords, compute_grad=True).grad_lnprob
+        for i, c in enumerate(coords):
+            coords[i] = c + eps
+            plus = self.get_state(coords).lnprob
+            coords[i] = c - eps
+            minus = self.get_state(coords).lnprob
+            comp = 0.5*(plus-minus)/eps
+            print(i, comp, grad[i])
+            if not np.allclose(comp, grad[i]):
+                good = False
+        return good
+
 
 def _default_lnprior_function(x, *args):
     return 0.0

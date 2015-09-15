@@ -206,14 +206,14 @@ class _hmc_wrapper(object):
             # First, a full step in position.
             q = q + self.epsilon * self.cov.apply(p)
 
-            # if i < self.nsteps - 1:
             # Then a full step in momentum.
-            state = self.model.get_state(q, compute_grad=True)
-            p = p + self.epsilon * state.grad_lnprob
+            if i < self.nsteps - 1:
+                state = self.model.get_state(q, compute_grad=True)
+                p = p + self.epsilon * state.grad_lnprob
 
-        # Finish with a full position step and half momentum step.
+        # Finish with a half momentum step to synchronize with the position.
         state = self.model.get_state(q, compute_grad=True)
-        p = p - 0.5 * self.epsilon * state.grad_lnprob
+        p = p + 0.5 * self.epsilon * state.grad_lnprob
 
         # Negate the momentum. This step really isn't necessary but it doesn't
         # hurt to keep it here for completeness.
