@@ -7,8 +7,8 @@ __all__ = [
     "KDEMove",
     "MHMove",
     "GaussianMove",
-    "HMCMove",
-    "AdaptiveHMCMove",
+    "HamiltonianMove",
+    "NoUTurnsMove",
 ]
 
 from .walk import WalkMove
@@ -19,4 +19,5 @@ from .kde import KDEMove
 from .mh import MHMove
 from .gaussian import GaussianMove
 
-from .hmc import HMCMove, AdaptiveHMCMove
+from .hmc import HamiltonianMove
+from .nuts import NoUTurnsMove
