@@ -12,10 +12,11 @@ from .hmc import HamiltonianMove, _hmc_wrapper
 
 class _nuts_wrapper(_hmc_wrapper):
 
-    def __init__(self, model, cov, epsilon, max_depth=500, delta_max=1000.0):
+    def __init__(self, random, model, cov, epsilon, max_depth=500,
+                 delta_max=1000.0):
         self.max_depth = max_depth
         self.delta_max = delta_max
-        super(_nuts_wrapper, self).__init__(model, cov, epsilon)
+        super(_nuts_wrapper, self).__init__(random, model, cov, epsilon)
 
     def leapfrog(self, state, epsilon):
         p = state._momentum + 0.5 * epsilon * state.grad_lnprob
@@ -46,7 +47,7 @@ class _nuts_wrapper(_hmc_wrapper):
                     self.build_tree(state_p, u, v, j - 1)
 
             # Accept.
-            if n_pr_2 > 0.0 and np.random.rand() < n_pr_2 / (n_pr + n_pr_2):
+            if n_pr_2 > 0.0 and self.random.rand() < n_pr_2 / (n_pr + n_pr_2):
                 state_pr = state_pr_2
             n_pr += n_pr_2
 
@@ -74,9 +75,9 @@ class _nuts_wrapper(_hmc_wrapper):
         # Slice sample u.
         f = state.lnprob
         f -= 0.5 * np.dot(current_p, self.cov.apply(current_p))
-        u = np.random.uniform(0.0, np.exp(f))
+        u = self.random.uniform(0.0, np.exp(f))
         for j in xrange(self.max_depth):
-            v = 1.0 - 2.0 * (np.random.rand() < 0.5)
+            v = 1.0 - 2.0 * (self.random.rand() < 0.5)
             if v < 0.0:
                 state_minus, _, state_pr, n_pr, s = \
                     self.build_tree(state_minus, u, v, j)
@@ -85,7 +86,7 @@ class _nuts_wrapper(_hmc_wrapper):
                     self.build_tree(state_minus, u, v, j)
 
             # Accept or reject.
-            if s and np.random.rand() < float(n_pr) / n:
+            if s and self.random.rand() < float(n_pr) / n:
                 state_pr.accepted = True
                 state = state_pr
             n += n_pr
@@ -101,20 +102,38 @@ class _nuts_wrapper(_hmc_wrapper):
 
 
 class NoUTurnsMove(HamiltonianMove):
+    """
+    A version of :class:`HamiltonianStep` that automatically tunes the number
+    of leapfrog steps to avoid unnecessarily long integrations. It does this by
+    watching for and avoiding U-turns following `Hoffman & Gelman
+    <http://arxiv.org/abs/1111.4246>`_.
+
+    :param epsilon:
+        The step size used in the integration. A float can be given for a
+        constant step size or a range can be given and the value will be
+        uniformly sampled.
+
+    :param cov: (optional)
+        An estimate of the parameter covariances. The inverse of ``cov`` is
+        used as a mass matrix in the integration. (default: ``1.0``)
+
+    :param affine_invariant: (optional)
+        If ``True``, the parameter covariance estimate is updated at every
+        step using the complementary ensemble. (default: ``False``)
+
+    """
 
     _wrapper = _nuts_wrapper
 
-    def __init__(self, epsilon, nsplits=2, cov=1.0):
+    def __init__(self, epsilon, nsplits=2, cov=1.0, affine_invariant=False):
         self.epsilon = epsilon
         self.nsplits = nsplits
         self.cov = cov
+        self.affine_invariant = affine_invariant
 
     def get_args(self, ensemble):
-        # Randomize the stepsize if requested.
-        rand = ensemble.random
         try:
             eps = float(self.epsilon)
         except TypeError:
-            eps = rand.uniform(self.epsilon[0], self.epsilon[1])
-
+            eps = ensemble.random.uniform(self.epsilon[0], self.epsilon[1])
         return (eps, )

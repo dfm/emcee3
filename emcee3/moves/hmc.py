@@ -39,7 +39,8 @@ class _hmc_matrix(object):
 
 class _hmc_wrapper(object):
 
-    def __init__(self, model, cov, epsilon, nsteps=None):
+    def __init__(self, random, model, cov, epsilon, nsteps=None):
+        self.random = random
         self.model = model
         self.nsteps = nsteps
         self.epsilon = epsilon
@@ -110,18 +111,28 @@ class HamiltonianMove(object):
 
     :param epsilon:
         The step size used in the integration. Like ``nsteps`` a float can be
-        given for a constant step size of a range can be given and the final
+        given for a constant step size or a range can be given and the final
         value will be uniformly sampled.
+
+    :param cov: (optional)
+        An estimate of the parameter covariances. The inverse of ``cov`` is
+        used as a mass matrix in the integration. (default: ``1.0``)
+
+    :param affine_invariant: (optional)
+        If ``True``, the parameter covariance estimate is updated at every
+        step using the complementary ensemble. (default: ``False``)
 
     """
 
     _wrapper = _hmc_wrapper
 
-    def __init__(self, nsteps, epsilon, nsplits=2, cov=1.0):
+    def __init__(self, nsteps, epsilon, nsplits=2, cov=1.0,
+                 affine_invariant=False):
         self.nsteps = nsteps
         self.epsilon = epsilon
         self.nsplits = nsplits
         self.cov = cov
+        self.affine_invariant = affine_invariant
 
     def get_args(self, ensemble):
         # Randomize the stepsize if requested.
@@ -158,7 +169,7 @@ class HamiltonianMove(object):
             S1 = inds == i
             S2 = inds != i
 
-            if self.cov == "adapt":
+            if self.affine_invariant:
                 # Estimate the covariance matrix from the complementary
                 # ensemble.
                 c = ensemble.coords[S2]
@@ -167,7 +178,7 @@ class HamiltonianMove(object):
                 cov = self.cov
 
             # Set up the integrator and sample the initial momenta.
-            integrator = self._wrapper(ensemble.model, cov,
+            integrator = self._wrapper(ensemble.random, ensemble.model, cov,
                                        *(self.get_args(ensemble)))
             momenta = integrator.cov.sample(ensemble.random, np.sum(S1),
                                             ensemble.ndim)
