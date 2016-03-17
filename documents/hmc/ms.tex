@@ -119,11 +119,45 @@ methods: statistical
 
 \section{Introduction}
 
-Text. \citep{Foreman-Mackey:2013}
+% Text. \citep{Foreman-Mackey:2013}
+% Adaptive: \citet{Girolami:2011, Wang:2013, Hoffman:2014}
+% \section{Hamiltonian Monte Carlo}
 
-Adaptive: \citet{Girolami:2011, Wang:2013, Hoffman:2014}
+Pseudocode for the standard implementation of the Hamiltonian Monte Carlo
+(HMC) algorithm \citep{Neal:2011} is shown in \alg{basic-hmc}.
+In this implementation, there are $(D^2 + D) / 2 + 2$ tuning parameters, where
+$D$ is the dimension of the problem.
+Of these parameters, $(D^2 + D) / 2$ are the elements of the positive
+definite mass matrix \bvec{M} and the other 2 are the step size $\epsilon$ and
+the number of steps $L$.
+Most practical applications of HMC fix the mass matrix to a constant (often
+set to 1) times the identity and reduce the tuning to only the two parameters
+$\epsilon$ and $L$.
+Methods have been developed to automatically tune these parameters \citep[for
+example][]{Hoffman:2014}.
 
-\section{Hamiltonian Monte Carlo}
+The major problem with fixing the mass matrix to be diagonal is that the
+\emph{units} of the input space can change the performance of the algorithm.
+For example, sampling from a Gaussian with different variances in the
+different dimensions or covariance between the parameters will be less
+efficient than sampling from an isotropic Gaussian.
+It has been demonstrated that samplers that satisfy affine invariance can be
+very useful for real problems in science where the dynamic range of parameters
+can vary by orders of magnitude \citep{Goodman:2010, Foreman-Mackey:2013}.
+It turns out that HMC can be simply adapted to an affine-invariant algorithm.
+
+The affine-invariant samplers proposed by \citet{Goodman:2010} sample the
+target density by evolving an \emph{ensemble} of parallel MCMC chains (called
+``walkers'') where the instantaneous proposal for one walker is conditioned on
+the current locations of the other walkers, the \emph{complementary ensemble}.
+If the move preserves the conditional distribution of the target walker given
+the complementary ensemble, it will also preserve the joint distribution of
+the ensemble.
+The intuition from these proposals can be incorporated into HMC to derive an
+affine-invariant algorithm.
+
+
+
 
 \begin{algorithm}
     \caption{Standard implementation of a single HMC step \alglabel{basic-hmc}}
@@ -134,7 +168,7 @@ Adaptive: \citet{Girolami:2011, Wang:2013, Hoffman:2014}
         \Let{\pos}{$\pos_t$}
         \State
         \Let{\mom}{$\mom_t + \frac{\epsilon}{2}\,\nabla\lnprob(\pos)$}
-            \Comment{run $L$ steps leapfrog integration}
+            \Comment{run $L$ steps of leapfrog integration}
         \For{$l \gets 1 \textrm{ to } L$}
             \Let{\pos}{$\pos + \epsilon\,\mass^{-1}\,\mom$}
             \If{$l < L$}
@@ -145,13 +179,58 @@ Adaptive: \citet{Girolami:2011, Wang:2013, Hoffman:2014}
             \Comment{synchronize the momentum and position}
         \State
         \State{$r \sim \mathcal{U}(0, 1)$}
-        \If{$r < \exp\left[\lnprob(\pos) - \frac{1}{2}\pos^T\mass^{-1}\pos
-            - \lnprob(\pos_t)+\frac{1}{2}{\pos_t}^T\mass^{-1}\pos_t \right]$}
+        \If{$r < \exp\left[\lnprob(\pos) - \frac{1}{2}\mom^T\mass^{-1}\mom
+            - \lnprob(\pos_t)+\frac{1}{2}{\mom_t}^T\mass^{-1}\mom_t \right]$}
             \State\Return{$\pos$}   \Comment{accept}
         \Else
             \State\Return{$\pos_t$} \Comment{reject}
         \EndIf
         \EndFunction
+    \end{algorithmic}
+\end{algorithm}
+
+
+\begin{algorithm}
+    \caption{Affine-invariant HMC \alglabel{ai-hmc}}
+    \begin{algorithmic}
+\Function{AIHMCStep}{$\lnprob(\pos),\,\{\pos_k\}_{k=1}^K,\,\epsilon,\,L$}
+\For{$k \gets 1 \textrm{ to } K$}
+    \Let{${\mass_k}^{-1}$}{$\mathrm{Cov}(\pos_{[k]})$}
+        \Comment{estimate the empirical mass matrix}
+    \State $\mom_k \sim \normal{\bvec{0}}{\mass_k}$
+        \Comment{sample the initial momentum exactly}
+    \State
+    \Let{$\mom^\prime$}{$\mom_k$} \Comment{save the initial coordinates}
+    \Let{$\pos^\prime$}{$\pos_k$}
+    \State
+    \Let{$\mom^\prime$}{$\mom^\prime +
+                \frac{\epsilon}{2}\,\nabla\lnprob(\pos^\prime)$}
+        \Comment{run $L$ steps of leapfrog integration}
+    \For{$l \gets 1 \textrm{ to } L$}
+        \Let{$\pos^\prime$}{$\pos^\prime +
+                \epsilon\,{\mass_k}^{-1}\,\mom^\prime$}
+        \If{$l < L$}
+            \Let{$\mom^\prime$}{$\mom^\prime +
+                \epsilon\,\nabla\lnprob(\pos^\prime)$}
+        \EndIf
+    \EndFor
+    \Let{$\mom^\prime$}{$\mom^\prime +
+                \frac{\epsilon}{2}\,\nabla\lnprob(\pos^\prime)$}
+        \Comment{synchronize the momentum and position}
+    \State
+    \State{$r \sim \mathcal{U}(0, 1)$}
+    \If{$r < \exp\left[
+        \lnprob(\pos^\prime)
+        - \frac{1}{2}{\mom^\prime}^T{\mass_k}^{-1}\mom^\prime
+        - \lnprob(\pos_k)
+        + \frac{1}{2}{\mom_k}^T{\mass_k}^{-1}\mom_k \right]$}
+        \Let{$\pos_k$}{$\pos^\prime$}   \Comment{accept}
+    \Else
+        \Let{$\pos_k$}{$\pos_k$}   \Comment{reject}
+    \EndIf
+\EndFor
+\State\Return{$\{ \pos_k \}_{k=1}^K$}
+\EndFunction
     \end{algorithmic}
 \end{algorithm}
 

@@ -2,12 +2,12 @@
 
 from __future__ import division, print_function
 
-__all__ = ["Ensemble"]
-
 import numpy as np
 
 from .pools import DefaultPool
 from .compat import izip, iteritems
+
+__all__ = ["Ensemble"]
 
 
 class Ensemble(object):
@@ -32,7 +32,7 @@ class Ensemble(object):
         own its own state, you can supply an instance of
         ``numpy.random.RandomState``.
 
-    .. note:: Any extra arguments or keyword arguments are pass along to the
+    .. note:: Any extra arguments or keyword arguments are passed to the
               walker initialization.
 
     """
