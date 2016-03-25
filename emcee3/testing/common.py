@@ -2,14 +2,14 @@
 
 from __future__ import division, print_function
 
-__all__ = ["NormalWalker", "MetadataWalker", "UniformWalker"]
-
 import os
 import numpy as np
 from tempfile import NamedTemporaryFile
 
 from .. import backends
 from ..model import Model
+
+__all__ = ["NormalWalker", "MetadataWalker", "UniformWalker"]
 
 
 class NormalWalker(Model):
@@ -18,36 +18,43 @@ class NormalWalker(Model):
         self.ivar = ivar
         self.width = width
 
-    def get_lnprior(self, state, **kwargs):
-        p = state.coords
+    def compute_log_prior(self, state):
+        p = state.__coords__
+        state.__log_likelihood__ = 0.0
         if np.any(np.abs(p) > self.width):
-            return -np.inf
-        return 0.0
+            state.__log_likelihood__ = -np.inf
+        return state
 
-    def get_lnlike(self, state, compute_grad=False, **kwargs):
-        p = state.coords
-        if compute_grad:
-            state._grad_lnlike = -p*self.ivar
-        return -0.5 * np.sum(p ** 2 * self.ivar)
+    def compute_log_likelihood(self, state):
+        p = state.__coords__
+        state.__log_likelihood__ = -0.5 * np.sum(p ** 2 * self.ivar)
+        return state
+
+    def compute_grad_log_likelihood(self, state):
+        p = state.__coords__
+        state.__grad_log_likelihood__ = -p * self.ivar
+        return state
 
 
 class MetadataWalker(NormalWalker):
 
-    def get_lnlike(self, state):
-        p = state.coords
+    def compute_log_likelihood(self, state):
+        p = state.__coords__
         state.mean = np.mean(p)
         state.median = np.median(p)
-        return super(MetadataWalker, self).get_lnlike(state)
+        return super(MetadataWalker, self).compute_log_likelihood(state)
 
 
 class UniformWalker(Model):
 
-    def get_lnprior(self, state):
-        p = state.coords
-        return 0.0 if np.all((-1 < p) * (p < 1)) else -np.inf
+    def compute_log_prior(self, state):
+        p = state.__coords__
+        state.__log_prior__ = 0.0 if np.all((-1 < p) * (p < 1)) else -np.inf
+        return state
 
-    def get_lnlike(self, state):
-        return 0.0
+    def compute_log_likelihood(self, state):
+        state.__log_likelihood__ = 0.0
+        return state
 
 
 class TempHDFBackend(object):

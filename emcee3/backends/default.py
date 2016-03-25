@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import division, print_function
+import numpy as np
 
 __all__ = ["DefaultBackend"]
-
-import numpy as np
 
 
 class DefaultBackend(object):

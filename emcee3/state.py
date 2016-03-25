@@ -57,3 +57,7 @@ class State(object):
                 continue
             setattr(self, k, array[k][0])
         return self
+
+    @property
+    def __log_probability__(self):
+        return self.__log_prior__ + self.__log_likelihood__

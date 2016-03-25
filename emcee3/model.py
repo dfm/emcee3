@@ -3,6 +3,7 @@
 from __future__ import division, print_function
 
 import numpy as np
+from .state import State
 from .utils import numerical_gradient_1, numerical_gradient_2
 
 __all__ = ["Model"]
@@ -71,7 +72,8 @@ class Model(object):
             state.__log_likelihood__ = -np.inf
         return state
 
-    def __call__(self, state, **kwargs):
+    def __call__(self, coords, **kwargs):
+        state = State(coords)
         return self.compute_log_probability(state, **kwargs)
 
     def compute_grad_log_probability(self, state, **kwargs):

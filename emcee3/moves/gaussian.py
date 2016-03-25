@@ -2,11 +2,11 @@
 
 from __future__ import division, print_function
 
-__all__ = ["GaussianMove"]
-
 import numpy as np
 
 from .mh import MHMove
+
+__all__ = ["GaussianMove"]
 
 
 class GaussianMove(MHMove):
@@ -72,5 +72,6 @@ class _proposal(object):
         self.zero = np.zeros(len(cov))
 
     def __call__(self, rng, x0):
-        return (x0+rng.multivariate_normal(self.zero, self.cov, size=len(x0)),
+        return (x0 + rng.multivariate_normal(self.zero, self.cov,
+                                             size=len(x0)),
                 np.zeros(len(x0)))

@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import division, print_function
+import numpy as np
 
 __all__ = ["MHMove"]
-
-import numpy as np
 
 
 class MHMove(object):
@@ -51,9 +50,13 @@ class MHMove(object):
 
         # Loop over the walkers and update them accordingly.
         for i, state in enumerate(states):
-            lnpdiff = state.lnprob - ensemble.walkers[i].lnprob + factor[i]
+            lnpdiff = (
+                state.__log_probability__ -
+                ensemble.walkers[i].__log_probability__ +
+                factor[i]
+            )
             if lnpdiff > 0.0 or ensemble.random.rand() < np.exp(lnpdiff):
-                state.accepted = True
+                state.__accepted__ = True
 
         # Update the ensemble's coordinates and log-probabilities.
         ensemble.update(states)

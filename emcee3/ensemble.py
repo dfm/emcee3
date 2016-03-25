@@ -73,10 +73,10 @@ class Ensemble(object):
 
         """
         for j, s in izip(np.arange(self.nwalkers)[slice], walkers):
-            self.acceptance[j] = s.accepted
+            self.acceptance[j] = s.__accepted__
             if s.accepted:
                 self.walkers[j] = s
-                if not np.isfinite(s.lnprob):
+                if not np.isfinite(s.__log_probability__):
                     raise RuntimeError("invalid (zero-probability) proposal "
                                        "accepted")
 
@@ -117,47 +117,3 @@ class Ensemble(object):
             return self.get_value(key)
         except AttributeError:
             raise KeyError(key)
-
-    # def get_metadata(self, key, out=None):
-    #     if out is None:
-    #         v = self.walkers[0].metadata[key]
-    #         out = np.empty((self.nwalkers, ) + v.shape, dtype=v.dtype)
-    #     for i, s in enumerate(self.walkers):
-    #         out[i] = s.metadata[key]
-    #     return out
-
-    # def _get_value(self, name, shape, out):
-    #     if out is None:
-    #         out = np.empty(shape, dtype=np.float64)
-    #     for i, s in enumerate(self.walkers):
-    #         out[i] = getattr(s, name)
-    #     return out
-
-    # def get_coords(self, out=None):
-    #     return self._get_value("coords", (self.nwalkers, self.ndim), out)
-
-    # def get_lnprior(self, out=None):
-    #     return self._get_value("lnprior", self.nwalkers, out)
-
-    # def get_lnlike(self, out=None):
-    #     return self._get_value("lnlike", self.nwalkers, out)
-
-    # @property
-    # def coords(self):
-    #     """The coordinate vectors of the walkers."""
-    #     return self.get_coords()
-
-    # @property
-    # def lnprior(self):
-    #     """The ln-priors of the walkers up to a constant."""
-    #     return self.get_lnprior()
-
-    # @property
-    # def lnlike(self):
-    #     """The ln-likelihoods of the walkers up to a constant."""
-    #     return self.get_lnlike()
-
-    # @property
-    # def lnprob(self):
-    #     """The ln-probabilities of the walker up to a constant."""
-    #     return self.lnprior + self.lnlike
