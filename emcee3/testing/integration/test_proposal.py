@@ -2,14 +2,14 @@
 
 from __future__ import division, print_function
 
-__all__ = ["_test_normal", "_test_uniform"]
-
 import numpy as np
 from scipy import stats
 
 from ... import Ensemble
 from ...compat import xrange
 from ..common import NormalWalker, UniformWalker
+
+__all__ = ["_test_normal", "_test_uniform"]
 
 
 def _test_normal(proposal, ndim=1, nwalkers=32, nsteps=2000, seed=1234,
@@ -27,7 +27,7 @@ def _test_normal(proposal, ndim=1, nwalkers=32, nsteps=2000, seed=1234,
     acc = np.zeros(nwalkers, dtype=int)
     for i in xrange(len(chain)):
         proposal.update(ensemble)
-        chain[i] = ensemble.coords
+        chain[i] = ensemble.__coords__
         acc += ensemble.acceptance
 
     # Check the acceptance fraction.
@@ -54,7 +54,7 @@ def _test_uniform(proposal, nwalkers=32, nsteps=2000, seed=1234):
     rnd.seed(seed)
 
     # Initialize the ensemble and proposal.
-    coords = 2*rnd.rand(nwalkers, 1) - 1
+    coords = 2 * rnd.rand(nwalkers, 1) - 1
     ensemble = Ensemble(UniformWalker(), coords, random=rnd)
 
     # Run the chain.
@@ -62,7 +62,7 @@ def _test_uniform(proposal, nwalkers=32, nsteps=2000, seed=1234):
     acc = np.zeros(nwalkers, dtype=int)
     for i in xrange(len(chain)):
         proposal.update(ensemble)
-        chain[i] = ensemble.coords
+        chain[i] = ensemble.__coords__
         acc += ensemble.acceptance
 
     # Check the acceptance fraction.

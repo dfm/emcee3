@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
+"""
+These backends abstract the storage of and access to emcee3 MCMC chains.
 
-__all__ = ["DefaultBackend", "HDFBackend"]
+"""
 
-from .default import DefaultBackend
+from .backend import Backend
 from .hdf import HDFBackend
+
+__all__ = ["Backend", "HDFBackend"]

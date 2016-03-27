@@ -10,7 +10,7 @@ from functools import wraps
 from collections import Iterable
 
 from .. import moves
-from ..backends import DefaultBackend
+from ..backends import Backend
 
 
 def _check_run(f):
@@ -41,7 +41,7 @@ class Sampler(object):
 
         # Set up the backend.
         if backend is None:
-            self.backend = DefaultBackend()
+            self.backend = Backend()
         else:
             self.backend = backend
 

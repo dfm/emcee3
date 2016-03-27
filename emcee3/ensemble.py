@@ -4,36 +4,32 @@ from __future__ import division, print_function
 
 import numpy as np
 
+from .compat import izip
 from .pools import DefaultPool
-from .compat import izip, iteritems
 
 __all__ = ["Ensemble"]
 
 
 class Ensemble(object):
-    """
-    The state of the ensemble of walkers.
+    """The state of the ensemble of walkers.
 
-    :param model:
-        The model specification. Should be, inherit from, or otherwise quack
-        like a :class:`Model`.
+    Args:
+        model (Model): The model specification. Should be, inherit from, or
+            otherwise quack like a :class:`Model`.
 
-    :param coords:
-        The 2-D array of walker coordinate vectors. The shape of this array
-        should be `(nwalkers, ndim)`.
+        coords (nwalkers, ndim): The array of walker coordinate vectors.
 
-    :param pool: (optional)
-        A pool object that exposes a map function. This is especially useful
-        for parallelization.
+        pool: A pool object that exposes a map function for parallelization
+            purposes.
 
-    :param random: (optional)
-        A numpy-compatible random number generator. By default, this will be
-        the built-in ``numpy.random`` module but if you want the ensemble to
-        own its own state, you can supply an instance of
-        ``numpy.random.RandomState``.
+        random: A numpy-compatible random number generator. By default, this
+            will be the built-in ``numpy.random`` module but if you want the
+            ensemble to own its own state, you can supply an instance of
+            ``numpy.random.RandomState``.
 
-    .. note:: Any extra arguments or keyword arguments are passed to the
-              walker initialization.
+    Note:
+         Any extra arguments or keyword arguments are passed to the walker
+         initialization.
 
     """
     def __init__(self, model, coords, *args, **kwargs):
@@ -51,30 +47,46 @@ class Ensemble(object):
         self.walkers = self.propose(self._coords)
         self.acceptance = np.ones(self.nwalkers, dtype=bool)
 
-        if not np.all(np.isfinite(self.lnprob)):
+        if not np.all(np.isfinite(self.__log_probability__)):
             raise ValueError("invalid (zero-probability) coordinates")
 
     def propose(self, coords):
-        """
-        Given a new set of coordinates return arrays of log-prior and
+        """Given a new set of coordinates return arrays of log-prior and
         log-likelihood values.
 
-        :param coords:
-            The new coordinate matrix. It should be ``(nwalkers, ndim)``.
+        Args:
+            coords (nwalkers, ndim): The new coordinate matrix.
+
+        Returns:
+            list: A list of walker :class:`State` objects evaluated at the
+                specified coordinates.
 
         """
         return list(self.pool.map(self.model, coords))
 
-    def update(self, walkers, slice=slice(None)):
-        """
-        Update the coordinate matrix and probability containers given the
+    def update(self, walkers, subset=None):
+        """Update the coordinate matrix and probability containers given the
         current list of walkers. Moves should call this after proposing and
         accepting the walkers.
 
+        Note:
+            Only the walkers with ``__accepted__ == True`` are updated.
+
+        Args:
+            walkers (list[State]): A list of walkers states.
+            subset: If provided, ``walkers`` only corresponds to the indicated
+                subset of the walkers.
+
+        Raises:
+            RuntimeError: If an invalid state is accepted.
+
         """
+        if subset is None:
+            subset = slice(None)
+
         for j, s in izip(np.arange(self.nwalkers)[slice], walkers):
             self.acceptance[j] = s.__accepted__
-            if s.accepted:
+            if s.__accepted__:
                 self.walkers[j] = s
                 if not np.isfinite(s.__log_probability__):
                     raise RuntimeError("invalid (zero-probability) proposal "
@@ -94,12 +106,18 @@ class Ensemble(object):
     def __len__(self):
         return self.nwalkers
 
-    def get_spec(self):
-        md = self.walkers[0].__dict__
-        return [(k, m.shape, np.asarray(m).dtype)
-                for k, m in
-                ((k0, np.asarray(m0)) for k0, m0 in iteritems(md)
-                 if k0 is not "accepted" and not k0.startswith("_"))]
+    @property
+    def dtype(self):
+        return self.walkers[0].dtype
+
+    def __getitem__(self, key):
+        try:
+            return self.get_value(key)
+        except AttributeError:
+            try:
+                return self.walkers[key]
+            except IndexError:
+                raise KeyError(key)
 
     def get_value(self, key, out=None):
         if out is None:
@@ -111,9 +129,3 @@ class Ensemble(object):
 
     def __getattr__(self, key):
         return self.get_value(key)
-
-    def __getitem__(self, key):
-        try:
-            return self.get_value(key)
-        except AttributeError:
-            raise KeyError(key)

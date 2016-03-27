@@ -45,7 +45,7 @@ class MHMove(object):
             raise ValueError("Dimension mismatch in proposal")
 
         # Compute the proposal.
-        q, factor = self.proposal(ensemble.random, ensemble.coords)
+        q, factor = self.proposal(ensemble.random, ensemble.__coords__)
         states = ensemble.propose(q)
 
         # Loop over the walkers and update them accordingly.

@@ -2,8 +2,6 @@
 
 from __future__ import division, print_function
 
-__all__ = ["HDFBackend"]
-
 import numpy as np
 
 try:
@@ -11,10 +9,12 @@ try:
 except ImportError:
     h5py = None
 
-from .default import DefaultBackend
+from .backend import Backend
+
+__all__ = ["HDFBackend"]
 
 
-class HDFBackend(DefaultBackend):
+class HDFBackend(Backend):
 
     def __init__(self, filename, name, **kwargs):
         if h5py is None:

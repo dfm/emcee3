@@ -20,9 +20,9 @@ class NormalWalker(Model):
 
     def compute_log_prior(self, state):
         p = state.__coords__
-        state.__log_likelihood__ = 0.0
+        state.__log_prior__ = 0.0
         if np.any(np.abs(p) > self.width):
-            state.__log_likelihood__ = -np.inf
+            state.__log_prior__ = -np.inf
         return state
 
     def compute_log_likelihood(self, state):
