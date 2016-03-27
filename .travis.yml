@@ -1,19 +1,46 @@
 sudo: false
 
-language: python
-
-python:
-    - "2.7"
-    - "3.3"
-    - "3.4"
-    - "3.5"
+language: c
 
 env:
-    - NUMPY_VERSION=1.8
-    - NUMPY_VERSION=1.9
+    global:
+        - NUMPY_VERSION=stable
+
+    matrix:
+        - PYTHON_VERSION=2.7
+        - PYTHON_VERSION=3.4
+        - PYTHON_VERSION=3.5
+
+matrix:
+    include:
+        # Python 2.7
+        - os: linux
+          env: PYTHON_VERSION=2.7 NUMPY_VERSION=1.7
+        - os: linux
+          env: PYTHON_VERSION=2.7 NUMPY_VERSION=1.8
+        - os: linux
+          env: PYTHON_VERSION=2.7 NUMPY_VERSION=1.9
+
+        # Python 3.4
+        - os: linux
+          env: PYTHON_VERSION=3.4 NUMPY_VERSION=1.8
+        - os: linux
+          env: PYTHON_VERSION=3.4 NUMPY_VERSION=1.9
+
+        # Python 3.5
+        - os: linux
+          env: PYTHON_VERSION=3.5 NUMPY_VERSION=1.9
+
+        # Mac OS X
+        - os: osx
+          env: PYTHON_VERSION=2.7
+        - os: osx
+          env: PYTHON_VERSION=3.4
+        - os: osx
+          env: PYTHON_VERSION=3.5
 
 install:
-    - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
+    - if [[ "$PYTHON_VERSION" == "2.7" ]]; then
         wget https://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh;
       else
         wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
@@ -25,7 +52,7 @@ install:
     - conda update -q conda
     - conda info -a
 
-    - conda create --yes -n test python=$TRAVIS_PYTHON_VERSION numpy=$NUMPY_VERSION scipy pytest setuptools h5py pip
+    - conda create --yes -n test python=$PYTHON_VERSION numpy=$NUMPY_VERSION scipy pytest setuptools h5py pip
     - source activate test
     - pip install pytest-cov coveralls
 
