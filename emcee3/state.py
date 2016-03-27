@@ -9,6 +9,31 @@ __all__ = ["State"]
 
 
 class State(object):
+    """The current state of a walker.
+
+    This object captures the state of a walker. It will store the coordinates,
+    probabilities, and any other computed metadata. Metadata can be added by
+    simply adding an attribute to a :class:`State` object. Any attributes with
+    names that don't start with an underscore will be serialized by the
+    :func:`to_array` method.
+
+    Note:
+        Unless the ``__accepted__`` attribute is ``True``, this object can't
+        be expected to have the correct data type.
+
+    Args:
+        coords (array[ndim]): The coordinate vector of the walker's state.
+        log_prior (Optional[float]): The log prior evaluated at ``coords``. If
+            not provided, it is expected that the
+            :func:`Model.compute_log_prior` method of a model will save the
+            ``__log_prior__`` attribute on this object.
+        log_likelihood (Optional[float]): The log likelihood evaluated at
+            ``coords``. Like ``log_prior``, this should be evaluated by the
+            model.
+        accepted (Optional[bool]): Was this proposal accepted?
+        **kwargs: Any other values to store as metadata.
+
+    """
 
     def __init__(self,
                  coords,
@@ -33,6 +58,11 @@ class State(object):
                       for a, b in izip(names, values))
         return "State({0!r}, {1})".format(self.__coords__, r)
 
+    def __eq__(self, other):
+        if not self.dtype == other.dtype:
+            return False
+        return np.all(self.to_array() == other.to_array())
+
     @property
     def dtype(self):
         return np.dtype([
@@ -45,6 +75,21 @@ class State(object):
              if not k.startswith("_")])
 
     def to_array(self, out=None):
+        """Serialize the state to a structured numpy array representation.
+
+        This representation will include all attributes of this instance that
+        don't have a name beginning with an underscore. There will also always
+        be special fields: ``__coords__``, ``__log_prior__``,
+        ``__log_likelihood__``, and ``__accepted__``.
+
+        Args:
+            out (Optional[array]): If provided, the state will be serialized
+                in place.
+
+        Returns:
+            array: The serialized state.
+
+        """
         if out is None:
             out = np.empty(1, self.dtype)
         for k in out.dtype.names:
@@ -59,6 +104,16 @@ class State(object):
 
     @classmethod
     def from_array(cls, array):
+        """Reconstruct a saved state from a structured numpy array.
+
+        Args:
+            array (array): An array produced by serializing a state using the
+                :func:`to_array` method.
+
+        Returns:
+            State: The reconstructed state.
+
+        """
         self = cls(array["__coords__"][0],
                    log_prior=array["__log_prior__"][0],
                    log_likelihood=array["__log_likelihood__"][0],
@@ -71,4 +126,7 @@ class State(object):
 
     @property
     def __log_probability__(self):
+        """A helper attribute that provides access to the log probability.
+
+        """
         return self.__log_prior__ + self.__log_likelihood__
