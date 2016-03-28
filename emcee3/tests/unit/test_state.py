@@ -23,10 +23,10 @@ def test_dtype(seed=1234):
     state = State(coords)
     assert state.dtype == np.dtype(dtype)
 
-    state = State(coords, face=10.0, blah="string", _hidden=None)
+    state = State(coords, face=10.0, blah=6, _hidden=None)
     dtype += [
-        ("blah", np.unicode_, 6),
-        ("face", np.float64),
+        ("blah", int),
+        ("face", float),
     ]
     assert state.dtype == np.dtype(dtype)
 
