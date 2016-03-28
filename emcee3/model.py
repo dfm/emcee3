@@ -62,14 +62,14 @@ class Model(object):
         """
         # Compute the prior.
         state = self.compute_log_prior(state, **kwargs)
-        if not np.isfinite(state.__log_prior__):
-            state.__log_prior__ = -np.inf
+        if not np.isfinite(state.log_prior):
+            state.log_prior = -np.inf
             return state
 
         # Compute the likelihood.
         state = self.compute_log_likelihood(state, **kwargs)
-        if not np.isfinite(state.__log_likelihood__):
-            state.__log_likelihood__ = -np.inf
+        if not np.isfinite(state.log_likelihood):
+            state.log_likelihood = -np.inf
         return state
 
     def __call__(self, coords, **kwargs):
@@ -86,16 +86,16 @@ class Model(object):
         :params coords: the coordinates where the model should be evaluated.
 
         """
-        state.__grad_log_likelihood__ = np.zeros(len(state.__coords__))
+        state.grad_log_likelihood = np.zeros(len(state.coords))
 
         state = self.compute_grad_log_prior(state, **kwargs)
-        if not np.all(np.isfinite(state.__grad_log_prior__)):
-            state.__grad_log_prior__ = np.zeros(len(state.__coords__))
+        if not np.all(np.isfinite(state.grad_log_prior)):
+            state.grad_log_prior = np.zeros(len(state.coords))
             return state
 
         state = self.compute_grad_log_likelihood(state, **kwargs)
-        if not np.all(np.isfinite(state.__grad_log_likelihood__)):
-            state.__grad_log_likelihood__ = np.zeros(len(state.__coords__))
+        if not np.all(np.isfinite(state.grad_log_likelihood)):
+            state.grad_log_likelihood = np.zeros(len(state.coords))
         return state
 
 
@@ -129,24 +129,24 @@ class SimpleModel(Model):
         self.grad_log_likelihood_fn = grad_log_likelihood_fn
 
     def compute_log_prior(self, state, **kwargs):
-        state.__log_prior__ = self.log_prior_fn(state.__coords__,
+        state.log_prior = self.log_prior_fn(state.coords,
                                                 *(self.args))
         return state
 
     def compute_grad_log_prior(self, state, **kwargs):
-        state.__grad_log_prior__ = self.grad_log_prior_fn(
-            state.__coords__, *(self.args)
+        state.grad_log_prior = self.grad_log_prior_fn(
+            state.coords, *(self.args)
         )
         return state
 
     def compute_log_likelihood(self, state, **kwargs):
-        state.__log_likelihood__ = self.log_likelihood_fn(state.__coords__,
+        state.log_likelihood = self.log_likelihood_fn(state.coords,
                                                           *(self.args))
         return state
 
     def compute_grad_log_likelihood(self, state, **kwargs):
-        state.__grad_log_likelihood__ = self.grad_log_likelihood_fn(
-            state.__coords__, *(self.args)
+        state.grad_log_likelihood = self.grad_log_likelihood_fn(
+            state.coords, *(self.args)
         )
         return state
 

@@ -3,8 +3,7 @@ omit =
     docs/*
     emcee3/pools/*
     emcee3/compat.py
-    emcee3/autocorr.py
-    emcee3/testing/*
+    emcee3/tests/*
     *__init__*
 
 exclude_lines =

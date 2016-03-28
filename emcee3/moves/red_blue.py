@@ -2,10 +2,10 @@
 
 from __future__ import division, print_function
 
-__all__ = ["RedBlueMove"]
-
 import numpy as np
 from ..compat import izip, xrange
+
+__all__ = ["RedBlueMove"]
 
 
 class RedBlueMove(object):
@@ -78,12 +78,16 @@ class RedBlueMove(object):
             # Loop over the walkers and update them accordingly.
             for i, (j, f, state) in enumerate(izip(
                     np.arange(len(ensemble))[S1], factors, states)):
-                lnpdiff = f + state.lnprob - ensemble.walkers[j].lnprob
+                lnpdiff = (
+                    f +
+                    state.log_probability -
+                    ensemble.walkers[j].log_probability
+                )
                 if lnpdiff > np.log(ensemble.random.rand()):
                     state.accepted = True
 
             # Update the ensemble with the accepted walkers.
-            ensemble.update(states, slice=S1)
+            ensemble.update(states, subset=S1)
 
         # Do any move-specific cleanup.
         self.finalize(ensemble)

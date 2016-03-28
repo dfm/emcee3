@@ -19,27 +19,31 @@ class NormalWalker(Model):
         self.width = width
 
     def compute_log_prior(self, state):
-        p = state.__coords__
-        state.__log_prior__ = 0.0
+        p = state.coords
+        state.log_prior = 0.0
         if np.any(np.abs(p) > self.width):
-            state.__log_prior__ = -np.inf
+            state.log_prior = -np.inf
         return state
 
     def compute_log_likelihood(self, state):
-        p = state.__coords__
-        state.__log_likelihood__ = -0.5 * np.sum(p ** 2 * self.ivar)
+        p = state.coords
+        state.log_likelihood = -0.5 * np.sum(p ** 2 * self.ivar)
+        return state
+
+    def compute_grad_log_prior(self, state):
+        state.grad_log_prior = np.zeros_like(state.coords)
         return state
 
     def compute_grad_log_likelihood(self, state):
-        p = state.__coords__
-        state.__grad_log_likelihood__ = -p * self.ivar
+        p = state.coords
+        state.grad_log_likelihood = -p * self.ivar
         return state
 
 
 class MetadataWalker(NormalWalker):
 
     def compute_log_likelihood(self, state):
-        p = state.__coords__
+        p = state.coords
         state.mean = np.mean(p)
         state.median = np.median(p)
         return super(MetadataWalker, self).compute_log_likelihood(state)
@@ -48,12 +52,12 @@ class MetadataWalker(NormalWalker):
 class UniformWalker(Model):
 
     def compute_log_prior(self, state):
-        p = state.__coords__
-        state.__log_prior__ = 0.0 if np.all((-1 < p) * (p < 1)) else -np.inf
+        p = state.coords
+        state.log_prior = 0.0 if np.all((-1 < p) * (p < 1)) else -np.inf
         return state
 
     def compute_log_likelihood(self, state):
-        state.__log_likelihood__ = 0.0
+        state.log_likelihood = 0.0
         return state
 
 

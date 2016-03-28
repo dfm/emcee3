@@ -1,16 +1,14 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import division, print_function
-
-__all__ = ["test_walker_pickle", "test_ensemble_pickle", "test_moves_pickle"]
-
 import pickle
 import numpy as np
 from multiprocessing import Pool
-
-from ... import moves, pools, Ensemble, Model
-
+from ... import moves, pools, Ensemble
+from ...model import SimpleModel
 from ..common import NormalWalker
+
+__all__ = ["test_walker_pickle", "test_ensemble_pickle", "test_moves_pickle"]
 
 
 def f(x):
@@ -23,7 +21,7 @@ def test_walker_pickle():
     pickle.dumps(walker)
 
     # And the "simple" form with function pointers.
-    walker = Model(f, f)
+    walker = SimpleModel(f, f)
     pickle.dumps(walker)
 
 

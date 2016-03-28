@@ -27,7 +27,7 @@ def _test_normal(proposal, ndim=1, nwalkers=32, nsteps=2000, seed=1234,
     acc = np.zeros(nwalkers, dtype=int)
     for i in xrange(len(chain)):
         proposal.update(ensemble)
-        chain[i] = ensemble.__coords__
+        chain[i] = ensemble.coords
         acc += ensemble.acceptance
 
     # Check the acceptance fraction.
@@ -62,7 +62,7 @@ def _test_uniform(proposal, nwalkers=32, nsteps=2000, seed=1234):
     acc = np.zeros(nwalkers, dtype=int)
     for i in xrange(len(chain)):
         proposal.update(ensemble)
-        chain[i] = ensemble.__coords__
+        chain[i] = ensemble.coords
         acc += ensemble.acceptance
 
     # Check the acceptance fraction.

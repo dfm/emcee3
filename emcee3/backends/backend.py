@@ -2,8 +2,20 @@
 
 from __future__ import division, print_function
 import numpy as np
+from functools import wraps
 
 __all__ = ["Backend"]
+
+
+def _check_run(f):
+    @wraps(f)
+    def func(self, *args, **kwargs):
+        if self.niter <= 0:
+            raise AttributeError("You need to run the chain first or store "
+                                 "the chain using the 'store' keyword "
+                                 "argument to Sampler.sample")
+        return f(self, *args, **kwargs)
+    return func
 
 
 class Backend(object):
@@ -68,7 +80,11 @@ class Backend(object):
             self._data = np.empty((l, k), dtype=self.dtype)
             self._acceptance = np.zeros(k, dtype=np.uint64)
         else:
-            self._data = np.resize(self._data, (l, k))
+            dl = l - self._data.shape[0]
+            if dl > 0:
+                self._data = np.concatenate((
+                    self._data, np.empty((dl, k), dtype=self._data.dtype)
+                ), axis=0)
 
     def update(self, ensemble):
         """Append an ensemble to the chain.
@@ -85,10 +101,16 @@ class Backend(object):
         self._acceptance += ensemble.acceptance
         self.niter += 1
 
-    def __getitem__(self, index_or_slice):
-        return self._data[:self.niter][index_or_slice]
+    def __getitem__(self, name_and_index_or_slice):
+        try:
+            name, index_or_slice = name_and_index_or_slice
+        except ValueError:
+            name = name_and_index_or_slice
+            index_or_slice = slice(None)
+        return self._data[name][:self.niter][index_or_slice]
 
     @property
+    @_check_run
     def acceptance(self):
         return self._acceptance
 
@@ -96,13 +118,105 @@ class Backend(object):
     def acceptance_fraction(self):
         return self.acceptance / float(self.niter)
 
-    # def get_value(self, name):
-    #     if self._data is None or name not in self._data.dtype.names:
-    #         raise KeyError(name)
-    #     return self._data[name, :self.niter]
+    @property
+    @_check_run
+    def coords(self):
+        return self.get_coords()
 
-    # def __getattr__(self, name):
-    #     try:
-    #         return self.get_value(name)
-    #     except KeyError:
-    #         raise AttributeError(name)
+    @property
+    @_check_run
+    def log_prior(self):
+        return self.get_log_prior()
+
+    @property
+    @_check_run
+    def log_likelihood(self):
+        return self.get_log_likelihood()
+
+    @property
+    @_check_run
+    def log_probability(self):
+        return self.get_log_probability()
+
+    def get_coords(self, **kwargs):
+        """
+        Get the stored chain of MCMC samples. This will fail if no backend was
+        used or if the chain wasn't stored.
+
+        :param flat: (optional)
+            Flatten the chain across the ensemble. (default: ``False``)
+
+        :param thin: (optional)
+            Take only every ``thin`` steps from the chain. (default: ``1``)
+
+        :param discard: (optional)
+            Discard the first ``discard`` steps in the chain as burn-in.
+            (default: ``0``)
+
+        """
+        return self.get_value("coords", **kwargs)
+
+    def get_log_prior(self, **kwargs):
+        """
+        Get the stored chain ln-prior values. This will fail if no backend was
+        used or if the chain wasn't stored.
+
+        :param flat: (optional)
+            Flatten the chain across the ensemble. (default: ``False``)
+
+        :param thin: (optional)
+            Take only every ``thin`` steps from the chain. (default: ``1``)
+
+        :param discard: (optional)
+            Discard the first ``discard`` steps in the chain as burn-in.
+            (default: ``0``)
+
+        """
+        return self.get_value("log_prior", **kwargs)
+
+    def get_log_likelihood(self, **kwargs):
+        """
+        Get the stored chain ln-likelihood values. This will fail if no
+        backend was used or if the chain wasn't stored.
+
+        :param flat: (optional)
+            Flatten the chain across the ensemble. (default: ``False``)
+
+        :param thin: (optional)
+            Take only every ``thin`` steps from the chain. (default: ``1``)
+
+        :param discard: (optional)
+            Discard the first ``discard`` steps in the chain as burn-in.
+            (default: ``0``)
+
+        """
+        return self.get_value("log_likelihood", **kwargs)
+
+    def get_log_probability(self, **kwargs):
+        """
+        Get the stored chain ln-probability values. This will fail if no
+        backend was used or if the chain wasn't stored.
+
+        :param flat: (optional)
+            Flatten the chain across the ensemble. (default: ``False``)
+
+        :param thin: (optional)
+            Take only every ``thin`` steps from the chain. (default: ``1``)
+
+        :param discard: (optional)
+            Discard the first ``discard`` steps in the chain as burn-in.
+            (default: ``0``)
+
+        """
+        return (
+            self.get_value("log_prior", **kwargs) +
+            self.get_value("log_likelihood", **kwargs)
+        )
+
+    def get_value(self, name, flat=False, thin=1, discard=0):
+        v = self[name, discard::thin]
+        if flat:
+            s = list(v.shape[1:])
+            s[0] = np.prod(v.shape[:2])
+            return v.reshape(s)
+        return v

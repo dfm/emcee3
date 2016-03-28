@@ -2,11 +2,11 @@
 
 from __future__ import division, print_function
 
-__all__ = ["HamiltonianMove"]
-
 import numpy as np
 
 from ..compat import izip, xrange
+
+__all__ = ["HamiltonianMove"]
 
 
 class _hmc_vector(object):
@@ -59,10 +59,10 @@ class _hmc_wrapper(object):
 
         # First take a half step in momentum.
         try:
-            current_state.grad_lnprob
+            current_state.grad_log_probability
         except AttributeError:
-            current_state = self.model.get_state(q, compute_grad=True)
-        p = p + 0.5 * self.epsilon * current_state.grad_lnprob
+            current_state = self.model.compute_grad_log_probability(q)
+        p = p + 0.5 * self.epsilon * current_state.grad_log_probability
 
         # Alternate full steps in position and momentum.
         for i in xrange(self.nsteps):
@@ -71,11 +71,11 @@ class _hmc_wrapper(object):
 
             # Then a full step in momentum.
             if i < self.nsteps - 1:
-                state = self.model.get_state(q, compute_grad=True)
-                p = p + self.epsilon * state.grad_lnprob
+                state = self.model.compute_grad_log_probability(q)
+                p = p + self.epsilon * state.grad_log_probability
 
         # Finish with a half momentum step to synchronize with the position.
-        state = self.model.get_state(q, compute_grad=True)
+        state = self.model.compute_grad_log_probability(q)
         p = p + 0.5 * self.epsilon * state.grad_lnprob
 
         # Negate the momentum. This step really isn't necessary but it doesn't

@@ -2,31 +2,17 @@
 
 from __future__ import division, print_function
 
-__all__ = ["Sampler"]
-
 import logging
-import numpy as np
-from functools import wraps
 from collections import Iterable
 
 from .. import moves
 from ..backends import Backend
 
-
-def _check_run(f):
-    @wraps(f)
-    def func(self, *args, **kwargs):
-        if self.backend.niter <= 0 or self.backend.coords is None:
-            raise AttributeError("You need to run the chain first or store "
-                                 "the chain using the 'store' keyword "
-                                 "argument to Sampler.sample")
-        return f(self, *args, **kwargs)
-    return func
+__all__ = ["Sampler"]
 
 
 class Sampler(object):
-    """
-    A sampler object.
+    """A sampler object.
 
     """
 
@@ -145,110 +131,9 @@ class Sampler(object):
                 if niter is not None and i >= niter:
                     return
 
-    @property
-    @_check_run
-    def coords(self):
-        return self.get_coords()
-
-    @property
-    @_check_run
-    def lnprior(self):
-        return self.get_lnprior()
-
-    @property
-    @_check_run
-    def lnlike(self):
-        return self.get_lnlike()
-
-    @property
-    @_check_run
-    def lnprob(self):
-        return self.get_lnprob()
-
-    @property
-    @_check_run
-    def acceptance_fraction(self):
-        return self.backend.acceptance_fraction
-
-    def get_coords(self, **kwargs):
-        """
-        Get the stored chain of MCMC samples. This will fail if no backend was
-        used or if the chain wasn't stored.
-
-        :param flat: (optional)
-            Flatten the chain across the ensemble. (default: ``False``)
-
-        :param thin: (optional)
-            Take only every ``thin`` steps from the chain. (default: ``1``)
-
-        :param discard: (optional)
-            Discard the first ``discard`` steps in the chain as burn-in.
-            (default: ``0``)
-
-        """
-        return self.get_value("coords", **kwargs)
-
-    def get_lnprior(self, **kwargs):
-        """
-        Get the stored chain ln-prior values. This will fail if no backend was
-        used or if the chain wasn't stored.
-
-        :param flat: (optional)
-            Flatten the chain across the ensemble. (default: ``False``)
-
-        :param thin: (optional)
-            Take only every ``thin`` steps from the chain. (default: ``1``)
-
-        :param discard: (optional)
-            Discard the first ``discard`` steps in the chain as burn-in.
-            (default: ``0``)
-
-        """
-        return self.get_value("lnprior", **kwargs)
-
-    def get_lnlike(self, **kwargs):
-        """
-        Get the stored chain ln-likelihood values. This will fail if no
-        backend was used or if the chain wasn't stored.
-
-        :param flat: (optional)
-            Flatten the chain across the ensemble. (default: ``False``)
-
-        :param thin: (optional)
-            Take only every ``thin`` steps from the chain. (default: ``1``)
-
-        :param discard: (optional)
-            Discard the first ``discard`` steps in the chain as burn-in.
-            (default: ``0``)
-
-        """
-        return self.get_value("lnlike", **kwargs)
-
-    def get_lnprob(self, **kwargs):
-        """
-        Get the stored chain ln-probability values. This will fail if no
-        backend was used or if the chain wasn't stored.
-
-        :param flat: (optional)
-            Flatten the chain across the ensemble. (default: ``False``)
-
-        :param thin: (optional)
-            Take only every ``thin`` steps from the chain. (default: ``1``)
-
-        :param discard: (optional)
-            Discard the first ``discard`` steps in the chain as burn-in.
-            (default: ``0``)
-
-        """
-        return (
-            self.get_value("lnprior", **kwargs) +
-            self.get_value("lnlike", **kwargs)
-        )
-
-    def get_value(self, name, flat=False, thin=1, discard=0):
-        v = self.backend.get_value(name)[discard::thin]
-        if flat:
-            s = list(v.shape[1:])
-            s[0] = np.prod(v.shape[:2])
-            return v.reshape(s)
-        return v
+    def __getattr__(self, attr):
+        try:
+            return getattr(self.backend, attr)
+        except AttributeError:
+            raise AttributeError("'Sampler' object has no attribute '{0}'"
+                                 .format(attr))

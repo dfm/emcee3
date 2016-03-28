@@ -36,6 +36,5 @@ def test_valid_init(nwalkers=32, ndim=5, seed=1234):
     ivar = np.random.rand(ndim)
     coords = 0.002 * np.random.rand(nwalkers, ndim) - 0.001
     ens = Ensemble(NormalWalker(ivar), coords)
-    print(ens.walkers[0])
-    assert 0
-    assert np.all(np.isfinite(ens.__log_probability__))
+    repr(ens.walkers[0])
+    assert np.all(np.isfinite(ens.log_probability))

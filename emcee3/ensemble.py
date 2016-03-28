@@ -47,7 +47,7 @@ class Ensemble(object):
         self.walkers = self.propose(self._coords)
         self.acceptance = np.ones(self.nwalkers, dtype=bool)
 
-        if not np.all(np.isfinite(self.__log_probability__)):
+        if not np.all(np.isfinite(self.log_probability)):
             raise ValueError("invalid (zero-probability) coordinates")
 
     def propose(self, coords):
@@ -70,7 +70,7 @@ class Ensemble(object):
         accepting the walkers.
 
         Note:
-            Only the walkers with ``__accepted__ == True`` are updated.
+            Only the walkers with ``accepted == True`` are updated.
 
         Args:
             walkers (list[State]): A list of walkers states.
@@ -84,11 +84,11 @@ class Ensemble(object):
         if subset is None:
             subset = slice(None)
 
-        for j, s in izip(np.arange(self.nwalkers)[slice], walkers):
-            self.acceptance[j] = s.__accepted__
-            if s.__accepted__:
+        for j, s in izip(np.arange(self.nwalkers)[subset], walkers):
+            self.acceptance[j] = s.accepted
+            if s.accepted:
                 self.walkers[j] = s
-                if not np.isfinite(s.__log_probability__):
+                if not np.isfinite(s.log_probability):
                     raise RuntimeError("invalid (zero-probability) proposal "
                                        "accepted")
 
@@ -111,13 +111,12 @@ class Ensemble(object):
         return self.walkers[0].dtype
 
     def __getitem__(self, key):
+        if isinstance(key, int):
+            return self.walkers[key]
         try:
             return self.get_value(key)
-        except AttributeError:
-            try:
-                return self.walkers[key]
-            except IndexError:
-                raise KeyError(key)
+        except (AttributeError, TypeError):
+            return self.walkers[key]
 
     def get_value(self, key, out=None):
         if out is None:

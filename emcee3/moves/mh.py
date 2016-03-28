@@ -45,18 +45,18 @@ class MHMove(object):
             raise ValueError("Dimension mismatch in proposal")
 
         # Compute the proposal.
-        q, factor = self.proposal(ensemble.random, ensemble.__coords__)
+        q, factor = self.proposal(ensemble.random, ensemble.coords)
         states = ensemble.propose(q)
 
         # Loop over the walkers and update them accordingly.
         for i, state in enumerate(states):
             lnpdiff = (
-                state.__log_probability__ -
-                ensemble.walkers[i].__log_probability__ +
+                state.log_probability -
+                ensemble.walkers[i].log_probability +
                 factor[i]
             )
             if lnpdiff > 0.0 or ensemble.random.rand() < np.exp(lnpdiff):
-                state.__accepted__ = True
+                state.accepted = True
 
         # Update the ensemble's coordinates and log-probabilities.
         ensemble.update(states)

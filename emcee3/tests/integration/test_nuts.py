@@ -2,10 +2,13 @@
 
 from __future__ import division, print_function
 
-__all__ = ["test_normal_nuts",]
-
+import pytest
 from ... import moves
-from .test_proposal import _test_normal, _test_uniform
+from .test_proposal import _test_normal
+
+__all__ = ["test_normal_nuts", ]
+
+pytestmark = pytest.mark.skipif()
 
 
 def test_normal_nuts(**kwargs):

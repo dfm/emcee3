@@ -18,7 +18,7 @@ class State(object):
     :func:`to_array` method.
 
     Note:
-        Unless the ``__accepted__`` attribute is ``True``, this object can't
+        Unless the ``accepted`` attribute is ``True``, this object can't
         be expected to have the correct data type.
 
     Args:
@@ -26,7 +26,7 @@ class State(object):
         log_prior (Optional[float]): The log prior evaluated at ``coords``. If
             not provided, it is expected that the
             :func:`Model.compute_log_prior` method of a model will save the
-            ``__log_prior__`` attribute on this object.
+            ``log_prior`` attribute on this object.
         log_likelihood (Optional[float]): The log likelihood evaluated at
             ``coords``. Like ``log_prior``, this should be evaluated by the
             model.
@@ -41,22 +41,21 @@ class State(object):
                  log_likelihood=-np.inf,
                  accepted=False,
                  **metadata):
-        self.__coords__ = coords
-        self.__log_prior__ = log_prior
-        self.__log_likelihood__ = log_likelihood
-        self.__accepted__ = accepted
+        self.coords = coords
+        self.log_prior = log_prior
+        self.log_likelihood = log_likelihood
+        self.accepted = accepted
         for k, v in iteritems(metadata):
             setattr(self, k, v)
 
     def __repr__(self):
         names = self.dtype.names
         values = [
-            self.__log_prior__, self.__log_likelihood__, self.__accepted__
+            self.log_prior, self.log_likelihood, self.accepted
         ] + [getattr(self, k) for k in names[4:]]
-        names = ["log_prior", "log_likelihood", "accepted"] + list(names[4:])
         r = ", ".join("{0}={1!r}".format(a, b)
                       for a, b in izip(names, values))
-        return "State({0!r}, {1})".format(self.__coords__, r)
+        return "State({0!r}, {1})".format(self.coords, r)
 
     def __eq__(self, other):
         if not self.dtype == other.dtype:
@@ -66,21 +65,22 @@ class State(object):
     @property
     def dtype(self):
         return np.dtype([
-            ("__coords__", np.float64, (len(self.__coords__),)),
-            ("__log_prior__", np.float64),
-            ("__log_likelihood__", np.float64),
-            ("__accepted__", bool),
+            ("coords", np.float64, (len(self.coords),)),
+            ("log_prior", np.float64),
+            ("log_likelihood", np.float64),
+            ("accepted", bool),
         ] + [(k, np.atleast_1d(v).dtype)
              for k, v in sorted(iteritems(self.__dict__))
-             if not k.startswith("_")])
+             if not k.startswith("_") and
+             k not in ["coords", "log_prior", "log_likelihood", "accepted"]])
 
     def to_array(self, out=None):
         """Serialize the state to a structured numpy array representation.
 
         This representation will include all attributes of this instance that
         don't have a name beginning with an underscore. There will also always
-        be special fields: ``__coords__``, ``__log_prior__``,
-        ``__log_likelihood__``, and ``__accepted__``.
+        be special fields: ``coords``, ``log_prior``, ``log_likelihood``, and
+        ``accepted``.
 
         Args:
             out (Optional[array]): If provided, the state will be serialized
@@ -96,10 +96,10 @@ class State(object):
             if k.startswith("_"):
                 continue
             out[k] = getattr(self, k)
-        out["__coords__"] = self.__coords__
-        out["__log_prior__"] = self.__log_prior__
-        out["__log_likelihood__"] = self.__log_likelihood__
-        out["__accepted__"] = self.__accepted__
+        out["coords"] = self.coords
+        out["log_prior"] = self.log_prior
+        out["log_likelihood"] = self.log_likelihood
+        out["accepted"] = self.accepted
         return out
 
     @classmethod
@@ -114,10 +114,10 @@ class State(object):
             State: The reconstructed state.
 
         """
-        self = cls(array["__coords__"][0],
-                   log_prior=array["__log_prior__"][0],
-                   log_likelihood=array["__log_likelihood__"][0],
-                   accepted=array["__accepted__"][0])
+        self = cls(array["coords"][0],
+                   log_prior=array["log_prior"][0],
+                   log_likelihood=array["log_likelihood"][0],
+                   accepted=array["accepted"][0])
         for k in array.dtype.names:
             if k.startswith("_"):
                 continue
@@ -125,8 +125,8 @@ class State(object):
         return self
 
     @property
-    def __log_probability__(self):
+    def log_probability(self):
         """A helper attribute that provides access to the log probability.
 
         """
-        return self.__log_prior__ + self.__log_likelihood__
+        return self.log_prior + self.log_likelihood
