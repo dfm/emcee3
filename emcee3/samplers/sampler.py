@@ -159,6 +159,46 @@ class Sampler(object):
             if niter is not None and i >= niter:
                 return
 
+    def get_coords(self, **kwargs):
+        return self.backend.get_coords(**kwargs)
+    get_coords.__doc__ = Backend.get_coords.__doc__
+
+    def get_log_prior(self, **kwargs):
+        return self.backend.get_log_prior(**kwargs)
+    get_log_prior.__doc__ = Backend.get_log_prior.__doc__
+
+    def get_log_likelihood(self, **kwargs):
+        return self.backend.get_log_likelihood(**kwargs)
+    get_log_likelihood.__doc__ = Backend.get_log_likelihood.__doc__
+
+    def get_log_probability(self, **kwargs):
+        return self.backend.get_log_probability(**kwargs)
+    get_log_probability.__doc__ = Backend.get_log_probability.__doc__
+
+    @property
+    def acceptance(self):
+        return self.backend.acceptance
+
+    @property
+    def acceptance_fraction(self):
+        return self.backend.acceptance_fraction
+
+    @property
+    def coords(self):
+        return self.backend.coords
+
+    @property
+    def log_prior(self):
+        return self.backend.log_prior
+
+    @property
+    def log_likelihood(self):
+        return self.backend.log_likelihood
+
+    @property
+    def log_probability(self):
+        return self.backend.log_probability
+
     def __getattr__(self, attr):
         try:
             return getattr(self.backend, attr)

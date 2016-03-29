@@ -7,7 +7,7 @@ import numpy as np
 from tempfile import NamedTemporaryFile
 
 from .. import backends
-from ..model import Model
+from ..model import Model, SimpleModel
 
 __all__ = ["NormalWalker", "MetadataWalker", "UniformWalker"]
 
@@ -49,16 +49,13 @@ class MetadataWalker(NormalWalker):
         return super(MetadataWalker, self).compute_log_likelihood(state)
 
 
-class UniformWalker(Model):
+class UniformWalker(SimpleModel):
 
-    def compute_log_prior(self, state):
-        p = state.coords
-        state.log_prior = 0.0 if np.all((-1 < p) * (p < 1)) else -np.inf
-        return state
-
-    def compute_log_likelihood(self, state):
-        state.log_likelihood = 0.0
-        return state
+    def __init__(self):
+        super(UniformWalker, self).__init__(
+            lambda p: 0.0,
+            lambda p: 0.0 if np.all((-1 < p) * (p < 1)) else -np.inf
+        )
 
 
 class TempHDFBackend(object):

@@ -224,13 +224,13 @@ class SimpleModel(Model):
     compute_grad_log_prior.__doc__ = Model.compute_grad_log_prior.__doc__
 
     def compute_log_likelihood(self, state, **kwargs):
-        state.log_likelihood = self.log_likelihood_fn(state.coords,
-                                                      *(self.args))
+        state.log_likelihood = self.log_likelihood_func(state.coords,
+                                                        *(self.args))
         return state
     compute_log_likelihood.__doc__ = Model.compute_log_likelihood.__doc__
 
     def compute_grad_log_likelihood(self, state, **kwargs):
-        state.grad_log_likelihood = self.grad_log_likelihood_fn(
+        state.grad_log_likelihood = self.grad_log_likelihood_func(
             state.coords, *(self.args)
         )
         return state
@@ -249,8 +249,8 @@ class SimpleModel(Model):
 
         """
         com_g = (
-            self.grad_log_likelihood_fn(coords, *(self.args)) +
-            self.grad_log_prior_fn(coords, *(self.args))
+            self.grad_log_likelihood_func(coords, *(self.args)) +
+            self.grad_log_prior_func(coords, *(self.args))
         )
         num_g = numerical_gradient_2(self.get_lnprob, coords, **kwargs)
         return np.allclose(com_g, num_g)
