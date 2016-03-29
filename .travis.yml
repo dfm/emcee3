@@ -54,9 +54,6 @@ install:
 
     - conda create --yes -n test python=$PYTHON_VERSION numpy=$NUMPY_VERSION scipy pytest setuptools h5py pip
     - source activate test
-    - if [[ "$PYTHON_VERSION" == "2.7" ]]; then
-        conda install future
-      fi
     - pip install pytest-cov coveralls
 
 script:
