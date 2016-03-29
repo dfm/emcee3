@@ -6,33 +6,45 @@ import logging
 import numpy as np
 from collections import Iterable
 
-from .. import moves
+from ..moves import StretchMove
 from ..backends import Backend
+
+try:
+    from tqdm import tqdm
+except ImportError:
+    tqdm = None
 
 __all__ = ["Sampler"]
 
 
 class Sampler(object):
-    """A simple MCMC sampler with a customizable schedule of proposals.
+    """A simple MCMC sampler with a customizable schedule of moves.
 
     Args:
-        proposals (Optional):
+        moves (Optional): This can be a single move object, a list of moves,
+            or a "weighted" list of the form
+            ``[(emcee3.moves.StretchMove(), 0.1), ...]``. When running, the
+            sampler will randomly select a move from this list (optionally
+            with weights) for each proposal. (default: :class:`StretchMove`)
+        backend (Optional): The interface used for saving the samples. By
+            default, the samples will be saved to memory using the
+            :class:`Backend` interface.
 
     """
 
-    def __init__(self, proposals=None, backend=None):
+    def __init__(self, moves=None, backend=None):
         # Save the schedule. This should be a list of proposals.
-        if not proposals:
-            self._proposals = [moves.StretchMove()]
+        if not moves:
+            self._moves = [StretchMove()]
             self._weights = [1.0]
-        elif isinstance(proposals, Iterable):
+        elif isinstance(moves, Iterable):
             try:
-                self._proposals, self._weights = zip(*proposals)
+                self._moves, self._weights = zip(*moves)
             except TypeError:
-                self._proposals = proposals
-                self._weights = np.ones(len(proposals))
+                self._moves = moves
+                self._weights = np.ones(len(moves))
         else:
-            self._proposals = [proposals]
+            self._moves = [moves]
             self._weights = [1.0]
         self._weights = np.atleast_1d(self._weights).astype(float)
         self._weights /= np.sum(self._weights)
@@ -47,53 +59,54 @@ class Sampler(object):
         self.reset()
 
     def reset(self):
-        """
-        Clear the chain and reset it to its default state.
-
-        """
+        """Clear the chain and reset it to its default state."""
         self.backend.reset()
 
-    def run(self, ensemble, niter, **kwargs):
-        """
-        Starting from a given ensemble, run a specific number of steps of
-        MCMC. In practice, this method just calls :func:`Sampler.sample` and
+    def run(self, ensemble, niter, progress=False, **kwargs):
+        """Run the specified number of iterations of MCMC.
+
+        Starting from a given ensemble, run ``niter`` steps of MCMC. In
+        practice, this method just calls :func:`Sampler.sample` and
         and returns the final ensemble from the iterator.
 
-        :param ensemble:
-            The starting :class:`Ensemble`.
+        Args:
+            ensemble (Ensemble): The starting :class:`Ensemble`.
+            niter (int): The number of steps to run.
+            progress (Optional[bool]): Optionally show the sampling progress
+                using `tqdm <https://github.com/tqdm/tqdm>`_.
+                (default: ``False``)
+            **kwargs: Any other arguments are passed to :func:`Sampler.sample`.
 
-        :param niter:
-            The number of steps to run.
-
-        :param store: (optional)
-            If ``True``, save the chain using the backend. If ``False``,
-            reset the backend and don't store anything.
+        Returns:
+            Ensemble: The final state of the ensemble.
 
         """
-        for ensemble in self.sample(ensemble, niter=niter, **kwargs):
+        g = self.sample(ensemble, niter=niter, **kwargs)
+        if progress:
+            if tqdm is None:
+                raise ImportError("'tqdm' must be installed to show progress")
+            g = tqdm(g, total=niter)
+        for ensemble in g:
             pass
         return ensemble
 
     def sample(self, ensemble, niter=None, store=None, thin=1):
-        """
-        Starting from a given ensemble, start sampling as an iterator yielding
-        each updated ensemble.
+        """Run MCMC iterations and yield each updated ensemble.
 
-        :param ensemble:
-            The starting :class:`Ensemble`.
+        Args:
+            ensemble (Ensemble): The starting :class:`Ensemble`.
+            niter (Optional[int]): The number of steps to run. If not provided,
+                the sampler will run forever.
+            store (Optional[bool]): If ``True``, save the chain using the
+                backend. If ``False``, reset the backend but don't store
+                anything.
+            thin (Optional[int]): Only store every ``thin`` step. Note: the
+                backend won't ever know about this thinning. Instead, it will
+                just think that the chain had only ``niter // thin`` steps.
+                (default: ``1``)
 
-        :param niter: (optional)
-            The number of steps to run. If not given, the iterator will run
-            forever.
-
-        :param store: (optional)
-            If ``True``, save the chain using the backend. If ``False``,
-            reset the backend and don't store anything.
-
-        :param thin: (optional)
-            Only store every ``thin`` step. Note: the backend won't ever know
-            about this thinning. Instead, it will just think that the chain
-            had only ``niter // thin`` steps. (default: ``1``)
+        Yields:
+            Ensemble: The state of the ensemble at every ``thin``-th step.
 
         """
         # Set the default backend behavior if not overridden.
@@ -110,7 +123,8 @@ class Sampler(object):
 
         # Check that the thin keyword is reasonable.
         thin = int(thin)
-        assert thin > 0, "Invalid thinning argument"
+        if thin <= 0:
+            raise ValueError("Invalid thinning argument")
 
         # Check the ensemble dimensions.
         if store:
@@ -129,7 +143,7 @@ class Sampler(object):
         i = 0
         while True:
             # Choose a random proposal.
-            p = ensemble.random.choice(self._proposals, p=self._weights)
+            p = ensemble.random.choice(self._moves, p=self._weights)
 
             # Run the update on the current ensemble.
             ensemble = p.update(ensemble)

@@ -13,22 +13,22 @@ __all__ = ["test_schedule", "test_shapes", "test_errors",
 def test_schedule():
     # The default schedule should be a single stretch move.
     s = Sampler()
-    assert len(s._proposals) == 1
+    assert len(s._moves) == 1
     assert len(s._weights) == 1
 
     # A single move.
     s = Sampler(moves.GaussianMove(0.5))
-    assert len(s._proposals) == 1
+    assert len(s._moves) == 1
     assert len(s._weights) == 1
 
     # A list of moves.
     s = Sampler([moves.StretchMove(), moves.GaussianMove(0.5)])
-    assert len(s._proposals) == 2
+    assert len(s._moves) == 2
     assert len(s._weights) == 2
 
     # A weighted list of moves.
     s = Sampler([(moves.StretchMove(), 0.3), (moves.GaussianMove(0.5), 0.1)])
-    assert len(s._proposals) == 2
+    assert len(s._moves) == 2
     assert len(s._weights) == 2
     assert np.allclose(s._weights, [0.75, 0.25])
 
@@ -37,22 +37,22 @@ def test_shapes():
     run_shapes(backends.Backend())
     with TempHDFBackend() as backend:
         run_shapes(backend)
-    run_shapes(backends.Backend(), proposals=[moves.GaussianMove(0.5),
-                                              moves.DEMove(0.5)])
-    run_shapes(backends.Backend(), proposals=[(moves.GaussianMove(0.5), 0.1),
-                                              (moves.DEMove(0.5), 0.3)])
+    run_shapes(backends.Backend(), moves=[moves.GaussianMove(0.5),
+                                          moves.DEMove(0.5)])
+    run_shapes(backends.Backend(), moves=[(moves.GaussianMove(0.5), 0.1),
+                                          (moves.DEMove(0.5), 0.3)])
 
 
-def run_shapes(backend, proposals=None, nwalkers=32, ndim=3, nsteps=5,
+def run_shapes(backend, moves=None, nwalkers=32, ndim=3, nsteps=5,
                seed=1234):
     # Set up the random number generator.
     rnd = np.random.RandomState()
     rnd.seed(seed)
 
-    # Initialize the ensemble, proposal, and sampler.
+    # Initialize the ensemble, moves and sampler.
     coords = rnd.randn(nwalkers, ndim)
     ensemble = Ensemble(NormalWalker(1.), coords, random=rnd)
-    sampler = Sampler(proposals=proposals, backend=backend)
+    sampler = Sampler(moves=moves, backend=backend)
 
     # Run the sampler.
     ensembles = list(sampler.sample(ensemble, nsteps))
