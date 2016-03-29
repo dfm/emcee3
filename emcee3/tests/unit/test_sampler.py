@@ -6,8 +6,7 @@ import numpy as np
 from ... import moves, backends, Sampler, Ensemble
 from ..common import NormalWalker, TempHDFBackend
 
-__all__ = ["test_schedule", "test_shapes", "test_errors",
-           "test_thin"]
+__all__ = ["test_schedule", "test_shapes", "test_errors", "test_thin"]
 
 
 def test_schedule():

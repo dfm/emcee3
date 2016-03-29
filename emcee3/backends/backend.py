@@ -2,20 +2,8 @@
 
 from __future__ import division, print_function
 import numpy as np
-from functools import wraps
 
 __all__ = ["Backend"]
-
-
-def _check_run(f):
-    @wraps(f)
-    def func(self, *args, **kwargs):
-        if self.niter <= 0:
-            raise AttributeError("You need to run the chain first or store "
-                                 "the chain using the 'store' keyword "
-                                 "argument to Sampler.sample")
-        return f(self, *args, **kwargs)
-    return func
 
 
 class Backend(object):
@@ -26,6 +14,12 @@ class Backend(object):
     Attributes:
         acceptance: An array of ``nwalkers`` integer acceptance counts.
         acceptance_fraction: An array of ``nwalkers`` acceptance fractions.
+        coords: An array of ``(niter, nwalkers, ndim)`` coordinates.
+        log_prior: An array of ``(niter, nwalkers)`` log prior evaluations.
+        log_likelihood: An array of ``(niter, nwalkers)`` log likelihood
+            evaluations.
+        log_probability: An array of ``(niter, nwalkers)`` log probability
+            evaluations.
 
     """
 
@@ -37,9 +31,7 @@ class Backend(object):
         return self.niter
 
     def reset(self):
-        """Clear the chain and reset it to its default state.
-
-        """
+        """Clear the chain and reset it to its default state."""
         self.niter = 0
         self.size = 0
         self.nwalkers = None
@@ -102,6 +94,10 @@ class Backend(object):
         self.niter += 1
 
     def __getitem__(self, name_and_index_or_slice):
+        if self.niter <= 0:
+            raise AttributeError("You need to run the chain first or store "
+                                 "the chain using the 'store' keyword "
+                                 "argument to Sampler.sample")
         try:
             name, index_or_slice = name_and_index_or_slice
         except ValueError:
@@ -109,103 +105,70 @@ class Backend(object):
             index_or_slice = slice(None)
         return self._data[name][:self.niter][index_or_slice]
 
-    @property
-    @_check_run
-    def acceptance(self):
-        return self._acceptance
-
-    @property
-    def acceptance_fraction(self):
-        return self.acceptance / float(self.niter)
-
-    @property
-    @_check_run
-    def coords(self):
-        return self.get_coords()
-
-    @property
-    @_check_run
-    def log_prior(self):
-        return self.get_log_prior()
-
-    @property
-    @_check_run
-    def log_likelihood(self):
-        return self.get_log_likelihood()
-
-    @property
-    @_check_run
-    def log_probability(self):
-        return self.get_log_probability()
-
     def get_coords(self, **kwargs):
-        """
-        Get the stored chain of MCMC samples. This will fail if no backend was
-        used or if the chain wasn't stored.
+        """Get the stored chain of MCMC samples.
 
-        :param flat: (optional)
-            Flatten the chain across the ensemble. (default: ``False``)
+        Args:
+            flat (Optional[bool]): Flatten the chain across the ensemble.
+                (default: ``False``)
+            thin (Optional[int]): Take only every ``thin`` steps from the
+                chain. (default: ``1``)
+            discard (Optional[int]): Discard the first ``discard`` steps in
+                the chain as burn-in. (default: ``0``)
 
-        :param thin: (optional)
-            Take only every ``thin`` steps from the chain. (default: ``1``)
-
-        :param discard: (optional)
-            Discard the first ``discard`` steps in the chain as burn-in.
-            (default: ``0``)
+        Returns:
+            array[..., nwalkers, ndim]: The MCMC samples.
 
         """
         return self.get_value("coords", **kwargs)
 
     def get_log_prior(self, **kwargs):
-        """
-        Get the stored chain ln-prior values. This will fail if no backend was
-        used or if the chain wasn't stored.
+        """Get the chain of log priors evaluated at the MCMC samples.
 
-        :param flat: (optional)
-            Flatten the chain across the ensemble. (default: ``False``)
+        Args:
+            flat (Optional[bool]): Flatten the chain across the ensemble.
+                (default: ``False``)
+            thin (Optional[int]): Take only every ``thin`` steps from the
+                chain. (default: ``1``)
+            discard (Optional[int]): Discard the first ``discard`` steps in
+                the chain as burn-in. (default: ``0``)
 
-        :param thin: (optional)
-            Take only every ``thin`` steps from the chain. (default: ``1``)
-
-        :param discard: (optional)
-            Discard the first ``discard`` steps in the chain as burn-in.
-            (default: ``0``)
+        Returns:
+            array[..., nwalkers]: The chain of log priors.
 
         """
         return self.get_value("log_prior", **kwargs)
 
     def get_log_likelihood(self, **kwargs):
-        """
-        Get the stored chain ln-likelihood values. This will fail if no
-        backend was used or if the chain wasn't stored.
+        """Get the chain of log likelihoods evaluated at the MCMC samples.
 
-        :param flat: (optional)
-            Flatten the chain across the ensemble. (default: ``False``)
+        Args:
+            flat (Optional[bool]): Flatten the chain across the ensemble.
+                (default: ``False``)
+            thin (Optional[int]): Take only every ``thin`` steps from the
+                chain. (default: ``1``)
+            discard (Optional[int]): Discard the first ``discard`` steps in
+                the chain as burn-in. (default: ``0``)
 
-        :param thin: (optional)
-            Take only every ``thin`` steps from the chain. (default: ``1``)
-
-        :param discard: (optional)
-            Discard the first ``discard`` steps in the chain as burn-in.
-            (default: ``0``)
+        Returns:
+            array[..., nwalkers]: The chain of log likelihoods.
 
         """
         return self.get_value("log_likelihood", **kwargs)
 
     def get_log_probability(self, **kwargs):
-        """
-        Get the stored chain ln-probability values. This will fail if no
-        backend was used or if the chain wasn't stored.
+        """Get the chain of log probabilities evaluated at the MCMC samples.
 
-        :param flat: (optional)
-            Flatten the chain across the ensemble. (default: ``False``)
+        Args:
+            flat (Optional[bool]): Flatten the chain across the ensemble.
+                (default: ``False``)
+            thin (Optional[int]): Take only every ``thin`` steps from the
+                chain. (default: ``1``)
+            discard (Optional[int]): Discard the first ``discard`` steps in
+                the chain as burn-in. (default: ``0``)
 
-        :param thin: (optional)
-            Take only every ``thin`` steps from the chain. (default: ``1``)
-
-        :param discard: (optional)
-            Discard the first ``discard`` steps in the chain as burn-in.
-            (default: ``0``)
+        Returns:
+            array[..., nwalkers]: The chain of log probabilities.
 
         """
         return (
@@ -220,3 +183,27 @@ class Backend(object):
             s[0] = np.prod(v.shape[:2])
             return v.reshape(s)
         return v
+
+    @property
+    def acceptance(self):
+        return self._acceptance
+
+    @property
+    def acceptance_fraction(self):
+        return self.acceptance / float(self.niter)
+
+    @property
+    def coords(self):
+        return self.get_coords()
+
+    @property
+    def log_prior(self):
+        return self.get_log_prior()
+
+    @property
+    def log_likelihood(self):
+        return self.get_log_likelihood()
+
+    @property
+    def log_probability(self):
+        return self.get_log_probability()
