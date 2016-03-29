@@ -6,7 +6,6 @@ import numpy as np
 from scipy import stats
 
 from ... import Ensemble
-from ...compat import xrange
 from ..common import NormalWalker, UniformWalker
 
 __all__ = ["_test_normal", "_test_uniform"]
@@ -25,7 +24,7 @@ def _test_normal(proposal, ndim=1, nwalkers=32, nsteps=2000, seed=1234,
     # Run the chain.
     chain = np.empty((nsteps, nwalkers, ndim))
     acc = np.zeros(nwalkers, dtype=int)
-    for i in xrange(len(chain)):
+    for i in range(len(chain)):
         proposal.update(ensemble)
         chain[i] = ensemble.coords
         acc += ensemble.acceptance
@@ -60,7 +59,7 @@ def _test_uniform(proposal, nwalkers=32, nsteps=2000, seed=1234):
     # Run the chain.
     chain = np.empty((nsteps, nwalkers, 1))
     acc = np.zeros(nwalkers, dtype=int)
-    for i in xrange(len(chain)):
+    for i in range(len(chain)):
         proposal.update(ensemble)
         chain[i] = ensemble.coords
         acc += ensemble.acceptance

@@ -3,8 +3,6 @@
 from __future__ import division, print_function
 
 import numpy as np
-
-from ..compat import xrange
 from .hmc import HamiltonianMove, _hmc_wrapper
 
 __all__ = ["NoUTurnsMove"]
@@ -76,7 +74,7 @@ class _nuts_wrapper(_hmc_wrapper):
         f = state.lnprob
         f -= 0.5 * np.dot(current_p, self.cov.apply(current_p))
         u = self.random.uniform(0.0, np.exp(f))
-        for j in xrange(self.max_depth):
+        for j in range(self.max_depth):
             v = 1.0 - 2.0 * (self.random.rand() < 0.5)
             if v < 0.0:
                 state_minus, _, state_pr, n_pr, s = \

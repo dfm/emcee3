@@ -3,7 +3,6 @@
 from __future__ import division, print_function
 
 import numpy as np
-from ..compat import xrange
 from .red_blue import RedBlueMove
 
 __all__ = ["WalkMove"]
@@ -29,7 +28,7 @@ class WalkMove(RedBlueMove):
         Ns, Nc = len(s), len(c)
         q = np.empty((Ns, ens.ndim), dtype=np.float64)
         s0 = Nc if self.s is None else self.s
-        for i in xrange(Ns):
+        for i in range(Ns):
             inds = ens.random.choice(Nc, s0, replace=False)
             cov = np.atleast_2d(np.cov(c[inds], rowvar=0))
             q[i] = ens.random.multivariate_normal(s[i], cov)

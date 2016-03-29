@@ -3,7 +3,6 @@
 from __future__ import division, print_function
 
 import numpy as np
-from ..compat import izip, xrange
 
 __all__ = ["RedBlueMove"]
 
@@ -61,7 +60,7 @@ class RedBlueMove(object):
 
         # Split the ensemble in half and iterate over these two halves.
         inds = np.arange(nwalkers) % self.nsplits
-        for i in xrange(self.nsplits):
+        for i in range(self.nsplits):
             S1 = inds == i
             S2 = inds != i
 
@@ -76,7 +75,7 @@ class RedBlueMove(object):
             states = ensemble.propose(q)
 
             # Loop over the walkers and update them accordingly.
-            for i, (j, f, state) in enumerate(izip(
+            for i, (j, f, state) in enumerate(zip(
                     np.arange(len(ensemble))[S1], factors, states)):
                 lnpdiff = (
                     f +

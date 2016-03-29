@@ -4,8 +4,6 @@ from __future__ import division, print_function
 
 import numpy as np
 
-from ..compat import izip, xrange
-
 __all__ = ["HamiltonianMove"]
 
 
@@ -65,7 +63,7 @@ class _hmc_wrapper(object):
         p = p + 0.5 * self.epsilon * current_state.grad_log_probability
 
         # Alternate full steps in position and momentum.
-        for i in xrange(self.nsteps):
+        for i in range(self.nsteps):
             # First, a full step in position.
             q = q + self.epsilon * self.cov.apply(p)
 
@@ -165,7 +163,7 @@ class HamiltonianMove(object):
         # Loop over splits.
         inds = np.arange(ensemble.nwalkers) % self.nsplits
         ensemble.random.shuffle(inds)
-        for i in xrange(self.nsplits):
+        for i in range(self.nsplits):
             S1 = inds == i
             S2 = inds != i
 
@@ -184,14 +182,14 @@ class HamiltonianMove(object):
                                             ensemble.ndim)
 
             # Integrate the dynamics in parallel.
-            res = ensemble.pool.map(integrator, izip(
+            res = ensemble.pool.map(integrator, zip(
                 (ensemble.walkers[i] for i in np.arange(len(S1))[S1]),
                 momenta
             ))
 
             # Loop over the walkers and update them accordingly.
             states = []
-            for i, (j, (state, factor)) in enumerate(izip(
+            for i, (j, (state, factor)) in enumerate(zip(
                     np.arange(len(ensemble))[S1], res)):
                 lnpdiff = factor + state.lnprob - ensemble.walkers[j].lnprob
                 if lnpdiff > np.log(ensemble.random.rand()):

@@ -4,7 +4,6 @@ from __future__ import division, print_function
 
 import numpy as np
 
-from .compat import izip
 from .pools import DefaultPool
 
 __all__ = ["Ensemble"]
@@ -84,7 +83,7 @@ class Ensemble(object):
         if subset is None:
             subset = slice(None)
 
-        for j, s in izip(np.arange(self.nwalkers)[subset], walkers):
+        for j, s in zip(np.arange(self.nwalkers)[subset], walkers):
             self.acceptance[j] = s.accepted
             if s.accepted:
                 self.walkers[j] = s

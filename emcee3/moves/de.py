@@ -3,7 +3,6 @@
 from __future__ import division, print_function
 
 import numpy as np
-from ..compat import xrange
 from .red_blue import RedBlueMove
 
 __all__ = ["DEMove"]
@@ -41,7 +40,7 @@ class DEMove(RedBlueMove):
         Ns, Nc = len(s), len(c)
         q = np.empty((Ns, ens.ndim), dtype=np.float64)
         f = ens.random.randn(Ns)
-        for i in xrange(Ns):
+        for i in range(Ns):
             inds = ens.random.choice(Nc, 2, replace=False)
             g = np.diff(c[inds], axis=0) * (1 + self.g0 * f[i])
             q[i] = s[i] + g

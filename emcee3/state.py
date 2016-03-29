@@ -3,7 +3,6 @@
 from __future__ import division, print_function
 
 import numpy as np
-from .compat import izip, iteritems
 
 __all__ = ["State"]
 
@@ -45,7 +44,7 @@ class State(object):
         self.log_prior = log_prior
         self.log_likelihood = log_likelihood
         self.accepted = accepted
-        for k, v in iteritems(metadata):
+        for k, v in metadata.items():
             setattr(self, k, v)
 
     def __repr__(self):
@@ -54,7 +53,7 @@ class State(object):
             self.log_prior, self.log_likelihood, self.accepted
         ] + [getattr(self, k) for k in names[4:]]
         r = ", ".join("{0}={1!r}".format(a, b)
-                      for a, b in izip(names, values))
+                      for a, b in zip(names, values))
         return "State({0!r}, {1})".format(self.coords, r)
 
     def __eq__(self, other):
@@ -70,7 +69,7 @@ class State(object):
             ("log_likelihood", np.float64),
             ("accepted", bool),
         ] + [(k, np.atleast_1d(v).dtype)
-             for k, v in sorted(iteritems(self.__dict__))
+             for k, v in sorted(self.__dict__.items())
              if not k.startswith("_") and
              k not in ["coords", "log_prior", "log_likelihood", "accepted"]])
 
