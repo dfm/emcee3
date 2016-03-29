@@ -120,9 +120,7 @@ def integrated_time(x, low=10, high=None, step=1, c=10, full_output=False,
 
 
 class AutocorrError(Exception):
-    """
-    Raised by :func:`integrated_time` if the chain is too short to estimate
-    an autocorrelation time.
+    """Raised if the chain is too short to estimate an autocorrelation time.
 
     """
     pass

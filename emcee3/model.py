@@ -4,7 +4,7 @@ from __future__ import division, print_function
 
 import numpy as np
 from .state import State
-from .utils import numerical_gradient_1, numerical_gradient_2
+from .numgrad import numerical_gradient_1, numerical_gradient_2
 
 __all__ = ["Model", "SimpleModel"]
 

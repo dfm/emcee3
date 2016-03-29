@@ -7,6 +7,17 @@ __all__ = ["numerical_gradient_1", "numerical_gradient_2"]
 
 
 class numerical_gradient_1(object):
+    """Wrap a function to numerically compute first order gradients.
+
+    The function is expected to take a numpy array as its first argument and
+    calling an instance of this object will return the gradient with respect
+    to this first argument.
+
+    Args:
+        f (callable): The function.
+        eps (Optional[float]): The step size.
+
+    """
 
     def __init__(self, f, eps=1.234e-7):
         self.eps = eps
@@ -24,6 +35,17 @@ class numerical_gradient_1(object):
 
 
 class numerical_gradient_2(object):
+    """Wrap a function to numerically compute second order gradients.
+
+    The function is expected to take a numpy array as its first argument and
+    calling an instance of this object will return the gradient with respect
+    to this first argument.
+
+    Args:
+        f (callable): The function.
+        eps (Optional[float]): The step size.
+
+    """
 
     def __init__(self, f, eps=1.234e-7):
         self.eps = eps
