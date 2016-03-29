@@ -2,10 +2,10 @@
 
 from __future__ import division, print_function
 
-__all__ = ["StretchMove"]
-
 import numpy as np
 from .red_blue import RedBlueMove
+
+__all__ = ["StretchMove"]
 
 
 class StretchMove(RedBlueMove):

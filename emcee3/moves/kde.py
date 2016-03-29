@@ -2,8 +2,6 @@
 
 from __future__ import division, print_function
 
-__all__ = ["KDEMove"]
-
 import numpy as np
 
 try:
@@ -12,6 +10,8 @@ except ImportError:
     gaussian_kde = None
 
 from .red_blue import RedBlueMove
+
+__all__ = ["KDEMove"]
 
 
 class KDEMove(RedBlueMove):

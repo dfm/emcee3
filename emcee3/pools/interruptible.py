@@ -24,12 +24,12 @@ Contributed by Peter K. G. Williams <peter@newton.cx>.
 
 from __future__ import division, print_function
 
-__all__ = ["InterruptiblePool"]
-
 import signal
 import functools
 from multiprocessing.pool import Pool
 from multiprocessing import TimeoutError
+
+__all__ = ["InterruptiblePool"]
 
 
 def _initializer_wrapper(actual_initializer, *rest):

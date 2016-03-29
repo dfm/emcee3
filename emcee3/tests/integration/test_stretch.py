@@ -2,11 +2,11 @@
 
 from __future__ import division, print_function
 
-__all__ = ["test_normal_stretch", "test_uniform_stretch",
-           "test_nsplits_stretch"]
-
 from ... import moves
 from .test_proposal import _test_normal, _test_uniform
+
+__all__ = ["test_normal_stretch", "test_uniform_stretch",
+           "test_nsplits_stretch"]
 
 
 def test_normal_stretch(**kwargs):

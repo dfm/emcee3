@@ -2,10 +2,10 @@
 
 from __future__ import division, print_function
 
-__all__ = ["test_normal_kde", "test_uniform_kde", "test_nsplits_kde"]
-
 from ... import moves
 from .test_proposal import _test_normal, _test_uniform
+
+__all__ = ["test_normal_kde", "test_uniform_kde", "test_nsplits_kde"]
 
 
 def test_normal_kde(**kwargs):

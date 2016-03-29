@@ -2,12 +2,12 @@
 
 from __future__ import division, print_function
 
-__all__ = ["NoUTurnsMove"]
-
 import numpy as np
 
-from ..compat import izip, xrange
+from ..compat import xrange
 from .hmc import HamiltonianMove, _hmc_wrapper
+
+__all__ = ["NoUTurnsMove"]
 
 
 class _nuts_wrapper(_hmc_wrapper):

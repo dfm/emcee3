@@ -130,7 +130,7 @@ class SimpleModel(Model):
 
     def compute_log_prior(self, state, **kwargs):
         state.log_prior = self.log_prior_fn(state.coords,
-                                                *(self.args))
+                                            *(self.args))
         return state
 
     def compute_grad_log_prior(self, state, **kwargs):
@@ -141,7 +141,7 @@ class SimpleModel(Model):
 
     def compute_log_likelihood(self, state, **kwargs):
         state.log_likelihood = self.log_likelihood_fn(state.coords,
-                                                          *(self.args))
+                                                      *(self.args))
         return state
 
     def compute_grad_log_likelihood(self, state, **kwargs):

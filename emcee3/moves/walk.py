@@ -2,11 +2,11 @@
 
 from __future__ import division, print_function
 
-__all__ = ["WalkMove"]
-
 import numpy as np
 from ..compat import xrange
 from .red_blue import RedBlueMove
+
+__all__ = ["WalkMove"]
 
 
 class WalkMove(RedBlueMove):

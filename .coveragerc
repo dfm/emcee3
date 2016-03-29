@@ -2,6 +2,7 @@
 omit =
     docs/*
     emcee3/pools/*
+    emcee3/utils.py
     emcee3/compat.py
     emcee3/tests/*
     *__init__*

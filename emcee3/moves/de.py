@@ -2,11 +2,11 @@
 
 from __future__ import division, print_function
 
-__all__ = ["DEMove"]
-
 import numpy as np
 from ..compat import xrange
 from .red_blue import RedBlueMove
+
+__all__ = ["DEMove"]
 
 
 class DEMove(RedBlueMove):

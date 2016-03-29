@@ -2,12 +2,12 @@
 
 from __future__ import division, print_function
 
-__all__ = ["test_live_dangerously"]
-
 import numpy as np
 
 from ... import moves, Ensemble
 from ..common import NormalWalker
+
+__all__ = ["test_live_dangerously"]
 
 
 def test_live_dangerously(nwalkers=32, nsteps=3000, seed=1234):

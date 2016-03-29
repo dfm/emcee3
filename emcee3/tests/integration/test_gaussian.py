@@ -2,12 +2,12 @@
 
 from __future__ import division, print_function
 
-__all__ = ["test_normal_gaussian", "test_uniform_gaussian",
-           "test_normal_gaussian_nd"]
-
 import numpy as np
 from ... import moves
 from .test_proposal import _test_normal, _test_uniform
+
+__all__ = ["test_normal_gaussian", "test_uniform_gaussian",
+           "test_normal_gaussian_nd"]
 
 
 def test_normal_gaussian(**kwargs):
