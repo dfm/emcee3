@@ -11,14 +11,16 @@ if not __EMCEE3_SETUP__:
     __all__ = [
         "moves",
         "pools",
+        "autocorr",
+        "Model",
+        "SimpleModel",
         "Sampler",
         "Ensemble",
-        "Model",
         "State",
     ]
 
-    from . import moves, pools
-    from .model import Model
+    from . import moves, pools, autocorr
+    from .model import Model, SimpleModel
     from .ensemble import Ensemble
     from .samplers import Sampler
     from .state import State

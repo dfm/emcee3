@@ -2,7 +2,6 @@
 
 from __future__ import division, print_function
 
-import pytest
 import numpy as np
 from ... import moves, backends, Sampler, Ensemble
 from ..common import NormalWalker, TempHDFBackend
@@ -14,25 +13,38 @@ __all__ = ["test_schedule", "test_shapes", "test_errors",
 def test_schedule():
     # The default schedule should be a single stretch move.
     s = Sampler()
-    assert len(s.schedule) == 1
+    assert len(s._proposals) == 1
+    assert len(s._weights) == 1
 
     # A single move.
     s = Sampler(moves.GaussianMove(0.5))
-    assert len(s.schedule) == 1
+    assert len(s._proposals) == 1
+    assert len(s._weights) == 1
 
     # A list of moves.
     s = Sampler([moves.StretchMove(), moves.GaussianMove(0.5)])
-    assert len(s.schedule) == 2
+    assert len(s._proposals) == 2
+    assert len(s._weights) == 2
+
+    # A weighted list of moves.
+    s = Sampler([(moves.StretchMove(), 0.3), (moves.GaussianMove(0.5), 0.1)])
+    assert len(s._proposals) == 2
+    assert len(s._weights) == 2
+    assert np.allclose(s._weights, [0.75, 0.25])
 
 
-@pytest.mark.skip()
 def test_shapes():
     run_shapes(backends.Backend())
     with TempHDFBackend() as backend:
         run_shapes(backend)
+    run_shapes(backends.Backend(), proposals=[moves.GaussianMove(0.5),
+                                              moves.DEMove(0.5)])
+    run_shapes(backends.Backend(), proposals=[(moves.GaussianMove(0.5), 0.1),
+                                              (moves.DEMove(0.5), 0.3)])
 
 
-def run_shapes(backend, nwalkers=32, ndim=3, nsteps=5, seed=1234):
+def run_shapes(backend, proposals=None, nwalkers=32, ndim=3, nsteps=5,
+               seed=1234):
     # Set up the random number generator.
     rnd = np.random.RandomState()
     rnd.seed(seed)
@@ -40,7 +52,7 @@ def run_shapes(backend, nwalkers=32, ndim=3, nsteps=5, seed=1234):
     # Initialize the ensemble, proposal, and sampler.
     coords = rnd.randn(nwalkers, ndim)
     ensemble = Ensemble(NormalWalker(1.), coords, random=rnd)
-    sampler = Sampler(backend=backend)
+    sampler = Sampler(proposals=proposals, backend=backend)
 
     # Run the sampler.
     ensembles = list(sampler.sample(ensemble, nsteps))
@@ -156,7 +168,6 @@ def run_sampler(nwalkers=32, ndim=3, nsteps=25, seed=1234, thin=1):
     return sampler
 
 
-@pytest.mark.skip()
 def test_thin():
     thinby = 3
     sampler1 = run_sampler()

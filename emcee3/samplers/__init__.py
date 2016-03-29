@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from .base import Sampler
+from .sampler import Sampler
 
 __all__ = ["Sampler"]

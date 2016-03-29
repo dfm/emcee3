@@ -3,6 +3,7 @@
 from __future__ import division, print_function
 
 import logging
+import numpy as np
 from collections import Iterable
 
 from .. import moves
@@ -12,18 +13,29 @@ __all__ = ["Sampler"]
 
 
 class Sampler(object):
-    """A sampler object.
+    """A simple MCMC sampler with a customizable schedule of proposals.
+
+    Args:
+        proposals (Optional):
 
     """
 
-    def __init__(self, schedule=None, backend=None):
+    def __init__(self, proposals=None, backend=None):
         # Save the schedule. This should be a list of proposals.
-        if schedule is None:
-            self.schedule = [moves.StretchMove()]
-        elif isinstance(schedule, Iterable):
-            self.schedule = schedule
+        if not proposals:
+            self._proposals = [moves.StretchMove()]
+            self._weights = [1.0]
+        elif isinstance(proposals, Iterable):
+            try:
+                self._proposals, self._weights = zip(*proposals)
+            except TypeError:
+                self._proposals = proposals
+                self._weights = np.ones(len(proposals))
         else:
-            self.schedule = [schedule]
+            self._proposals = [proposals]
+            self._weights = [1.0]
+        self._weights = np.atleast_1d(self._weights).astype(float)
+        self._weights /= np.sum(self._weights)
 
         # Set up the backend.
         if backend is None:
@@ -116,20 +128,22 @@ class Sampler(object):
         # Start the generator.
         i = 0
         while True:
-            for p in self.schedule:
-                # Run the update on the current ensemble.
-                ensemble = p.update(ensemble)
+            # Choose a random proposal.
+            p = ensemble.random.choice(self._proposals, p=self._weights)
 
-                # Store this update if required and if not thinned.
-                if (i + 1) % thin == 0:
-                    if store:
-                        self.backend.update(ensemble)
-                    yield ensemble
+            # Run the update on the current ensemble.
+            ensemble = p.update(ensemble)
 
-                # Finish the chain if the total number of steps was reached.
-                i += 1
-                if niter is not None and i >= niter:
-                    return
+            # Store this update if required and if not thinned.
+            if (i + 1) % thin == 0:
+                if store:
+                    self.backend.update(ensemble)
+                yield ensemble
+
+            # Finish the chain if the total number of steps was reached.
+            i += 1
+            if niter is not None and i >= niter:
+                return
 
     def __getattr__(self, attr):
         try:
