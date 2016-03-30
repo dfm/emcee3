@@ -199,14 +199,11 @@ class SimpleModel(Model):
 
         # By default, numerically compute gradients.
         if grad_log_prior is None:
-            grad_log_prior = numerical_gradient_1(
-                self.log_prior_func, *(self.args)
-            )
+            grad_log_prior = numerical_gradient_1(self.log_prior_func)
         self.grad_log_prior_func = grad_log_prior
         if grad_log_likelihood is None:
             grad_log_likelihood = numerical_gradient_1(
-                self.log_likelihood_func, *(self.args)
-            )
+                self.log_likelihood_func)
         self.grad_log_likelihood_func = grad_log_likelihood
 
     def compute_log_prior(self, state, **kwargs):

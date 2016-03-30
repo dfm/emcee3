@@ -53,8 +53,9 @@ class UniformWalker(SimpleModel):
 
     def __init__(self):
         super(UniformWalker, self).__init__(
-            lambda p: 0.0,
-            lambda p: 0.0 if np.all((-1 < p) * (p < 1)) else -np.inf
+            lambda p, *args: 0.0,
+            lambda p, *args: 0.0 if np.all((-1 < p) * (p < 1)) else -np.inf,
+            args=("nothing", "something")
         )
 
 
