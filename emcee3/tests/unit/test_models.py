@@ -2,14 +2,10 @@
 
 from __future__ import division, print_function
 
-import pytest
-import numpy as np
+from ..common import UniformWalker
 
-from ... import Ensemble
-from ..common import NormalWalker, UniformWalker
-
-__all__ = []
+__all__ = ["test_simple"]
 
 
 def test_simple():
-    model = UniformWalker()
+    UniformWalker()
