@@ -5,25 +5,33 @@ import sys
 
 d = os.path.dirname
 sys.path.insert(0, d(d(os.path.abspath(__file__))))
-import emcee
+import emcee3  # NOQA
 
 extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.mathjax",
+    "sphinx.ext.napoleon",
+    "sphinx_gallery.gen_gallery",
 ]
 templates_path = ["_templates"]
 source_suffix = ".rst"
 master_doc = "index"
 
 # General information about the project.
-project = u"emcee"
-copyright = u"2014-2014 Dan Foreman-Mackey & contributors"
+project = u"emcee3"
+copyright = u"2014-2016 Dan Foreman-Mackey & contributors"
 
-version = emcee.__version__
-release = emcee.__version__
+version = emcee3.__version__
+release = emcee3.__version__
 
 exclude_patterns = ["_build", "_static/notebooks/profile"]
 pygments_style = "sphinx"
+
+# Sphinx-gallery
+sphinx_gallery_conf = dict(
+    examples_dirs="../examples",
+    gallery_dirs="examples",
+)
 
 # Readthedocs.
 on_rtd = os.environ.get("READTHEDOCS", None) == "True"

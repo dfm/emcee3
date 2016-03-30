@@ -53,7 +53,7 @@ class State(object):
             self.log_prior, self.log_likelihood, self.accepted
         ] + [getattr(self, k) for k in names[4:]]
         r = ", ".join("{0}={1!r}".format(a, b)
-                      for a, b in zip(names, values))
+                      for a, b in zip(names[1:], values))
         return "State({0!r}, {1})".format(self.coords, r)
 
     def __eq__(self, other):

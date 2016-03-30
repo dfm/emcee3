@@ -1,21 +1,21 @@
-emcee
-=====
+emcee3
+======
 
 Seriously Kick-Ass MCMC
 -----------------------
 
-**emcee** is an MIT licensed pure-Python implementation
-of Goodman & Weare's `Affine Invariant Markov chain Monte Carlo (MCMC)
-Ensemble sampler <http://msp.berkeley.edu/camcos/2010/5-1/p04.xhtml>`_ and
-these pages will show you how to use it.
+**emcee3** is an MIT licensed Python toolbox for MCMC sampling.
+It is a backwards-incompatible extension of the popular `emcee
+<https://github.com/dfm/emcee>`_ library to include more proposal
+distributions and other real world niceties.
 This documentation won't teach you too much about MCMC but there are a lot
 of resources available for that (try `this one
 <http://www.inference.phy.cam.ac.uk/mackay/itila/book.html>`_).
 We also `published a paper <http://arxiv.org/abs/1202.3665>`_ explaining
-the **emcee** algorithm and implementation in detail.
-**emcee** has been used in `quite a few projects in the astrophysical
-literature <testimonials>`_ and it is being actively developed on `GitHub
-<https://github.com/dfm/emcee>`_.
+the core **emcee** algorithm and implementation in detail.
+**emcee** and **emcee3** have been used in `quite a few projects in the
+astrophysical literature <testimonials>`_ and **emcee3** is being actively
+developed on `GitHub <https://github.com/dfm/emcee3>`_.
 
 
 Basic Usage
@@ -26,18 +26,26 @@ something like:
 
 .. code-block:: python
 
-    import emcee
+    import emcee3
     import numpy as np
 
-    class MyModel(emcee.BaseWalker):
-        def lnpriorfn(self, x):
+    # Define the probabilistic model:
+    def log_prior_function(x):
+        if np.all(-10. < x) and np.all(x < 10.):
             return 0.0
-        def lnlikefn(self, x):
-            return -0.5 * np.sum(x ** 2)
+        return -np.inf
 
+    def log_likelihood_function(x):
+        return -0.5 * np.sum(x ** 2)
+
+    model = emcee3.SimpleModel(log_likelihood_function, log_prior_function)
+
+    # Initialize:
     ndim, nwalkers = 10, 100
-    ensemble = emcee.Ensemble(MyModel(), np.random.randn(nwalkers, ndim))
-    sampler = emcee.Sampler()
+    ensemble = emcee3.Ensemble(model, np.random.randn(nwalkers, ndim))
+
+    # Sample:
+    sampler = emcee3.Sampler()
     sampler.run(ensemble, 1000)
 
 A more complete example is available in the `quickstart documentation
@@ -83,9 +91,9 @@ Contributors
 License & Attribution
 ---------------------
 
-Copyright 2010-2013 Dan Foreman-Mackey and contributors.
+Copyright 2010-2016 Dan Foreman-Mackey and contributors.
 
-emcee is free software made available under the MIT License. For details
+emcee3 is free software made available under the MIT License. For details
 see `LICENSE <license>`_.
 
 If you make use of emcee in your work, please cite our paper

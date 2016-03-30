@@ -6,7 +6,7 @@ import numpy as np
 
 from ...state import State
 
-__all__ = ["test_dtype"]
+__all__ = ["test_dtype", "test_serialization", "test_repr"]
 
 
 def test_dtype(seed=1234):
@@ -39,3 +39,15 @@ def test_serialization(seed=1234):
     assert np.allclose(array["coords"], coords)
     new_state = State.from_array(array)
     assert state == new_state
+
+
+def test_repr():
+    coords = np.zeros(1)
+    lnp = 0.0
+    lnl = -1.5
+    state = State(coords, lnp, lnl, True)
+    assert (
+        repr(state) ==
+        "State(array({0}), log_prior={1}, log_likelihood={2}, accepted=True)"
+        .format(coords, lnp, lnl)
+    )
