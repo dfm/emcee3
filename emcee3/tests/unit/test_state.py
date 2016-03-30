@@ -30,6 +30,20 @@ def test_dtype(seed=1234):
     ]
     assert state.dtype == np.dtype(dtype)
 
+    state = State(coords, face=10.0, blah=6, _hidden=None,
+                  matrix=np.ones((3, 1)))
+    dtype += [
+        ("matrix", float, (3, 1)),
+    ]
+    assert state.dtype == np.dtype(dtype)
+
+    state = State(coords, face=10.0, blah=6, _hidden=None,
+                  matrix=np.ones((3, 1)), vector=np.zeros(3))
+    dtype += [
+        ("vector", float, (3,)),
+    ]
+    assert state.dtype == np.dtype(dtype)
+
 
 def test_serialization(seed=1234):
     np.random.seed(seed)

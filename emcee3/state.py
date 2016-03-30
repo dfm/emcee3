@@ -63,15 +63,23 @@ class State(object):
 
     @property
     def dtype(self):
+        base_columns = ["coords", "log_prior", "log_likelihood", "accepted"]
+        columns = []
+        for k, v in sorted(self.__dict__.items()):
+            if k.startswith("_") or k in base_columns:
+                continue
+            v = np.atleast_1d(v)
+            if v.shape == (1,):
+                columns.append((k, v.dtype))
+            else:
+                columns.append((k, v.dtype, v.shape))
+
         return np.dtype([
             ("coords", np.float64, (len(self.coords),)),
             ("log_prior", np.float64),
             ("log_likelihood", np.float64),
             ("accepted", bool),
-        ] + [(k, np.atleast_1d(v).dtype)
-             for k, v in sorted(self.__dict__.items())
-             if not k.startswith("_") and
-             k not in ["coords", "log_prior", "log_likelihood", "accepted"]])
+        ] + columns)
 
     def to_array(self, out=None):
         """Serialize the state to a structured numpy array representation.
