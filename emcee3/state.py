@@ -63,7 +63,8 @@ class State(object):
 
     @property
     def dtype(self):
-        base_columns = ["coords", "log_prior", "log_likelihood", "accepted"]
+        base_columns = ["coords", "log_prior", "log_likelihood", "accepted",
+                        "grad_log_prior", "grad_log_likelihood"]
         columns = []
         for k, v in sorted(self.__dict__.items()):
             if k.startswith("_") or k in base_columns:
@@ -137,3 +138,10 @@ class State(object):
 
         """
         return self.log_prior + self.log_likelihood
+
+    @property
+    def grad_log_probability(self):
+        """A helper attribute that provides access to the log probability.
+
+        """
+        return self.grad_log_prior + self.grad_log_likelihood

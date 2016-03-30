@@ -3,36 +3,9 @@
 from __future__ import division, print_function
 
 import numpy as np
+from ..state import State
 
 __all__ = ["HamiltonianMove"]
-
-
-class _hmc_vector(object):
-
-    def __init__(self, cov):
-        self.cov = cov
-        self.inv_cov = 1.0 / cov
-
-    def sample(self, random, *shape):
-        return random.randn(*shape) * np.sqrt(self.inv_cov)
-
-    def apply(self, x):
-        return self.cov * x
-
-
-class _hmc_matrix(object):
-
-    def __init__(self, cov):
-        self.cov = cov
-        self.inv_cov = np.linalg.inv(self.cov)
-
-    def sample(self, random, *shape):
-        return random.multivariate_normal(np.zeros(shape[-1]),
-                                          self.inv_cov,
-                                          *(shape[:-1]))
-
-    def apply(self, x):
-        return np.dot(self.cov, x)
 
 
 class _hmc_wrapper(object):
@@ -56,10 +29,7 @@ class _hmc_wrapper(object):
         p = current_p
 
         # First take a half step in momentum.
-        try:
-            current_state.grad_log_probability
-        except AttributeError:
-            current_state = self.model.compute_grad_log_probability(q)
+        current_state = self.model.compute_grad_log_probability(current_state)
         p = p + 0.5 * self.epsilon * current_state.grad_log_probability
 
         # Alternate full steps in position and momentum.
@@ -69,20 +39,23 @@ class _hmc_wrapper(object):
 
             # Then a full step in momentum.
             if i < self.nsteps - 1:
-                state = self.model.compute_grad_log_probability(q)
+                state = self.model.compute_grad_log_probability(State(q))
                 p = p + self.epsilon * state.grad_log_probability
 
         # Finish with a half momentum step to synchronize with the position.
-        state = self.model.compute_grad_log_probability(q)
-        p = p + 0.5 * self.epsilon * state.grad_lnprob
+        state = self.model.compute_grad_log_probability(State(q))
+        p = p + 0.5 * self.epsilon * state.grad_log_probability
 
         # Negate the momentum. This step really isn't necessary but it doesn't
         # hurt to keep it here for completeness.
         p = -p
 
+        # Compute the log probability of the final state.
+        state = self.model.compute_log_probability(state)
+
         # Automatically reject zero probability states.
         state.accepted = False
-        if not np.isfinite(state.lnprob):
+        if not np.isfinite(state.log_probability):
             return state, 0.0
 
         # Compute the acceptance probability factor.
@@ -124,13 +97,11 @@ class HamiltonianMove(object):
 
     _wrapper = _hmc_wrapper
 
-    def __init__(self, nsteps, epsilon, nsplits=2, cov=1.0,
-                 affine_invariant=False):
+    def __init__(self, nsteps, epsilon, nsplits=2, cov=1.0):
         self.nsteps = nsteps
         self.epsilon = epsilon
         self.nsplits = nsplits
         self.cov = cov
-        self.affine_invariant = affine_invariant
 
     def get_args(self, ensemble):
         # Randomize the stepsize if requested.
@@ -160,41 +131,54 @@ class HamiltonianMove(object):
             The same ensemble updated in-place.
 
         """
-        # Loop over splits.
-        inds = np.arange(ensemble.nwalkers) % self.nsplits
-        ensemble.random.shuffle(inds)
-        for i in range(self.nsplits):
-            S1 = inds == i
-            S2 = inds != i
+        # Set up the integrator and sample the initial momenta.
+        integrator = self._wrapper(ensemble.random, ensemble.model,
+                                   self.cov, *(self.get_args(ensemble)))
+        momenta = integrator.cov.sample(ensemble.random, ensemble.nwalkers,
+                                        ensemble.ndim)
 
-            if self.affine_invariant:
-                # Estimate the covariance matrix from the complementary
-                # ensemble.
-                c = ensemble.coords[S2]
-                cov = np.cov(c, rowvar=0)
-            else:
-                cov = self.cov
+        # Integrate the dynamics in parallel.
+        res = ensemble.pool.map(integrator, zip(ensemble.walkers, momenta))
 
-            # Set up the integrator and sample the initial momenta.
-            integrator = self._wrapper(ensemble.random, ensemble.model, cov,
-                                       *(self.get_args(ensemble)))
-            momenta = integrator.cov.sample(ensemble.random, np.sum(S1),
-                                            ensemble.ndim)
+        # Loop over the walkers and update them accordingly.
+        states = []
+        for i, (state, factor) in enumerate(res):
+            lnpdiff = (
+                factor +
+                state.log_probability -
+                ensemble.walkers[i].log_probability
+            )
+            if lnpdiff > np.log(ensemble.random.rand()):
+                state.accepted = True
+            states.append(state)
 
-            # Integrate the dynamics in parallel.
-            res = ensemble.pool.map(integrator, zip(
-                (ensemble.walkers[i] for i in np.arange(len(S1))[S1]),
-                momenta
-            ))
-
-            # Loop over the walkers and update them accordingly.
-            states = []
-            for i, (j, (state, factor)) in enumerate(zip(
-                    np.arange(len(ensemble))[S1], res)):
-                lnpdiff = factor + state.lnprob - ensemble.walkers[j].lnprob
-                if lnpdiff > np.log(ensemble.random.rand()):
-                    state.accepted = True
-                states.append(state)
-
-            ensemble.update(states, slice=S1)
+        ensemble.update(states)
         return ensemble
+
+
+class _hmc_vector(object):
+
+    def __init__(self, cov):
+        self.cov = cov
+        self.inv_cov = 1.0 / cov
+
+    def sample(self, random, *shape):
+        return random.randn(*shape) * np.sqrt(self.inv_cov)
+
+    def apply(self, x):
+        return self.cov * x
+
+
+class _hmc_matrix(object):
+
+    def __init__(self, cov):
+        self.cov = cov
+        self.inv_cov = np.linalg.inv(self.cov)
+
+    def sample(self, random, *shape):
+        return random.multivariate_normal(np.zeros(shape[-1]),
+                                          self.inv_cov,
+                                          *(shape[:-1]))
+
+    def apply(self, x):
+        return np.dot(self.cov, x)

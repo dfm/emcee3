@@ -3,6 +3,7 @@
 from __future__ import division, print_function
 
 import numpy as np
+from ..state import State
 from .hmc import HamiltonianMove, _hmc_wrapper
 
 __all__ = ["NoUTurnsMove"]
@@ -17,10 +18,10 @@ class _nuts_wrapper(_hmc_wrapper):
         super(_nuts_wrapper, self).__init__(random, model, cov, epsilon)
 
     def leapfrog(self, state, epsilon):
-        p = state._momentum + 0.5 * epsilon * state.grad_lnprob
+        p = state._momentum + 0.5 * epsilon * state.grad_log_probability
         q = state.coords + epsilon * self.cov.apply(p)
-        state = self.model.get_state(q, compute_grad=True)
-        state._momentum = p + 0.5 * epsilon * state.grad_lnprob
+        state = self.model.compute_grad_log_probability(State(q))
+        state._momentum = p + 0.5 * epsilon * state.grad_log_probability
         return state
 
     def build_tree(self, state, u, v, j):
@@ -28,9 +29,9 @@ class _nuts_wrapper(_hmc_wrapper):
             state_pr = self.leapfrog(state, v * self.epsilon)
             K_pr = np.dot(state_pr._momentum,
                           self.cov.apply(state_pr._momentum))
-            lnprob_pr = state.lnprob - 0.5 * K_pr
-            n_pr = int(np.log(u) < lnprob_pr)
-            s_pr = np.log(u) - self.delta_max < lnprob_pr
+            log_prob_pr = state.log_probability - 0.5 * K_pr
+            n_pr = int(np.log(u) < log_prob_pr)
+            s_pr = np.log(u) - self.delta_max < log_prob_pr
             return state_pr, state_pr, state_pr, n_pr, s_pr
 
         # Recurse.
@@ -59,10 +60,7 @@ class _nuts_wrapper(_hmc_wrapper):
         state, current_p = args
 
         # Compute the initial gradient.
-        try:
-            state.grad_lnprob
-        except AttributeError:
-            state = self.model.get_state(state.coords, compute_grad=True)
+        state = self.model.compute_grad_log_probability(state)
         state._momentum = current_p
 
         # Initialize.
@@ -71,7 +69,7 @@ class _nuts_wrapper(_hmc_wrapper):
         n = 1
 
         # Slice sample u.
-        f = state.lnprob
+        f = state.log_probability
         f -= 0.5 * np.dot(current_p, self.cov.apply(current_p))
         u = self.random.uniform(0.0, np.exp(f))
         for j in range(self.max_depth):
@@ -95,7 +93,10 @@ class _nuts_wrapper(_hmc_wrapper):
                     np.dot(delta, state_plus._momentum) < 0.0):
                 break
 
-        state.nuts_steps = j
+        # Compute the probability of the final state.
+        state = self.model.compute_log_probability(state)
+
+        state._nuts_steps = j
         return state, -np.inf
 
 
@@ -115,19 +116,14 @@ class NoUTurnsMove(HamiltonianMove):
         An estimate of the parameter covariances. The inverse of ``cov`` is
         used as a mass matrix in the integration. (default: ``1.0``)
 
-    :param affine_invariant: (optional)
-        If ``True``, the parameter covariance estimate is updated at every
-        step using the complementary ensemble. (default: ``False``)
-
     """
 
     _wrapper = _nuts_wrapper
 
-    def __init__(self, epsilon, nsplits=2, cov=1.0, affine_invariant=False):
+    def __init__(self, epsilon, nsplits=2, cov=1.0):
         self.epsilon = epsilon
         self.nsplits = nsplits
         self.cov = cov
-        self.affine_invariant = affine_invariant
 
     def get_args(self, ensemble):
         try:
