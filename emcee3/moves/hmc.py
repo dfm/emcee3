@@ -65,33 +65,28 @@ class _hmc_wrapper(object):
 
 
 class HamiltonianMove(object):
-    """
-    A Hamiltonian Monte Carlo (HMC) move based on the algorithm in Figure 2
-    of Neal (2012; http://arxiv.org/abs/1206.1901). To use this method, your
-    model must support the ``compute_grad`` keyword argument in the call to
-    ``get_state``. By default, this can be computed numerically but this is
-    unlikely to be efficient so it's best if you compute the gradients
-    yourself.
+    """A Hamiltonian Monte Carlo move.
 
-    :param nsteps:
-        The number of leapfrog steps to take when integrating the dynamics.
-        If an integer is provided, the number of steps will be constant.
-        Instead, you can also provide a tuple with two integers and these will
-        be treated as lower and upper limits on the number of steps and the
-        used value will be uniformly sampled within that range.
+    This implementation is based on the algorithm in Figure 2 of Neal (2012;
+    http://arxiv.org/abs/1206.1901). By default, gradients of your model are
+    computed numerically but this is unlikely to be efficient so it's best if
+    you compute the gradients yourself using the
+    :func:`Model.compute_grad_log_prior` and
+    :func:`Model.compute_grad_log_likelihood` methods.
 
-    :param epsilon:
-        The step size used in the integration. Like ``nsteps`` a float can be
-        given for a constant step size or a range can be given and the final
-        value will be uniformly sampled.
-
-    :param cov: (optional)
-        An estimate of the parameter covariances. The inverse of ``cov`` is
-        used as a mass matrix in the integration. (default: ``1.0``)
-
-    :param affine_invariant: (optional)
-        If ``True``, the parameter covariance estimate is updated at every
-        step using the complementary ensemble. (default: ``False``)
+    Args:
+        nsteps (int or (2,)): The number of leapfrog steps to take when
+            integrating the dynamics. If an integer is provided, the number of
+            steps will be constant. Instead, you can also provide a tuple with
+            two integers and these will be treated as lower and upper limits
+            on the number of steps and the used value will be uniformly
+            sampled within that range.
+        epsilon (float or (2,)): The step size used in the integration. Like
+            ``nsteps`` a float can be given for a constant step size or a
+            range can be given and the final value will be uniformly sampled.
+        cov (Optional): An estimate of the parameter covariances. The inverse
+            of ``cov`` is used as a mass matrix in the integration. (default:
+            ``1.0``)
 
     """
 
@@ -120,17 +115,6 @@ class HamiltonianMove(object):
         return eps, L
 
     def update(self, ensemble):
-        """
-        Execute a single step starting from the given :class:`Ensemble` and
-        updating it in-place.
-
-        :param ensemble:
-            The starting :class:`Ensemble`.
-
-        :return ensemble:
-            The same ensemble updated in-place.
-
-        """
         # Set up the integrator and sample the initial momenta.
         integrator = self._wrapper(ensemble.random, ensemble.model,
                                    self.cov, *(self.get_args(ensemble)))

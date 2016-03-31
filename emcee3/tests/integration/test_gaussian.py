@@ -2,8 +2,10 @@
 
 from __future__ import division, print_function
 
+import pytest
 import numpy as np
 from ... import moves
+from itertools import product
 from .test_proposal import _test_normal, _test_uniform
 
 __all__ = ["test_normal_gaussian", "test_uniform_gaussian",
@@ -14,7 +16,10 @@ def test_normal_gaussian(**kwargs):
     _test_normal(moves.GaussianMove(0.5), **kwargs)
 
 
-def test_normal_gaussian_nd(**kwargs):
+@pytest.mark.parametrize("mode,width", product(
+    ["vector", "random", "sequential"], [None, 2.0]
+))
+def test_normal_gaussian_nd(mode, width, **kwargs):
     ndim = 3
 
     # Isotropic.

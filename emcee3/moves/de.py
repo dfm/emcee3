@@ -9,20 +9,19 @@ __all__ = ["DEMove"]
 
 
 class DEMove(RedBlueMove):
-    """
-    A `differential evolution
-    <http://www.stat.columbia.edu/~gelman/stuff_for_blog/cajo.pdf>`_ proposal
+    """A proposal using differential evolution.
+
+    This `Differential evolution proposal
+    <http://www.stat.columbia.edu/~gelman/stuff_for_blog/cajo.pdf>`_ is
     implemented following `Nelson et al. (2013)
     <http://arxiv.org/abs/1311.5229>`_.
 
-    :param sigma:
-        The standard deviation of the Gaussian used to stretch the proposal
-        vector.
-
-    :param gamma0: (optional)
-        The mean stretch factor for the proposal vector. By default, it is
-        :math:`2.38 / \sqrt{2\,\mathrm{ndim}}` as recommended by MAGIC and the
-        two references.
+    Args:
+        sigma (float): The standard deviation of the Gaussian used to stretch
+            the proposal vector.
+        gamma0 (Optional[float]): The mean stretch factor for the proposal
+            vector. By default, it is :math:`2.38 / \sqrt{2\,\mathrm{ndim}}`
+            as recommended by MAGIC and the two references.
 
     """
     def __init__(self, sigma, gamma0=None, **kwargs):
