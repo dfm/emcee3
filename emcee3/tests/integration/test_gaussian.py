@@ -24,7 +24,7 @@ def test_normal_gaussian(mode, factor, **kwargs):
 ))
 def test_normal_gaussian_nd(mode, factor, **kwargs):
     ndim = 3
-    kwargs["nsteps"] = 5000
+    kwargs["nsteps"] = 4000
 
     # Isotropic.
     _test_normal(moves.GaussianMove(0.5, factor=factor, mode=mode), ndim=ndim,
@@ -39,12 +39,18 @@ def test_normal_gaussian_nd(mode, factor, **kwargs):
                      **kwargs)
 
     # Full matrix.
-    _test_normal(moves.GaussianMove(np.diag(0.5 * np.ones(ndim)),
-                                    factor=factor, mode=mode), ndim=ndim,
-                 **kwargs)
-    with pytest.raises(ValueError):
-        _test_normal(moves.GaussianMove(np.diag(0.5 * np.ones(ndim-1))),
-                     ndim=ndim, **kwargs)
+    if mode == "vector":
+        _test_normal(moves.GaussianMove(np.diag(0.5 * np.ones(ndim)),
+                                        factor=factor, mode=mode), ndim=ndim,
+                     **kwargs)
+        with pytest.raises(ValueError):
+            _test_normal(moves.GaussianMove(np.diag(0.5 * np.ones(ndim-1))),
+                         ndim=ndim, **kwargs)
+    else:
+        with pytest.raises(ValueError):
+            _test_normal(moves.GaussianMove(np.diag(0.5 * np.ones(ndim)),
+                                            factor=factor, mode=mode),
+                         ndim=ndim, **kwargs)
 
 
 @pytest.mark.parametrize("mode,factor", product(

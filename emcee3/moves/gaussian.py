@@ -61,6 +61,8 @@ class HeavyTailMove(MHMove):
 
 class _isotropic_proposal(object):
 
+    allowed_modes = ["vector", "random", "sequential"]
+
     def __init__(self, scale, factor, mode):
         self.index = 0
         self.scale = scale
@@ -69,11 +71,10 @@ class _isotropic_proposal(object):
         else:
             self._log_factor = np.log(factor)
 
-        allowed_modes = ["vector", "random", "sequential"]
-        if mode not in allowed_modes:
+        if mode not in self.allowed_modes:
             raise ValueError(("'{0}' is not a recognized mode. "
                               "Please select from: {1}")
-                             .format(mode, allowed_modes))
+                             .format(mode, self.allowed_modes))
         self.mode = mode
 
     @property
@@ -107,6 +108,8 @@ class _diagonal_proposal(_isotropic_proposal):
 
 
 class _proposal(_isotropic_proposal):
+
+    allowed_modes = ["vector"]
 
     def get_updated_vector(self, rng, x0):
         return x0 + self.factor * rng.multivariate_normal(
