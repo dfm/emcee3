@@ -19,12 +19,6 @@ class GaussianMove(MHMove):
 
     """
     def __init__(self, cov, factor=None, mode="vector"):
-        allowed_modes = ["vector", "random", "sequential"]
-        if mode not in allowed_modes:
-            raise ValueError(("'{0}' is not a recognized mode. "
-                              "Please select from: {1}")
-                             .format(mode, allowed_modes))
-
         # Parse the proposal type.
         try:
             float(cov)
@@ -68,13 +62,19 @@ class HeavyTailMove(MHMove):
 class _isotropic_proposal(object):
 
     def __init__(self, scale, factor, mode):
+        self.index = 0
         self.scale = scale
         if factor is None:
             self._log_factor = None
         else:
             self._log_factor = np.log(factor)
+
+        allowed_modes = ["vector", "random", "sequential"]
+        if mode not in allowed_modes:
+            raise ValueError(("'{0}' is not a recognized mode. "
+                              "Please select from: {1}")
+                             .format(mode, allowed_modes))
         self.mode = mode
-        self.index = 0
 
     @property
     def factor(self):
@@ -86,16 +86,18 @@ class _isotropic_proposal(object):
         return x0 + self.factor * self.scale * rng.randn(*(x0.shape))
 
     def __call__(self, rng, x0):
-        if self.mode == "vector":
-            i = slice(None)
-        elif self.mode == "random":
-            i = rng.randint(len(x0))
+        nw, nd = x0.shape
+        xnew = self.get_updated_vector(rng, x0)
+        if self.mode == "random":
+            m = (range(nw), rng.randint(x0.shape[-1], size=nw))
+        elif self.mode == "sequential":
+            m = (range(nw), self.index % nd + np.zeros(nw, dtype=int))
+            self.index = (self.index + 1) % nd
         else:
-            i = self.index % len(x0)
-            self.index = (self.index + 1) % len(x0)
+            return xnew, np.zeros(nw)
         x = np.array(x0)
-        x[i] = self.get_updated_vector(rng, x0)[i]
-        return x, np.zeros(len(x))
+        x[m] = xnew[m]
+        return x, np.zeros(nw)
 
 
 class _diagonal_proposal(_isotropic_proposal):

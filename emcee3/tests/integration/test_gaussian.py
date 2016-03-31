@@ -17,7 +17,7 @@ def test_normal_gaussian(**kwargs):
 
 
 @pytest.mark.parametrize("mode,width", product(
-    ["vector", "random", "sequential"], [None, 2.0]
+    ["vector", "random", "sequential"], [None, 2.0, 5.0]
 ))
 def test_normal_gaussian_nd(mode, width, **kwargs):
     ndim = 3
