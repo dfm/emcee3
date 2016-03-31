@@ -20,11 +20,10 @@ def test_normal_gaussian(mode, factor, **kwargs):
 
 
 @pytest.mark.parametrize("mode,factor", product(
-    ["vector", "random", "sequential"], [None, 2.0, 3.0]
+    ["vector", "random", "sequential"], [None, 2.0]
 ))
 def test_normal_gaussian_nd(mode, factor, **kwargs):
     ndim = 3
-    kwargs["nsteps"] = 4000
 
     # Isotropic.
     _test_normal(moves.GaussianMove(0.5, factor=factor, mode=mode), ndim=ndim,
