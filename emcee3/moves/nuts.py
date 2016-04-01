@@ -2,6 +2,7 @@
 
 from __future__ import division, print_function
 
+import copy
 import numpy as np
 from ..state import State
 from .hmc import HamiltonianMove, _hmc_wrapper
@@ -20,7 +21,8 @@ class _nuts_wrapper(_hmc_wrapper):
     def leapfrog(self, state, epsilon):
         p = state._momentum + 0.5 * epsilon * state.grad_log_probability
         q = state.coords + epsilon * self.cov.apply(p)
-        state = self.model.compute_grad_log_probability(State(q))
+        state = self.model.compute_log_probability(State(q))
+        state = self.model.compute_grad_log_probability(state)
         state._momentum = p + 0.5 * epsilon * state.grad_log_probability
         return state
 
@@ -29,7 +31,7 @@ class _nuts_wrapper(_hmc_wrapper):
             state_pr = self.leapfrog(state, v * self.epsilon)
             K_pr = np.dot(state_pr._momentum,
                           self.cov.apply(state_pr._momentum))
-            log_prob_pr = state.log_probability - 0.5 * K_pr
+            log_prob_pr = state_pr.log_probability - 0.5 * K_pr
             n_pr = int(np.log(u) < log_prob_pr)
             s_pr = np.log(u) - self.delta_max < log_prob_pr
             return state_pr, state_pr, state_pr, n_pr, s_pr
@@ -46,26 +48,31 @@ class _nuts_wrapper(_hmc_wrapper):
                     self.build_tree(state_p, u, v, j - 1)
 
             # Accept.
-            if n_pr_2 > 0.0 and self.random.rand() < n_pr_2 / (n_pr + n_pr_2):
+            sm = n_pr + n_pr_2
+            if sm > 0 and self.random.rand() < n_pr_2 / sm:
                 state_pr = state_pr_2
             n_pr += n_pr_2
 
-            delta = state_p.coords - state_m.coords
-            s_pr = s_pr_2 * ((np.dot(delta, state_m._momentum) >= 0.0) &
-                             (np.dot(delta, state_p._momentum) >= 0.0))
+            s_pr = s_pr & s_pr_2 & self.stop_criterion(state_m, state_p)
 
         return state_m, state_p, state_pr, n_pr, s_pr
+
+    def stop_criterion(self, state_m, state_p):
+        delta = state_p.coords - state_m.coords
+        return ((np.dot(delta, state_m._momentum) >= 0.0) &
+                (np.dot(delta, state_p._momentum) >= 0.0))
 
     def __call__(self, args):
         state, current_p = args
 
         # Compute the initial gradient.
+        state = self.model.compute_log_probability(state)
         state = self.model.compute_grad_log_probability(state)
         state._momentum = current_p
 
         # Initialize.
-        state_plus = state
-        state_minus = state
+        state_plus = copy.deepcopy(state)
+        state_minus = copy.deepcopy(state)
         n = 1
 
         # Slice sample u.
@@ -73,48 +80,42 @@ class _nuts_wrapper(_hmc_wrapper):
         f -= 0.5 * np.dot(current_p, self.cov.apply(current_p))
         u = self.random.uniform(0.0, np.exp(f))
         for j in range(self.max_depth):
-            v = 1.0 - 2.0 * (self.random.rand() < 0.5)
+            v = 2.0 * (self.random.rand() < 0.5) - 1.0
             if v < 0.0:
                 state_minus, _, state_pr, n_pr, s = \
                     self.build_tree(state_minus, u, v, j)
             else:
                 _, state_plus, state_pr, n_pr, s = \
-                    self.build_tree(state_minus, u, v, j)
+                    self.build_tree(state_plus, u, v, j)
 
             # Accept or reject.
             if s and self.random.rand() < float(n_pr) / n:
-                state_pr.accepted = True
                 state = state_pr
             n += n_pr
 
             # Break out after a U-Turn.
-            delta = state_plus.coords - state_minus.coords
-            if (s == 0 or np.dot(delta, state_minus._momentum) < 0.0 or
-                    np.dot(delta, state_plus._momentum) < 0.0):
+            if s and self.stop_criterion(state_minus, state_plus):
                 break
 
-        # Compute the probability of the final state.
-        state = self.model.compute_log_probability(state)
-
-        state._nuts_steps = j
-        return state, -np.inf
+        state._nuts_steps = j + 1
+        state.accepted = True
+        return state, np.inf
 
 
 class NoUTurnsMove(HamiltonianMove):
-    """
-    A version of :class:`HamiltonianStep` that automatically tunes the number
-    of leapfrog steps to avoid unnecessarily long integrations. It does this by
-    watching for and avoiding U-turns following `Hoffman & Gelman
-    <http://arxiv.org/abs/1111.4246>`_.
+    """A HMC move that automatically tunes the number of integration steps.
 
-    :param epsilon:
-        The step size used in the integration. A float can be given for a
-        constant step size or a range can be given and the value will be
-        uniformly sampled.
+    This implementations follows `Hoffman & Gelman
+    <http://arxiv.org/abs/1111.4246>`_ to tune the number of integration steps
+    by watching for "U-turns".
 
-    :param cov: (optional)
-        An estimate of the parameter covariances. The inverse of ``cov`` is
-        used as a mass matrix in the integration. (default: ``1.0``)
+    Args:
+        epsilon (float or (2,)): The step size used in the integration. A
+            float can be given for a constant step size or a range can be
+            given and the final value will be uniformly sampled.
+        cov (Optional): An estimate of the parameter covariances. The inverse
+            of ``cov`` is used as a mass matrix in the integration. (default:
+            ``1.0``)
 
     """
 

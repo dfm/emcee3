@@ -8,9 +8,8 @@ from .test_proposal import _test_normal
 
 __all__ = ["test_normal_nuts", ]
 
-pytestmark = pytest.mark.skipif()
 
-
+@pytest.mark.xfail
 def test_normal_nuts(**kwargs):
-    _test_normal(moves.NoUTurnsMove((0.05, 0.1)), nsteps=200,
+    _test_normal(moves.NoUTurnsMove((1.0, 2.0)), nwalkers=1, nsteps=2000,
                  check_acceptance=False)

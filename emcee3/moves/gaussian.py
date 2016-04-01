@@ -6,7 +6,7 @@ import numpy as np
 
 from .mh import MHMove
 
-__all__ = ["GaussianMove", "HeavyTailMove"]
+__all__ = ["GaussianMove"]
 
 
 class GaussianMove(MHMove):
@@ -16,9 +16,23 @@ class GaussianMove(MHMove):
         cov: The covariance of the proposal function. This can be a scalar,
             vector, or matrix and the proposal will be assumed isotropic,
             axis-aligned, or general respectively.
+        mode (Optional): Select the method used for updating parameters. This
+            can be one of ``"vector"``, ``"random"``, or ``"sequential"``. The
+            ``"vector"`` mode updates all dimensions simultaneously,
+            ``"random"`` randomly selects a dimension and only updates that
+            one, and ``"sequential"`` loops over dimensions and updates each
+            one in turn.
+        factor (Optional[float]): If provided the proposal will be made with a
+            standard deviation uniformly selected from the range
+            ``exp(U(-log(factor), log(factor))) * cov``. This is invalid for
+            the ``"vector"`` mode.
+
+    Raises:
+        ValueError: If the proposal dimensions are invalid or if any of any of
+            the other arguments are inconsistent.
 
     """
-    def __init__(self, cov, factor=None, mode="vector"):
+    def __init__(self, cov, mode="vector", factor=None):
         # Parse the proposal type.
         try:
             float(cov)
@@ -46,19 +60,6 @@ class GaussianMove(MHMove):
         super(GaussianMove, self).__init__(proposal, ndim=ndim)
 
 
-class HeavyTailMove(MHMove):
-    """A Metropolis step with a Gaussian proposal function.
-
-    Args:
-        cov: The covariance of the proposal function. This can be a scalar,
-            vector, or matrix and the proposal will be assumed isotropic,
-            axis-aligned, or general respectively.
-
-    """
-    def __init__(self, cov):
-        pass
-
-
 class _isotropic_proposal(object):
 
     allowed_modes = ["vector", "random", "sequential"]
@@ -69,6 +70,8 @@ class _isotropic_proposal(object):
         if factor is None:
             self._log_factor = None
         else:
+            if factor < 1.0:
+                raise ValueError("'factor' must be >= 1.0")
             self._log_factor = np.log(factor)
 
         if mode not in self.allowed_modes:
