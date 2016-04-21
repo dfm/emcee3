@@ -24,7 +24,7 @@ def test_normal_gaussian(mode, factor, **kwargs):
 ))
 def test_normal_gaussian_nd(mode, factor, **kwargs):
     ndim = 3
-    kwargs["nsteps"] = 5000
+    kwargs["nsteps"] = 6000
 
     # Isotropic.
     _test_normal(moves.GaussianMove(0.5, factor=factor, mode=mode), ndim=ndim,
