@@ -81,7 +81,7 @@ def integrated_time(x, low=10, high=None, step=1, c=10, full_output=False,
 
     """
     size = 0.5 * x.shape[axis]
-    if int(c * low) >= size:
+    if c * low >= size:
         raise AutocorrError("The chain is too short")
 
     # Compute the autocorrelation function.
@@ -93,7 +93,7 @@ def integrated_time(x, low=10, high=None, step=1, c=10, full_output=False,
 
     # Loop over proposed window sizes until convergence is reached.
     if high is None:
-        high = int(size / c)
+        high = int(0.5 * size)
     for M in np.arange(low, high, step).astype(int):
         # Compute the autocorrelation time with the given window.
         if oned:
@@ -116,7 +116,8 @@ def integrated_time(x, low=10, high=None, step=1, c=10, full_output=False,
             break
 
     raise AutocorrError("The chain is too short to reliably estimate "
-                        "the autocorrelation time")
+                        "the autocorrelation time. Current estimate: \n{0}"
+                        .format(tau))
 
 
 class AutocorrError(Exception):
