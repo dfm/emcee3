@@ -2,6 +2,7 @@
 
 from __future__ import division, print_function
 
+import logging
 import numpy as np
 
 __all__ = ["function", "integrated_time", "AutocorrError"]
@@ -44,7 +45,7 @@ def function(x, axis=0, fast=False):
 
 
 def integrated_time(x, low=10, high=None, step=1, c=10, full_output=False,
-                    axis=0, fast=False):
+                    axis=0, fast=False, quiet=False):
     """Estimate the integrated autocorrelation time of a time series.
 
     This estimate uses the iterative procedure described on page 16 of `Sokal's
@@ -68,6 +69,11 @@ def integrated_time(x, low=10, high=None, step=1, c=10, full_output=False,
             axis if not specified.
         fast (Optional[bool]): If ``True``, only use the first ``2^n`` (for
             the largest power) entries for efficiency. (default: False)
+        quiet (Optional[bool]): If ``True``, silence the ``AutocorrError``
+            that should occur if the chain is too short for a reliable
+            estimate. You should use this option with caution because, if you
+            find yourself needing to use this, your chains probably haven't
+            converged. (default: False)
 
     Returns:
         float or array: An estimate of the integrated autocorrelation time of
@@ -115,9 +121,15 @@ def integrated_time(x, low=10, high=None, step=1, c=10, full_output=False,
         if c * tau.max() >= size:
             break
 
-    raise AutocorrError("The chain is too short to reliably estimate "
-                        "the autocorrelation time. Current estimate: \n{0}"
-                        .format(tau))
+    msg = ("The chain is too short to reliably estimate "
+           "the autocorrelation time. Current estimate: \n{0}"
+           .format(tau))
+    if quiet:
+        logging.warn(msg)
+        if full_output:
+            return tau, M
+        return tau
+    raise AutocorrError(msg)
 
 
 class AutocorrError(Exception):

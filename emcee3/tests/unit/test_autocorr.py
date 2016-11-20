@@ -38,3 +38,4 @@ def test_too_short(seed=1234, ndim=3, N=500):
         integrated_time(x)
     with pytest.raises(AutocorrError):
         integrated_time(x, low=100)
+    tau = integrated_time(x, quiet=True)
