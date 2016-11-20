@@ -19,3 +19,7 @@ def test_uniform_stretch(**kwargs):
 
 def test_nsplits_stretch(**kwargs):
     _test_normal(moves.StretchMove(nsplits=5), **kwargs)
+
+
+def test_randomize_stretch(**kwargs):
+    _test_normal(moves.StretchMove(randomize_split=True), **kwargs)

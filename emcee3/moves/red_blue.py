@@ -12,19 +12,33 @@ class RedBlueMove(object):
     An abstract red-blue ensemble move with parallelization as described in
     `Foreman-Mackey et al. (2013) <http://arxiv.org/abs/1202.3665>`_.
 
-    :param live_dangerously: (optional)
-        By default, an update will fail with a ``RuntimeError`` if the number
-        of walkers is smaller than twice the dimension of the problem because
-        the walkers would then be stuck on a low dimensional subspace. This
-        can be avoided by switching between the stretch move and, for example,
-        a Metropolis-Hastings step. If you want to do this and suppress the
-        error, set ``live_dangerously = True``. Thanks goes (once again) to
-        @dstndstn for this wonderful terminology.
+    Args:
+        nsplits (Optional[int]): The number of sub-ensembles to use. Each
+            sub-ensemble is updated in parallel using the other sets as the
+            complementary ensemble. The default value is ``2`` and you
+            probably won't need to change that.
+
+        randomize_split (Optional[bool]): Randomly shuffle walkers between
+            sub-ensembles. The same number of walkers will be assigned to
+            each sub-ensemble on each iteration. By default, this is ``False``.
+
+        live_dangerously (Optional[bool]): By default, an update will fail with
+            a ``RuntimeError`` if the number of walkers is smaller than twice
+            the dimension of the problem because the walkers would then be
+            stuck on a low dimensional subspace. This can be avoided by
+            switching between the stretch move and, for example, a
+            Metropolis-Hastings step. If you want to do this and suppress the
+            error, set ``live_dangerously = True``. Thanks goes (once again)
+            to @dstndstn for this wonderful terminology.
 
     """
-    def __init__(self, live_dangerously=False, nsplits=2):
-        self.nsplits = nsplits
+    def __init__(self,
+                 nsplits=2,
+                 randomize_split=False,
+                 live_dangerously=False):
+        self.nsplits = int(nsplits)
         self.live_dangerously = live_dangerously
+        self.randomize_split = randomize_split
 
     def setup(self, ensemble):
         pass
@@ -60,6 +74,8 @@ class RedBlueMove(object):
 
         # Split the ensemble in half and iterate over these two halves.
         inds = np.arange(nwalkers) % self.nsplits
+        if self.randomize_split:
+            ensemble.random.shuffle(inds)
         for i in range(self.nsplits):
             S1 = inds == i
             S2 = inds != i
