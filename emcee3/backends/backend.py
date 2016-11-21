@@ -38,6 +38,7 @@ class Backend(object):
         self.dtype = None
         del self._data
         self._data = None
+        self._random_state = None
 
     def check_dimensions(self, ensemble):
         """Check that an ensemble is consistent with the current chain.
@@ -91,6 +92,7 @@ class Backend(object):
         for j, walker in enumerate(ensemble):
             self._data[i, j] = walker.to_array()
         self._acceptance += ensemble.acceptance
+        self._random_state = ensemble.random.get_state()
         self.niter += 1
 
     def __getitem__(self, name_and_index_or_slice):
@@ -207,3 +209,7 @@ class Backend(object):
     @property
     def log_probability(self):
         return self.get_log_probability()
+
+    @property
+    def random_state(self):
+        return self._random_state

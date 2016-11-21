@@ -61,8 +61,16 @@ def test_hdf_reload():
     with TempHDFBackend() as backend1:
         run_sampler(backend1)
 
+        # Test the state
+        state = backend1.random_state
+        np.random.set_state(state)
+
         # Load the file using a new backend object.
         backend2 = backends.HDFBackend(backend1.filename, backend1.name)
+
+        assert state[0] == backend2.random_state[0]
+        assert all(np.allclose(a, b)
+                   for a, b in zip(state[1:], backend2.random_state[1:]))
 
         # Check all of the components.
         for k in ["coords", "log_prior", "log_likelihood", "log_probability",

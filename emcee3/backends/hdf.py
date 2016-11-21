@@ -2,6 +2,7 @@
 
 from __future__ import division, print_function
 
+import pickle
 import numpy as np
 
 try:
@@ -75,6 +76,9 @@ class HDFBackend(Backend):
             for j, walker in enumerate(ensemble.walkers):
                 g["chain"][niter, j] = walker.to_array()
             g["acceptance"][:] += ensemble.acceptance
+            state = ensemble.random.get_state()
+            for i, v in enumerate(state):
+                g.attrs["random_state_{0}".format(i)] = v
             g.attrs["niter"] = niter + 1
 
     def __getitem__(self, name_and_index_or_slice):
@@ -106,3 +110,13 @@ class HDFBackend(Backend):
     def acceptance(self):
         with self.open() as f:
             return f[self.name]["acceptance"][...]
+
+    @property
+    def random_state(self):
+        with self.open() as f:
+            elements = [
+                v
+                for k, v in sorted(f[self.name].attrs.items())
+                if k.startswith("random_state_")
+            ]
+        return elements if len(elements) else None

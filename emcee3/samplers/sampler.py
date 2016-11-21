@@ -55,9 +55,6 @@ class Sampler(object):
         else:
             self.backend = backend
 
-        # Set the chain to the original untouched state.
-        self.reset()
-
     def reset(self):
         """Clear the chain and reset it to its default state."""
         self.backend.reset()

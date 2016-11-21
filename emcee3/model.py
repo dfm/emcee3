@@ -6,7 +6,14 @@ import numpy as np
 from .state import State
 from .numgrad import numerical_gradient_1, numerical_gradient_2
 
-__all__ = ["Model", "SimpleModel"]
+__all__ = ["is_model", "Model", "SimpleModel"]
+
+
+def is_model(model):
+    return (
+        hasattr(model, "compute_log_probability") and
+        callable(model.compute_log_probability)
+    )
 
 
 class Model(object):
