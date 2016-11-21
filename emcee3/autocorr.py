@@ -71,9 +71,7 @@ def integrated_time(x, low=10, high=None, step=1, c=10, full_output=False,
             the largest power) entries for efficiency. (default: False)
         quiet (Optional[bool]): If ``True``, silence the ``AutocorrError``
             that should occur if the chain is too short for a reliable
-            estimate. You should use this option with caution because, if you
-            find yourself needing to use this, your chains probably haven't
-            converged. (default: False)
+            estimate and return ``None`` instead. (default: False)
 
     Returns:
         float or array: An estimate of the integrated autocorrelation time of
@@ -100,6 +98,7 @@ def integrated_time(x, low=10, high=None, step=1, c=10, full_output=False,
     # Loop over proposed window sizes until convergence is reached.
     if high is None:
         high = int(0.5 * size)
+    tau = None
     for M in np.arange(low, high, step).astype(int):
         # Compute the autocorrelation time with the given window.
         if oned:
@@ -121,14 +120,13 @@ def integrated_time(x, low=10, high=None, step=1, c=10, full_output=False,
         if c * tau.max() >= size:
             break
 
-    msg = ("The chain is too short to reliably estimate "
-           "the autocorrelation time. Current estimate: \n{0}"
-           .format(tau))
+    msg = ("The chain is too short to reliably estimate the autocorrelation "
+           "time.")
+    if tau is not None:
+        msg += " Current estimate: \n{0}".format(tau)
     if quiet:
         logging.warn(msg)
-        if full_output:
-            return tau, M
-        return tau
+        return None
     raise AutocorrError(msg)
 
 

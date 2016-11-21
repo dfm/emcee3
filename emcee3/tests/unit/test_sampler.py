@@ -2,6 +2,7 @@
 
 from __future__ import division, print_function
 
+import pytest
 import numpy as np
 from ... import moves, backends, Sampler, Ensemble
 from ..common import NormalWalker, TempHDFBackend
@@ -42,7 +43,7 @@ def test_shapes():
                                           (moves.DEMove(0.5), 0.3)])
 
 
-def run_shapes(backend, moves=None, nwalkers=32, ndim=3, nsteps=5,
+def run_shapes(backend, moves=None, nwalkers=32, ndim=3, nsteps=100,
                seed=1234):
     # Set up the random number generator.
     rnd = np.random.RandomState()
@@ -56,6 +57,9 @@ def run_shapes(backend, moves=None, nwalkers=32, ndim=3, nsteps=5,
     # Run the sampler.
     ensembles = list(sampler.sample(ensemble, nsteps))
     assert len(ensembles) == nsteps, "wrong number of steps"
+
+    tau = sampler.get_integrated_autocorr_time(c=1, quiet=True)
+    assert tau.shape == (ndim,)
 
     for obj in [sampler, sampler.backend]:
         # Check the shapes.
@@ -110,27 +114,15 @@ def test_errors(nwalkers=32, ndim=3, nsteps=5, seed=1234):
 
     # Test for not running.
     sampler = Sampler()
-    try:
-        print(sampler.coords)
-    except AttributeError:
-        pass
-    else:
-        assert 0, "should raise AttributeError"
-    try:
-        print(sampler.log_probability)
-    except AttributeError:
-        pass
-    else:
-        assert 0, "should raise AttributeError"
+    with pytest.raises(AttributeError):
+        sampler.coords
+    with pytest.raises(AttributeError):
+        sampler.log_probability
 
     # What about not storing the chain.
     list(sampler.sample(ensemble, nsteps, store=False))
-    try:
+    with pytest.raises(AttributeError):
         sampler.coords
-    except AttributeError:
-        pass
-    else:
-        assert 0, "should raise AttributeError"
 
     # Now what about if we try to continue using the sampler with an ensemble
     # of a different shape.
@@ -138,23 +130,15 @@ def test_errors(nwalkers=32, ndim=3, nsteps=5, seed=1234):
 
     coords2 = rnd.randn(nwalkers, ndim+1)
     ensemble2 = Ensemble(NormalWalker(1.), coords2, random=rnd)
-    try:
+    with pytest.raises(ValueError):
         list(sampler.sample(ensemble2, nsteps))
-    except ValueError:
-        pass
-    else:
-        assert 0, "should raise ValueError"
 
     # Iterating without an end state shouldn't save the chain.
     for i, e in enumerate(sampler.sample(ensemble)):
         if i >= nsteps:
             break
-    try:
+    with pytest.raises(AttributeError):
         sampler.coords
-    except AttributeError:
-        pass
-    else:
-        assert 0, "should raise AttributeError"
 
 
 def run_sampler(nwalkers=32, ndim=3, nsteps=25, seed=1234, thin=1):

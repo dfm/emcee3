@@ -3,6 +3,8 @@
 from __future__ import division, print_function
 import numpy as np
 
+from ..autocorr import integrated_time
+
 __all__ = ["Backend"]
 
 
@@ -177,6 +179,18 @@ class Backend(object):
             self.get_value("log_prior", **kwargs) +
             self.get_value("log_likelihood", **kwargs)
         )
+
+    def get_integrated_autocorr_time(self, **kwargs):
+        """Get the integrated autocorrelation time for each dimension.
+
+        Any arguments are passed directly to :func:`autocorr.integrated_time`.
+
+        Returns:
+            array[ndim]: The estimated autocorrelation time in each dimension.
+
+        """
+        return integrated_time(np.mean(self.get_value("coords"), axis=1),
+                               **kwargs)
 
     def get_value(self, name, flat=False, thin=1, discard=0):
         v = self[name, discard::thin]

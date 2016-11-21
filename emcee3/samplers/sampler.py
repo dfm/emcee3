@@ -172,6 +172,11 @@ class Sampler(object):
         return self.backend.get_log_probability(**kwargs)
     get_log_probability.__doc__ = Backend.get_log_probability.__doc__
 
+    def get_integrated_autocorr_time(self, **kwargs):
+        return self.backend.get_integrated_autocorr_time(**kwargs)
+    get_integrated_autocorr_time.__doc__ = \
+        Backend.get_integrated_autocorr_time.__doc__
+
     @property
     def acceptance(self):
         return self.backend.acceptance
