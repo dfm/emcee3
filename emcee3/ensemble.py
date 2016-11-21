@@ -39,7 +39,11 @@ class Ensemble(object):
                                  "callable")
             self.model = SimpleModel(model)
         self.pool = DefaultPool() if pool is None else pool
-        self.random = np.random.RandomState() if random is None else random
+        if random is None:
+            self.random = np.random.RandomState()
+            self.random.set_state(np.random.get_state())
+        else:
+            self.random = random
 
         # Interpret the dimensions of the ensemble.
         self._coords = np.atleast_1d(coords).astype(np.float64)
