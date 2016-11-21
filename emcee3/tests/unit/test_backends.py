@@ -6,7 +6,7 @@ import numpy as np
 from ... import backends, Sampler, Ensemble
 from ..common import NormalWalker, TempHDFBackend, MetadataWalker
 
-__all__ = ["test_hdf", "test_hdf_reload"]
+__all__ = ["test_metadata", "test_hdf", "test_hdf_reload"]
 
 
 def run_sampler(backend, model=NormalWalker(1.0), nwalkers=32, ndim=3,

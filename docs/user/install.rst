@@ -3,16 +3,16 @@
 Installation
 ============
 
-Since **emcee** is a pure Python module, it should be pretty easy to install.
-All you'll need `numpy <http://numpy.scipy.org/>`_.
+Since **emcee3** is a pure Python module, it should be pretty easy to install.
+The only hard dependency is `numpy <http://numpy.scipy.org/>`_.
 
-To install this development version of **emcee**, clone the GitHub repository
-and checkout the ``emcee3`` branch:
+To install this development version of **emcee3**, clone the GitHub repository
+and run:
 
 .. code-block:: bash
 
-    git clone https://github.com/dfm/emcee.git
-    cd emcee
+    git clone https://github.com/dfm/emcee3.git
+    cd emcee3
     git fetch
     git checkout emcee3
 
@@ -26,9 +26,9 @@ To test the code, install `py.test <http://pytest.org/>`_ and run:
 
 .. code-block:: bash
 
-    py.test -v emcee/testing
+    py.test -v emcee3/testing
 
-in the root emcee directory. This might take a few minutes but you shouldn't
+in the root emcee3 directory. This might take a few minutes but you shouldn't
 get any errors if all went as planned.
 The tests are divided into "unit" tests that run quickly and "integration"
 tests that are much slower but test the overall performance of the package.
@@ -36,7 +36,7 @@ You can choose to only run the unit tests by executing:
 
 .. code-block:: bash
 
-    py.test -v emcee/testing/unit
+    py.test -v emcee3/testing/unit
 
 
 .. Using pip
