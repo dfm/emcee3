@@ -2,7 +2,6 @@
 
 from __future__ import division, print_function
 
-import pickle
 import numpy as np
 
 try:
@@ -95,6 +94,20 @@ class HDFBackend(Backend):
                 return g["chain"][name][:i][index_or_slice]
         except IOError:
             raise KeyError(name)
+
+    @property
+    def current_coords(self):
+        try:
+            with self.open() as f:
+                g = f[self.name]
+                i = g.attrs["niter"]
+                if i <= 0:
+                    raise IOError()
+                return g["chain"]["coords"][i - 1]
+        except IOError:
+            raise AttributeError("You need to run the chain first or store "
+                                 "the chain using the 'store' keyword "
+                                 "argument to Sampler.sample")
 
     @property
     def niter(self):

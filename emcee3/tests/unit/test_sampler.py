@@ -86,6 +86,10 @@ def run_shapes(backend, moves=None, nwalkers=32, ndim=3, nsteps=100,
         assert obj.get_log_probability(flat=True).shape == \
             (nsteps*nwalkers,), "incorrect probability dimensions"
 
+    assert np.allclose(sampler.current_coords, sampler.coords[-1])
+    assert np.allclose(sampler.backend.current_coords,
+                       sampler.backend.coords[-1])
+
     # This should work (even though it's dumb).
     sampler.reset()
     for i, e in enumerate(sampler.sample(ensemble, store=True)):
@@ -159,3 +163,15 @@ def test_thin():
         a = getattr(sampler1, k)[thinby-1::thinby]
         b = getattr(sampler2, k)
         assert np.allclose(a, b), "inconsistent {0}".format(k)
+
+
+def test_restart(nwalkers=32, ndim=3, nsteps=25, seed=1234):
+    rnd = np.random.RandomState()
+    rnd.seed(seed)
+    coords = rnd.randn(nwalkers, ndim)
+    ensemble = Ensemble(NormalWalker(1.0), coords, random=rnd)
+    sampler = Sampler()
+    sampler.run(ensemble, nsteps)
+
+    ensemble = Ensemble(NormalWalker(1.0), sampler.current_coords)
+    sampler.run(ensemble, nsteps)

@@ -186,6 +186,10 @@ class Sampler(object):
         return self.backend.acceptance_fraction
 
     @property
+    def current_coords(self):
+        return self.backend.current_coords
+
+    @property
     def coords(self):
         return self.backend.coords
 

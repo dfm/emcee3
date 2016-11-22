@@ -209,6 +209,14 @@ class Backend(object):
         return self.acceptance / float(self.niter)
 
     @property
+    def current_coords(self):
+        if self.niter <= 0:
+            raise AttributeError("You need to run the chain first or store "
+                                 "the chain using the 'store' keyword "
+                                 "argument to Sampler.sample")
+        return self._data["coords"][self.niter-1]
+
+    @property
     def coords(self):
         return self.get_coords()
 
