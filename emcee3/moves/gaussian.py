@@ -80,14 +80,13 @@ class _isotropic_proposal(object):
                              .format(mode, self.allowed_modes))
         self.mode = mode
 
-    @property
-    def factor(self):
+    def get_factor(self, rng):
         if self._log_factor is None:
             return 1.0
-        return np.exp(np.random.uniform(-self._log_factor, self._log_factor))
+        return np.exp(rng.uniform(-self._log_factor, self._log_factor))
 
     def get_updated_vector(self, rng, x0):
-        return x0 + self.factor * self.scale * rng.randn(*(x0.shape))
+        return x0 + self.get_factor(rng) * self.scale * rng.randn(*(x0.shape))
 
     def __call__(self, rng, x0):
         nw, nd = x0.shape
@@ -107,7 +106,7 @@ class _isotropic_proposal(object):
 class _diagonal_proposal(_isotropic_proposal):
 
     def get_updated_vector(self, rng, x0):
-        return x0 + self.factor * self.scale * rng.randn(*(x0.shape))
+        return x0 + self.get_factor(rng) * self.scale * rng.randn(*(x0.shape))
 
 
 class _proposal(_isotropic_proposal):
@@ -115,5 +114,5 @@ class _proposal(_isotropic_proposal):
     allowed_modes = ["vector"]
 
     def get_updated_vector(self, rng, x0):
-        return x0 + self.factor * rng.multivariate_normal(
+        return x0 + self.get_factor(rng) * rng.multivariate_normal(
             np.zeros(len(self.scale)), self.scale)
