@@ -1,0 +1,65 @@
+emcee3 package
+==============
+
+Subpackages
+-----------
+
+.. toctree::
+
+    emcee3.backends
+    emcee3.moves
+    emcee3.pools
+    emcee3.samplers
+    emcee3.tests
+
+Submodules
+----------
+
+emcee3.autocorr module
+----------------------
+
+.. automodule:: emcee3.autocorr
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+emcee3.ensemble module
+----------------------
+
+.. automodule:: emcee3.ensemble
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+emcee3.model module
+-------------------
+
+.. automodule:: emcee3.model
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+emcee3.numgrad module
+---------------------
+
+.. automodule:: emcee3.numgrad
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+emcee3.state module
+-------------------
+
+.. automodule:: emcee3.state
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: emcee3
+    :members:
+    :undoc-members:
+    :show-inheritance:

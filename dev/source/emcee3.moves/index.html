@@ -1,0 +1,852 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>emcee3.moves package &mdash; emcee3 3.0.0.dev0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.png"/>
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+  
+        <link rel="index" title="Index"
+              href="../../genindex/"/>
+        <link rel="search" title="Search" href="../../search/"/>
+    <link rel="top" title="emcee3 3.0.0.dev0 documentation" href="../../"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="../../" class="fa fa-home"> emcee3</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../user/install/">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user/modeling/">Modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user/porting/">Porting your code to emcee3 from earlier versions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../user/porting/#why-switch">Why switch?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../user/porting/#a-complete-example">A complete example</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/line/">Tutorial: Fitting a Model to Data</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/line/#generating-fake-data-from-the-model">Generating fake data from the model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/line/#maximum-likelihood-solution">Maximum-likelihood solution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/line/#building-the-probabilistic-model">Building the probabilistic model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/line/#sampling-from-the-posterior-probability">Sampling from the posterior probability</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/mixture-models/">Tutorial: Practical mixture models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/mixture-models/#the-basic-model">The basic model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/mixture-models/#the-marginalized-likelihood">The marginalized likelihood</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/mixture-models/#mixture-membership-probabilities">Mixture membership probabilities</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/#model-building">Model Building</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../">emcee3</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../">Docs</a> &raquo;</li>
+      
+    <li>emcee3.moves package</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="https://github.com/dfm/emcee/blob/emcee3/docs/source/emcee3.moves.rst" class="fa fa-github"> Edit on GitHub</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+
+            <div class="admonition warning">
+              <p class="first admonition-title">Version Warning</p>
+              <p class="last">
+                This documentation is for the development version of
+                <strong>emcee</strong> ("emcee3") and it isn't
+                backwards-compatible with earlier stable versions.
+                If you're using an earlier version, get that documentation
+                <a href="http://dfm.io/emcee">here</a>.
+              </p>
+            </div>
+
+            
+  <div class="section" id="emcee3-moves-package">
+<h1>emcee3.moves package<a class="headerlink" href="#emcee3-moves-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-emcee3.moves.de">
+<span id="emcee3-moves-de-module"></span><h2>emcee3.moves.de module<a class="headerlink" href="#module-emcee3.moves.de" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="emcee3.moves.de.DEMove">
+<em class="property">class </em><code class="descclassname">emcee3.moves.de.</code><code class="descname">DEMove</code><span class="sig-paren">(</span><em>sigma</em>, <em>gamma0=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.moves.de.DEMove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#emcee3.moves.red_blue.RedBlueMove" title="emcee3.moves.red_blue.RedBlueMove"><code class="xref py py-class docutils literal"><span class="pre">emcee3.moves.red_blue.RedBlueMove</span></code></a></p>
+<p>A proposal using differential evolution.</p>
+<p>This <a class="reference external" href="http://www.stat.columbia.edu/~gelman/stuff_for_blog/cajo.pdf">Differential evolution proposal</a> is
+implemented following <a class="reference external" href="http://arxiv.org/abs/1311.5229">Nelson et al. (2013)</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>sigma</strong> (<em>float</em>) &#8211; The standard deviation of the Gaussian used to stretch
+the proposal vector.</li>
+<li><strong>gamma0</strong> (<em>Optional[float]</em>) &#8211; The mean stretch factor for the proposal
+vector. By default, it is <span class="math">\(2.38 / \sqrt{2\,\mathrm{ndim}}\)</span>
+as recommended by MAGIC and the two references.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="emcee3.moves.de.DEMove.get_proposal">
+<code class="descname">get_proposal</code><span class="sig-paren">(</span><em>ens</em>, <em>s</em>, <em>c</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.moves.de.DEMove.get_proposal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="emcee3.moves.de.DEMove.setup">
+<code class="descname">setup</code><span class="sig-paren">(</span><em>ensemble</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.moves.de.DEMove.setup" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-emcee3.moves.gaussian">
+<span id="emcee3-moves-gaussian-module"></span><h2>emcee3.moves.gaussian module<a class="headerlink" href="#module-emcee3.moves.gaussian" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="emcee3.moves.gaussian.GaussianMove">
+<em class="property">class </em><code class="descclassname">emcee3.moves.gaussian.</code><code class="descname">GaussianMove</code><span class="sig-paren">(</span><em>cov</em>, <em>mode='vector'</em>, <em>factor=None</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.moves.gaussian.GaussianMove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#emcee3.moves.mh.MHMove" title="emcee3.moves.mh.MHMove"><code class="xref py py-class docutils literal"><span class="pre">emcee3.moves.mh.MHMove</span></code></a></p>
+<p>A Metropolis step with a Gaussian proposal function.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>cov</strong> &#8211; The covariance of the proposal function. This can be a scalar,
+vector, or matrix and the proposal will be assumed isotropic,
+axis-aligned, or general respectively.</li>
+<li><strong>mode</strong> (<em>Optional</em>) &#8211; Select the method used for updating parameters. This
+can be one of <code class="docutils literal"><span class="pre">&quot;vector&quot;</span></code>, <code class="docutils literal"><span class="pre">&quot;random&quot;</span></code>, or <code class="docutils literal"><span class="pre">&quot;sequential&quot;</span></code>. The
+<code class="docutils literal"><span class="pre">&quot;vector&quot;</span></code> mode updates all dimensions simultaneously,
+<code class="docutils literal"><span class="pre">&quot;random&quot;</span></code> randomly selects a dimension and only updates that
+one, and <code class="docutils literal"><span class="pre">&quot;sequential&quot;</span></code> loops over dimensions and updates each
+one in turn.</li>
+<li><strong>factor</strong> (<em>Optional[float]</em>) &#8211; If provided the proposal will be made with a
+standard deviation uniformly selected from the range
+<code class="docutils literal"><span class="pre">exp(U(-log(factor),</span> <span class="pre">log(factor)))</span> <span class="pre">*</span> <span class="pre">cov</span></code>. This is invalid for
+the <code class="docutils literal"><span class="pre">&quot;vector&quot;</span></code> mode.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal"><span class="pre">ValueError</span></code> &#8211; If the proposal dimensions are invalid or if any of any of
+the other arguments are inconsistent.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-emcee3.moves.hmc">
+<span id="emcee3-moves-hmc-module"></span><h2>emcee3.moves.hmc module<a class="headerlink" href="#module-emcee3.moves.hmc" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="emcee3.moves.hmc.HamiltonianMove">
+<em class="property">class </em><code class="descclassname">emcee3.moves.hmc.</code><code class="descname">HamiltonianMove</code><span class="sig-paren">(</span><em>nsteps</em>, <em>epsilon</em>, <em>nsplits=2</em>, <em>cov=1.0</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.moves.hmc.HamiltonianMove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>A Hamiltonian Monte Carlo move.</p>
+<p>This implementation is based on the algorithm in Figure 2 of Neal (2012;
+<a class="reference external" href="http://arxiv.org/abs/1206.1901">http://arxiv.org/abs/1206.1901</a>). By default, gradients of your model are
+computed numerically but this is unlikely to be efficient so it&#8217;s best if
+you compute the gradients yourself using the
+<code class="xref py py-func docutils literal"><span class="pre">Model.compute_grad_log_prior()</span></code> and
+<code class="xref py py-func docutils literal"><span class="pre">Model.compute_grad_log_likelihood()</span></code> methods.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>nsteps</strong> (<em>int or (2,</em>) &#8211; The number of leapfrog steps to take when
+integrating the dynamics. If an integer is provided, the number of
+steps will be constant. Instead, you can also provide a tuple with
+two integers and these will be treated as lower and upper limits
+on the number of steps and the used value will be uniformly
+sampled within that range.</li>
+<li><strong>epsilon</strong> (<em>float or (2,</em>) &#8211; The step size used in the integration. Like
+<code class="docutils literal"><span class="pre">nsteps</span></code> a float can be given for a constant step size or a
+range can be given and the final value will be uniformly sampled.</li>
+<li><strong>cov</strong> (<em>Optional</em>) &#8211; An estimate of the parameter covariances. The inverse
+of <code class="docutils literal"><span class="pre">cov</span></code> is used as a mass matrix in the integration. (default:
+<code class="docutils literal"><span class="pre">1.0</span></code>)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="emcee3.moves.hmc.HamiltonianMove.get_args">
+<code class="descname">get_args</code><span class="sig-paren">(</span><em>ensemble</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.moves.hmc.HamiltonianMove.get_args" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="emcee3.moves.hmc.HamiltonianMove.update">
+<code class="descname">update</code><span class="sig-paren">(</span><em>ensemble</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.moves.hmc.HamiltonianMove.update" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-emcee3.moves.kde">
+<span id="emcee3-moves-kde-module"></span><h2>emcee3.moves.kde module<a class="headerlink" href="#module-emcee3.moves.kde" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="emcee3.moves.kde.KDEMove">
+<em class="property">class </em><code class="descclassname">emcee3.moves.kde.</code><code class="descname">KDEMove</code><span class="sig-paren">(</span><em>bw_method=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.moves.kde.KDEMove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#emcee3.moves.red_blue.RedBlueMove" title="emcee3.moves.red_blue.RedBlueMove"><code class="xref py py-class docutils literal"><span class="pre">emcee3.moves.red_blue.RedBlueMove</span></code></a></p>
+<p>Use a continuously evolving KDE proposal. This is a simplified version of
+the method used in <a class="reference external" href="https://github.com/bfarr/kombine">kombine</a>. If you
+use this proposal, you should use <em>a lot</em> of walkers in your ensemble.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>bw_method</strong> &#8211; The bandwidth estimation method. See <a class="reference external" href="http://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.gaussian_kde.html">the scipy docs</a>
+for allowed values.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="emcee3.moves.kde.KDEMove.get_proposal">
+<code class="descname">get_proposal</code><span class="sig-paren">(</span><em>ens</em>, <em>s</em>, <em>c</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.moves.kde.KDEMove.get_proposal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-emcee3.moves.mh">
+<span id="emcee3-moves-mh-module"></span><h2>emcee3.moves.mh module<a class="headerlink" href="#module-emcee3.moves.mh" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="emcee3.moves.mh.MHMove">
+<em class="property">class </em><code class="descclassname">emcee3.moves.mh.</code><code class="descname">MHMove</code><span class="sig-paren">(</span><em>proposal_function</em>, <em>ndim=None</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.moves.mh.MHMove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>A general Metropolis-Hastings proposal.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>proposal</strong> &#8211; The proposal function. It should take 2 arguments: a numpy-compatible
+random number generator and a <code class="docutils literal"><span class="pre">(K,</span> <span class="pre">ndim)</span></code> list of coordinate
+vectors. This function should return the proposed position and the
+log-ratio of the proposal probabilities (<span class="math">\(\ln q(x;\,x^\prime) -
+\ln q(x^\prime;\,x)\)</span> where <span class="math">\(x^\prime\)</span> is the proposed
+coordinate).</li>
+<li><strong>ndim</strong> &#8211; (optional)
+If this proposal is only valid for a specific dimension of parameter
+space, set that here.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="emcee3.moves.mh.MHMove.update">
+<code class="descname">update</code><span class="sig-paren">(</span><em>ensemble</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.moves.mh.MHMove.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute a single step starting from the given <code class="xref py py-class docutils literal"><span class="pre">Ensemble</span></code> and
+updating it in-place.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ensemble</strong> &#8211; The starting <code class="xref py py-class docutils literal"><span class="pre">Ensemble</span></code>.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Return ensemble:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">The same ensemble updated in-place.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-emcee3.moves.nuts">
+<span id="emcee3-moves-nuts-module"></span><h2>emcee3.moves.nuts module<a class="headerlink" href="#module-emcee3.moves.nuts" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="emcee3.moves.nuts.NoUTurnsMove">
+<em class="property">class </em><code class="descclassname">emcee3.moves.nuts.</code><code class="descname">NoUTurnsMove</code><span class="sig-paren">(</span><em>epsilon</em>, <em>nsplits=2</em>, <em>cov=1.0</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.moves.nuts.NoUTurnsMove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#emcee3.moves.hmc.HamiltonianMove" title="emcee3.moves.hmc.HamiltonianMove"><code class="xref py py-class docutils literal"><span class="pre">emcee3.moves.hmc.HamiltonianMove</span></code></a></p>
+<p>A HMC move that automatically tunes the number of integration steps.</p>
+<p>This implementations follows <a class="reference external" href="http://arxiv.org/abs/1111.4246">Hoffman &amp; Gelman</a> to tune the number of integration steps
+by watching for &#8220;U-turns&#8221;.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>epsilon</strong> (<em>float or (2,</em>) &#8211; The step size used in the integration. A
+float can be given for a constant step size or a range can be
+given and the final value will be uniformly sampled.</li>
+<li><strong>cov</strong> (<em>Optional</em>) &#8211; An estimate of the parameter covariances. The inverse
+of <code class="docutils literal"><span class="pre">cov</span></code> is used as a mass matrix in the integration. (default:
+<code class="docutils literal"><span class="pre">1.0</span></code>)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="emcee3.moves.nuts.NoUTurnsMove.get_args">
+<code class="descname">get_args</code><span class="sig-paren">(</span><em>ensemble</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.moves.nuts.NoUTurnsMove.get_args" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-emcee3.moves.red_blue">
+<span id="emcee3-moves-red-blue-module"></span><h2>emcee3.moves.red_blue module<a class="headerlink" href="#module-emcee3.moves.red_blue" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="emcee3.moves.red_blue.RedBlueMove">
+<em class="property">class </em><code class="descclassname">emcee3.moves.red_blue.</code><code class="descname">RedBlueMove</code><span class="sig-paren">(</span><em>nsplits=2</em>, <em>randomize_split=False</em>, <em>live_dangerously=False</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.moves.red_blue.RedBlueMove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>An abstract red-blue ensemble move with parallelization as described in
+<a class="reference external" href="http://arxiv.org/abs/1202.3665">Foreman-Mackey et al. (2013)</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>nsplits</strong> (<em>Optional[int]</em>) &#8211; The number of sub-ensembles to use. Each
+sub-ensemble is updated in parallel using the other sets as the
+complementary ensemble. The default value is <code class="docutils literal"><span class="pre">2</span></code> and you
+probably won&#8217;t need to change that.</li>
+<li><strong>randomize_split</strong> (<em>Optional[bool]</em>) &#8211; Randomly shuffle walkers between
+sub-ensembles. The same number of walkers will be assigned to
+each sub-ensemble on each iteration. By default, this is <code class="docutils literal"><span class="pre">False</span></code>.</li>
+<li><strong>live_dangerously</strong> (<em>Optional[bool]</em>) &#8211; By default, an update will fail with
+a <code class="docutils literal"><span class="pre">RuntimeError</span></code> if the number of walkers is smaller than twice
+the dimension of the problem because the walkers would then be
+stuck on a low dimensional subspace. This can be avoided by
+switching between the stretch move and, for example, a
+Metropolis-Hastings step. If you want to do this and suppress the
+error, set <code class="docutils literal"><span class="pre">live_dangerously</span> <span class="pre">=</span> <span class="pre">True</span></code>. Thanks goes (once again)
+to &#64;dstndstn for this wonderful terminology.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="emcee3.moves.red_blue.RedBlueMove.finalize">
+<code class="descname">finalize</code><span class="sig-paren">(</span><em>ensemble</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.moves.red_blue.RedBlueMove.finalize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="emcee3.moves.red_blue.RedBlueMove.get_proposal">
+<code class="descname">get_proposal</code><span class="sig-paren">(</span><em>ensemble</em>, <em>sample</em>, <em>complement</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.moves.red_blue.RedBlueMove.get_proposal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="emcee3.moves.red_blue.RedBlueMove.setup">
+<code class="descname">setup</code><span class="sig-paren">(</span><em>ensemble</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.moves.red_blue.RedBlueMove.setup" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="emcee3.moves.red_blue.RedBlueMove.update">
+<code class="descname">update</code><span class="sig-paren">(</span><em>ensemble</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.moves.red_blue.RedBlueMove.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute a move starting from the given <code class="xref py py-class docutils literal"><span class="pre">Ensemble</span></code> and updating
+it in-place.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ensemble</strong> &#8211; The starting <code class="xref py py-class docutils literal"><span class="pre">Ensemble</span></code>.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Return ensemble:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">The same ensemble updated in-place.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-emcee3.moves.stretch">
+<span id="emcee3-moves-stretch-module"></span><h2>emcee3.moves.stretch module<a class="headerlink" href="#module-emcee3.moves.stretch" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="emcee3.moves.stretch.StretchMove">
+<em class="property">class </em><code class="descclassname">emcee3.moves.stretch.</code><code class="descname">StretchMove</code><span class="sig-paren">(</span><em>a=2.0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.moves.stretch.StretchMove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#emcee3.moves.red_blue.RedBlueMove" title="emcee3.moves.red_blue.RedBlueMove"><code class="xref py py-class docutils literal"><span class="pre">emcee3.moves.red_blue.RedBlueMove</span></code></a></p>
+<p>A <a class="reference external" href="http://msp.berkeley.edu/camcos/2010/5-1/p04.xhtml">Goodman &amp; Weare (2010)</a> &#8220;stretch move&#8221; with
+parallelization as described in <a class="reference external" href="http://arxiv.org/abs/1202.3665">Foreman-Mackey et al. (2013)</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>a</strong> &#8211; (optional)
+The stretch scale parameter. (default: <code class="docutils literal"><span class="pre">2.0</span></code>)</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="emcee3.moves.stretch.StretchMove.get_proposal">
+<code class="descname">get_proposal</code><span class="sig-paren">(</span><em>ens</em>, <em>s</em>, <em>c</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.moves.stretch.StretchMove.get_proposal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-emcee3.moves.walk">
+<span id="emcee3-moves-walk-module"></span><h2>emcee3.moves.walk module<a class="headerlink" href="#module-emcee3.moves.walk" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="emcee3.moves.walk.WalkMove">
+<em class="property">class </em><code class="descclassname">emcee3.moves.walk.</code><code class="descname">WalkMove</code><span class="sig-paren">(</span><em>s=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.moves.walk.WalkMove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#emcee3.moves.red_blue.RedBlueMove" title="emcee3.moves.red_blue.RedBlueMove"><code class="xref py py-class docutils literal"><span class="pre">emcee3.moves.red_blue.RedBlueMove</span></code></a></p>
+<p>A <a class="reference external" href="http://msp.berkeley.edu/camcos/2010/5-1/p04.xhtml">Goodman &amp; Weare (2010)</a> &#8220;walk move&#8221; with
+parallelization as described in <a class="reference external" href="http://arxiv.org/abs/1202.3665">Foreman-Mackey et al. (2013)</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>s</strong> &#8211; (optional)
+The number of helper walkers to use. By default it will use all the
+walkers in the complement.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="emcee3.moves.walk.WalkMove.get_proposal">
+<code class="descname">get_proposal</code><span class="sig-paren">(</span><em>ens</em>, <em>s</em>, <em>c</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.moves.walk.WalkMove.get_proposal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-emcee3.moves">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-emcee3.moves" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="emcee3.moves.StretchMove">
+<em class="property">class </em><code class="descclassname">emcee3.moves.</code><code class="descname">StretchMove</code><span class="sig-paren">(</span><em>a=2.0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.moves.StretchMove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#emcee3.moves.red_blue.RedBlueMove" title="emcee3.moves.red_blue.RedBlueMove"><code class="xref py py-class docutils literal"><span class="pre">emcee3.moves.red_blue.RedBlueMove</span></code></a></p>
+<p>A <a class="reference external" href="http://msp.berkeley.edu/camcos/2010/5-1/p04.xhtml">Goodman &amp; Weare (2010)</a> &#8220;stretch move&#8221; with
+parallelization as described in <a class="reference external" href="http://arxiv.org/abs/1202.3665">Foreman-Mackey et al. (2013)</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>a</strong> &#8211; (optional)
+The stretch scale parameter. (default: <code class="docutils literal"><span class="pre">2.0</span></code>)</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="emcee3.moves.StretchMove.get_proposal">
+<code class="descname">get_proposal</code><span class="sig-paren">(</span><em>ens</em>, <em>s</em>, <em>c</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.moves.StretchMove.get_proposal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="emcee3.moves.WalkMove">
+<em class="property">class </em><code class="descclassname">emcee3.moves.</code><code class="descname">WalkMove</code><span class="sig-paren">(</span><em>s=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.moves.WalkMove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#emcee3.moves.red_blue.RedBlueMove" title="emcee3.moves.red_blue.RedBlueMove"><code class="xref py py-class docutils literal"><span class="pre">emcee3.moves.red_blue.RedBlueMove</span></code></a></p>
+<p>A <a class="reference external" href="http://msp.berkeley.edu/camcos/2010/5-1/p04.xhtml">Goodman &amp; Weare (2010)</a> &#8220;walk move&#8221; with
+parallelization as described in <a class="reference external" href="http://arxiv.org/abs/1202.3665">Foreman-Mackey et al. (2013)</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>s</strong> &#8211; (optional)
+The number of helper walkers to use. By default it will use all the
+walkers in the complement.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="emcee3.moves.WalkMove.get_proposal">
+<code class="descname">get_proposal</code><span class="sig-paren">(</span><em>ens</em>, <em>s</em>, <em>c</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.moves.WalkMove.get_proposal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="emcee3.moves.DEMove">
+<em class="property">class </em><code class="descclassname">emcee3.moves.</code><code class="descname">DEMove</code><span class="sig-paren">(</span><em>sigma</em>, <em>gamma0=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.moves.DEMove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#emcee3.moves.red_blue.RedBlueMove" title="emcee3.moves.red_blue.RedBlueMove"><code class="xref py py-class docutils literal"><span class="pre">emcee3.moves.red_blue.RedBlueMove</span></code></a></p>
+<p>A proposal using differential evolution.</p>
+<p>This <a class="reference external" href="http://www.stat.columbia.edu/~gelman/stuff_for_blog/cajo.pdf">Differential evolution proposal</a> is
+implemented following <a class="reference external" href="http://arxiv.org/abs/1311.5229">Nelson et al. (2013)</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>sigma</strong> (<em>float</em>) &#8211; The standard deviation of the Gaussian used to stretch
+the proposal vector.</li>
+<li><strong>gamma0</strong> (<em>Optional[float]</em>) &#8211; The mean stretch factor for the proposal
+vector. By default, it is <span class="math">\(2.38 / \sqrt{2\,\mathrm{ndim}}\)</span>
+as recommended by MAGIC and the two references.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="emcee3.moves.DEMove.get_proposal">
+<code class="descname">get_proposal</code><span class="sig-paren">(</span><em>ens</em>, <em>s</em>, <em>c</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.moves.DEMove.get_proposal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="emcee3.moves.DEMove.setup">
+<code class="descname">setup</code><span class="sig-paren">(</span><em>ensemble</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.moves.DEMove.setup" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="emcee3.moves.DESnookerMove">
+<em class="property">class </em><code class="descclassname">emcee3.moves.</code><code class="descname">DESnookerMove</code><span class="sig-paren">(</span><em>gammas=1.7</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.moves.DESnookerMove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#emcee3.moves.red_blue.RedBlueMove" title="emcee3.moves.red_blue.RedBlueMove"><code class="xref py py-class docutils literal"><span class="pre">emcee3.moves.red_blue.RedBlueMove</span></code></a></p>
+<p>A snooker proposal using differential evolution.</p>
+<p>Based on <a class="reference external" href="http://link.springer.com/article/10.1007/s11222-008-9104-9">Ter Braak &amp; Vrugt (2008)</a>.</p>
+<p>Credit goes to GitHub user <a class="reference external" href="https://github.com/mdanthony17">mdanthony17</a>
+for proposing this as an addition to the original emcee package.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>gammas</strong> (<em>Optional[float]</em>) &#8211; The mean stretch factor for the proposal
+vector. By default, it is <span class="math">\(1.7\)</span> as recommended by MAGIC and
+the reference.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="emcee3.moves.DESnookerMove.get_proposal">
+<code class="descname">get_proposal</code><span class="sig-paren">(</span><em>ens</em>, <em>s</em>, <em>c</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.moves.DESnookerMove.get_proposal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="emcee3.moves.KDEMove">
+<em class="property">class </em><code class="descclassname">emcee3.moves.</code><code class="descname">KDEMove</code><span class="sig-paren">(</span><em>bw_method=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.moves.KDEMove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#emcee3.moves.red_blue.RedBlueMove" title="emcee3.moves.red_blue.RedBlueMove"><code class="xref py py-class docutils literal"><span class="pre">emcee3.moves.red_blue.RedBlueMove</span></code></a></p>
+<p>Use a continuously evolving KDE proposal. This is a simplified version of
+the method used in <a class="reference external" href="https://github.com/bfarr/kombine">kombine</a>. If you
+use this proposal, you should use <em>a lot</em> of walkers in your ensemble.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>bw_method</strong> &#8211; <p>The bandwidth estimation method. See <a class="reference external" href="http://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.gaussian_kde.html">the scipy docs</a>
+for allowed values.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="emcee3.moves.KDEMove.get_proposal">
+<code class="descname">get_proposal</code><span class="sig-paren">(</span><em>ens</em>, <em>s</em>, <em>c</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.moves.KDEMove.get_proposal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="emcee3.moves.MHMove">
+<em class="property">class </em><code class="descclassname">emcee3.moves.</code><code class="descname">MHMove</code><span class="sig-paren">(</span><em>proposal_function</em>, <em>ndim=None</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.moves.MHMove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>A general Metropolis-Hastings proposal.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>proposal</strong> &#8211; The proposal function. It should take 2 arguments: a numpy-compatible
+random number generator and a <code class="docutils literal"><span class="pre">(K,</span> <span class="pre">ndim)</span></code> list of coordinate
+vectors. This function should return the proposed position and the
+log-ratio of the proposal probabilities (<span class="math">\(\ln q(x;\,x^\prime) -
+\ln q(x^\prime;\,x)\)</span> where <span class="math">\(x^\prime\)</span> is the proposed
+coordinate).</li>
+<li><strong>ndim</strong> &#8211; (optional)
+If this proposal is only valid for a specific dimension of parameter
+space, set that here.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="emcee3.moves.MHMove.update">
+<code class="descname">update</code><span class="sig-paren">(</span><em>ensemble</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.moves.MHMove.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute a single step starting from the given <code class="xref py py-class docutils literal"><span class="pre">Ensemble</span></code> and
+updating it in-place.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ensemble</strong> &#8211; The starting <code class="xref py py-class docutils literal"><span class="pre">Ensemble</span></code>.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Return ensemble:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">The same ensemble updated in-place.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="emcee3.moves.GaussianMove">
+<em class="property">class </em><code class="descclassname">emcee3.moves.</code><code class="descname">GaussianMove</code><span class="sig-paren">(</span><em>cov</em>, <em>mode='vector'</em>, <em>factor=None</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.moves.GaussianMove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#emcee3.moves.mh.MHMove" title="emcee3.moves.mh.MHMove"><code class="xref py py-class docutils literal"><span class="pre">emcee3.moves.mh.MHMove</span></code></a></p>
+<p>A Metropolis step with a Gaussian proposal function.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>cov</strong> &#8211; The covariance of the proposal function. This can be a scalar,
+vector, or matrix and the proposal will be assumed isotropic,
+axis-aligned, or general respectively.</li>
+<li><strong>mode</strong> (<em>Optional</em>) &#8211; Select the method used for updating parameters. This
+can be one of <code class="docutils literal"><span class="pre">&quot;vector&quot;</span></code>, <code class="docutils literal"><span class="pre">&quot;random&quot;</span></code>, or <code class="docutils literal"><span class="pre">&quot;sequential&quot;</span></code>. The
+<code class="docutils literal"><span class="pre">&quot;vector&quot;</span></code> mode updates all dimensions simultaneously,
+<code class="docutils literal"><span class="pre">&quot;random&quot;</span></code> randomly selects a dimension and only updates that
+one, and <code class="docutils literal"><span class="pre">&quot;sequential&quot;</span></code> loops over dimensions and updates each
+one in turn.</li>
+<li><strong>factor</strong> (<em>Optional[float]</em>) &#8211; If provided the proposal will be made with a
+standard deviation uniformly selected from the range
+<code class="docutils literal"><span class="pre">exp(U(-log(factor),</span> <span class="pre">log(factor)))</span> <span class="pre">*</span> <span class="pre">cov</span></code>. This is invalid for
+the <code class="docutils literal"><span class="pre">&quot;vector&quot;</span></code> mode.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal"><span class="pre">ValueError</span></code> &#8211; If the proposal dimensions are invalid or if any of any of
+the other arguments are inconsistent.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="emcee3.moves.HamiltonianMove">
+<em class="property">class </em><code class="descclassname">emcee3.moves.</code><code class="descname">HamiltonianMove</code><span class="sig-paren">(</span><em>nsteps</em>, <em>epsilon</em>, <em>nsplits=2</em>, <em>cov=1.0</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.moves.HamiltonianMove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>A Hamiltonian Monte Carlo move.</p>
+<p>This implementation is based on the algorithm in Figure 2 of Neal (2012;
+<a class="reference external" href="http://arxiv.org/abs/1206.1901">http://arxiv.org/abs/1206.1901</a>). By default, gradients of your model are
+computed numerically but this is unlikely to be efficient so it&#8217;s best if
+you compute the gradients yourself using the
+<code class="xref py py-func docutils literal"><span class="pre">Model.compute_grad_log_prior()</span></code> and
+<code class="xref py py-func docutils literal"><span class="pre">Model.compute_grad_log_likelihood()</span></code> methods.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>nsteps</strong> (<em>int or (2,</em>) &#8211; The number of leapfrog steps to take when
+integrating the dynamics. If an integer is provided, the number of
+steps will be constant. Instead, you can also provide a tuple with
+two integers and these will be treated as lower and upper limits
+on the number of steps and the used value will be uniformly
+sampled within that range.</li>
+<li><strong>epsilon</strong> (<em>float or (2,</em>) &#8211; The step size used in the integration. Like
+<code class="docutils literal"><span class="pre">nsteps</span></code> a float can be given for a constant step size or a
+range can be given and the final value will be uniformly sampled.</li>
+<li><strong>cov</strong> (<em>Optional</em>) &#8211; An estimate of the parameter covariances. The inverse
+of <code class="docutils literal"><span class="pre">cov</span></code> is used as a mass matrix in the integration. (default:
+<code class="docutils literal"><span class="pre">1.0</span></code>)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="emcee3.moves.HamiltonianMove.get_args">
+<code class="descname">get_args</code><span class="sig-paren">(</span><em>ensemble</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.moves.HamiltonianMove.get_args" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="emcee3.moves.HamiltonianMove.update">
+<code class="descname">update</code><span class="sig-paren">(</span><em>ensemble</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.moves.HamiltonianMove.update" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="emcee3.moves.NoUTurnsMove">
+<em class="property">class </em><code class="descclassname">emcee3.moves.</code><code class="descname">NoUTurnsMove</code><span class="sig-paren">(</span><em>epsilon</em>, <em>nsplits=2</em>, <em>cov=1.0</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.moves.NoUTurnsMove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#emcee3.moves.hmc.HamiltonianMove" title="emcee3.moves.hmc.HamiltonianMove"><code class="xref py py-class docutils literal"><span class="pre">emcee3.moves.hmc.HamiltonianMove</span></code></a></p>
+<p>A HMC move that automatically tunes the number of integration steps.</p>
+<p>This implementations follows <a class="reference external" href="http://arxiv.org/abs/1111.4246">Hoffman &amp; Gelman</a> to tune the number of integration steps
+by watching for &#8220;U-turns&#8221;.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>epsilon</strong> (<em>float or (2,</em>) &#8211; The step size used in the integration. A
+float can be given for a constant step size or a range can be
+given and the final value will be uniformly sampled.</li>
+<li><strong>cov</strong> (<em>Optional</em>) &#8211; An estimate of the parameter covariances. The inverse
+of <code class="docutils literal"><span class="pre">cov</span></code> is used as a mass matrix in the integration. (default:
+<code class="docutils literal"><span class="pre">1.0</span></code>)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="emcee3.moves.NoUTurnsMove.get_args">
+<code class="descname">get_args</code><span class="sig-paren">(</span><em>ensemble</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.moves.NoUTurnsMove.get_args" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014-2016 Dan Foreman-Mackey &amp; contributors.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'3.0.0.dev0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="../../_static/js/analytics.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

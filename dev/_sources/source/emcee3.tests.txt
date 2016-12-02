@@ -1,0 +1,30 @@
+emcee3.tests package
+====================
+
+Subpackages
+-----------
+
+.. toctree::
+
+    emcee3.tests.integration
+    emcee3.tests.unit
+
+Submodules
+----------
+
+emcee3.tests.common module
+--------------------------
+
+.. automodule:: emcee3.tests.common
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: emcee3.tests
+    :members:
+    :undoc-members:
+    :show-inheritance:

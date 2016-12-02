@@ -1,0 +1,35 @@
+.. _examples-index:
+
+Gallery of Examples
+===================
+
+.. _general_examples:
+
+General examples
+----------------
+
+General-purpose and introductory examples from the sphinx-gallery
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="">
+
+.. only:: html
+
+    .. figure:: /examples/images/thumb/sphx_glr_plot_face_thumb.png
+
+        :ref:`sphx_glr_examples_plot_face.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /examples/plot_face
+.. raw:: html
+
+    <div style='clear:both'></div>
+

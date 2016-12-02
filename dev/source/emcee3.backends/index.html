@@ -1,0 +1,866 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>emcee3.backends package &mdash; emcee3 3.0.0.dev0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.png"/>
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+  
+        <link rel="index" title="Index"
+              href="../../genindex/"/>
+        <link rel="search" title="Search" href="../../search/"/>
+    <link rel="top" title="emcee3 3.0.0.dev0 documentation" href="../../"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="../../" class="fa fa-home"> emcee3</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../user/install/">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user/modeling/">Modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user/porting/">Porting your code to emcee3 from earlier versions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../user/porting/#why-switch">Why switch?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../user/porting/#a-complete-example">A complete example</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/line/">Tutorial: Fitting a Model to Data</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/line/#generating-fake-data-from-the-model">Generating fake data from the model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/line/#maximum-likelihood-solution">Maximum-likelihood solution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/line/#building-the-probabilistic-model">Building the probabilistic model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/line/#sampling-from-the-posterior-probability">Sampling from the posterior probability</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/mixture-models/">Tutorial: Practical mixture models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/mixture-models/#the-basic-model">The basic model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/mixture-models/#the-marginalized-likelihood">The marginalized likelihood</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/mixture-models/#mixture-membership-probabilities">Mixture membership probabilities</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/#model-building">Model Building</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../">emcee3</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../">Docs</a> &raquo;</li>
+      
+    <li>emcee3.backends package</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="https://github.com/dfm/emcee/blob/emcee3/docs/source/emcee3.backends.rst" class="fa fa-github"> Edit on GitHub</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+
+            <div class="admonition warning">
+              <p class="first admonition-title">Version Warning</p>
+              <p class="last">
+                This documentation is for the development version of
+                <strong>emcee</strong> ("emcee3") and it isn't
+                backwards-compatible with earlier stable versions.
+                If you're using an earlier version, get that documentation
+                <a href="http://dfm.io/emcee">here</a>.
+              </p>
+            </div>
+
+            
+  <div class="section" id="emcee3-backends-package">
+<h1>emcee3.backends package<a class="headerlink" href="#emcee3-backends-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-emcee3.backends.backend">
+<span id="emcee3-backends-backend-module"></span><h2>emcee3.backends.backend module<a class="headerlink" href="#module-emcee3.backends.backend" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="emcee3.backends.backend.Backend">
+<em class="property">class </em><code class="descclassname">emcee3.backends.backend.</code><code class="descname">Backend</code><a class="headerlink" href="#emcee3.backends.backend.Backend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>The default backend that stores the data in memory as numpy arrays.</p>
+<p>The backend can be subscripted to access the data.</p>
+<dl class="attribute">
+<dt id="emcee3.backends.backend.Backend.acceptance">
+<code class="descname">acceptance</code><a class="headerlink" href="#emcee3.backends.backend.Backend.acceptance" title="Permalink to this definition">¶</a></dt>
+<dd><p>An array of <code class="docutils literal"><span class="pre">nwalkers</span></code> integer acceptance counts.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="emcee3.backends.backend.Backend.acceptance_fraction">
+<code class="descname">acceptance_fraction</code><a class="headerlink" href="#emcee3.backends.backend.Backend.acceptance_fraction" title="Permalink to this definition">¶</a></dt>
+<dd><p>An array of <code class="docutils literal"><span class="pre">nwalkers</span></code> acceptance fractions.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="emcee3.backends.backend.Backend.coords">
+<code class="descname">coords</code><a class="headerlink" href="#emcee3.backends.backend.Backend.coords" title="Permalink to this definition">¶</a></dt>
+<dd><p>An array of <code class="docutils literal"><span class="pre">(niter,</span> <span class="pre">nwalkers,</span> <span class="pre">ndim)</span></code> coordinates.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="emcee3.backends.backend.Backend.log_prior">
+<code class="descname">log_prior</code><a class="headerlink" href="#emcee3.backends.backend.Backend.log_prior" title="Permalink to this definition">¶</a></dt>
+<dd><p>An array of <code class="docutils literal"><span class="pre">(niter,</span> <span class="pre">nwalkers)</span></code> log prior evaluations.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="emcee3.backends.backend.Backend.log_likelihood">
+<code class="descname">log_likelihood</code><a class="headerlink" href="#emcee3.backends.backend.Backend.log_likelihood" title="Permalink to this definition">¶</a></dt>
+<dd><p>An array of <code class="docutils literal"><span class="pre">(niter,</span> <span class="pre">nwalkers)</span></code> log likelihood
+evaluations.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="emcee3.backends.backend.Backend.log_probability">
+<code class="descname">log_probability</code><a class="headerlink" href="#emcee3.backends.backend.Backend.log_probability" title="Permalink to this definition">¶</a></dt>
+<dd><p>An array of <code class="docutils literal"><span class="pre">(niter,</span> <span class="pre">nwalkers)</span></code> log probability
+evaluations.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">acceptance</code></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">acceptance_fraction</code></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="emcee3.backends.backend.Backend.check_dimensions">
+<code class="descname">check_dimensions</code><span class="sig-paren">(</span><em>ensemble</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.backends.backend.Backend.check_dimensions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that an ensemble is consistent with the current chain.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ensemble</strong> (<a class="reference internal" href="../emcee3/#emcee3.Ensemble" title="emcee3.Ensemble"><em>Ensemble</em></a>) &#8211; The ensemble to check.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">ValueError</span></code> &#8211; If the dimension or data type of the ensemble is
+inconsistent with the stored data.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">coords</code></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="emcee3.backends.backend.Backend.current_coords">
+<code class="descname">current_coords</code><a class="headerlink" href="#emcee3.backends.backend.Backend.current_coords" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="emcee3.backends.backend.Backend.extend">
+<code class="descname">extend</code><span class="sig-paren">(</span><em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.backends.backend.Backend.extend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extend the chain by a given number of steps.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>n</strong> (<em>int</em>) &#8211; The number of steps to extend the chain by.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.backends.backend.Backend.get_coords">
+<code class="descname">get_coords</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.backends.backend.Backend.get_coords" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the stored chain of MCMC samples.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>flat</strong> (<em>Optional[bool]</em>) &#8211; Flatten the chain across the ensemble.
+(default: <code class="docutils literal"><span class="pre">False</span></code>)</li>
+<li><strong>thin</strong> (<em>Optional[int]</em>) &#8211; Take only every <code class="docutils literal"><span class="pre">thin</span></code> steps from the
+chain. (default: <code class="docutils literal"><span class="pre">1</span></code>)</li>
+<li><strong>discard</strong> (<em>Optional[int]</em>) &#8211; Discard the first <code class="docutils literal"><span class="pre">discard</span></code> steps in
+the chain as burn-in. (default: <code class="docutils literal"><span class="pre">0</span></code>)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The MCMC samples.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">array[..., nwalkers, ndim]</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.backends.backend.Backend.get_integrated_autocorr_time">
+<code class="descname">get_integrated_autocorr_time</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.backends.backend.Backend.get_integrated_autocorr_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the integrated autocorrelation time for each dimension.</p>
+<p>Any arguments are passed directly to <code class="xref py py-func docutils literal"><span class="pre">autocorr.integrated_time()</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The estimated autocorrelation time in each dimension.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">array[ndim]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.backends.backend.Backend.get_log_likelihood">
+<code class="descname">get_log_likelihood</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.backends.backend.Backend.get_log_likelihood" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the chain of log likelihoods evaluated at the MCMC samples.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>flat</strong> (<em>Optional[bool]</em>) &#8211; Flatten the chain across the ensemble.
+(default: <code class="docutils literal"><span class="pre">False</span></code>)</li>
+<li><strong>thin</strong> (<em>Optional[int]</em>) &#8211; Take only every <code class="docutils literal"><span class="pre">thin</span></code> steps from the
+chain. (default: <code class="docutils literal"><span class="pre">1</span></code>)</li>
+<li><strong>discard</strong> (<em>Optional[int]</em>) &#8211; Discard the first <code class="docutils literal"><span class="pre">discard</span></code> steps in
+the chain as burn-in. (default: <code class="docutils literal"><span class="pre">0</span></code>)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The chain of log likelihoods.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">array[..., nwalkers]</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.backends.backend.Backend.get_log_prior">
+<code class="descname">get_log_prior</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.backends.backend.Backend.get_log_prior" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the chain of log priors evaluated at the MCMC samples.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>flat</strong> (<em>Optional[bool]</em>) &#8211; Flatten the chain across the ensemble.
+(default: <code class="docutils literal"><span class="pre">False</span></code>)</li>
+<li><strong>thin</strong> (<em>Optional[int]</em>) &#8211; Take only every <code class="docutils literal"><span class="pre">thin</span></code> steps from the
+chain. (default: <code class="docutils literal"><span class="pre">1</span></code>)</li>
+<li><strong>discard</strong> (<em>Optional[int]</em>) &#8211; Discard the first <code class="docutils literal"><span class="pre">discard</span></code> steps in
+the chain as burn-in. (default: <code class="docutils literal"><span class="pre">0</span></code>)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The chain of log priors.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">array[..., nwalkers]</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.backends.backend.Backend.get_log_probability">
+<code class="descname">get_log_probability</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.backends.backend.Backend.get_log_probability" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the chain of log probabilities evaluated at the MCMC samples.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>flat</strong> (<em>Optional[bool]</em>) &#8211; Flatten the chain across the ensemble.
+(default: <code class="docutils literal"><span class="pre">False</span></code>)</li>
+<li><strong>thin</strong> (<em>Optional[int]</em>) &#8211; Take only every <code class="docutils literal"><span class="pre">thin</span></code> steps from the
+chain. (default: <code class="docutils literal"><span class="pre">1</span></code>)</li>
+<li><strong>discard</strong> (<em>Optional[int]</em>) &#8211; Discard the first <code class="docutils literal"><span class="pre">discard</span></code> steps in
+the chain as burn-in. (default: <code class="docutils literal"><span class="pre">0</span></code>)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The chain of log probabilities.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">array[..., nwalkers]</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.backends.backend.Backend.get_value">
+<code class="descname">get_value</code><span class="sig-paren">(</span><em>name</em>, <em>flat=False</em>, <em>thin=1</em>, <em>discard=0</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.backends.backend.Backend.get_value" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">log_likelihood</code></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">log_prior</code></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">log_probability</code></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="emcee3.backends.backend.Backend.random_state">
+<code class="descname">random_state</code><a class="headerlink" href="#emcee3.backends.backend.Backend.random_state" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="emcee3.backends.backend.Backend.reset">
+<code class="descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.backends.backend.Backend.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear the chain and reset it to its default state.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.backends.backend.Backend.update">
+<code class="descname">update</code><span class="sig-paren">(</span><em>ensemble</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.backends.backend.Backend.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Append an ensemble to the chain.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ensemble</strong> (<a class="reference internal" href="../emcee3/#emcee3.Ensemble" title="emcee3.Ensemble"><em>Ensemble</em></a>) &#8211; The ensemble to append.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-emcee3.backends.hdf">
+<span id="emcee3-backends-hdf-module"></span><h2>emcee3.backends.hdf module<a class="headerlink" href="#module-emcee3.backends.hdf" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="emcee3.backends.hdf.HDFBackend">
+<em class="property">class </em><code class="descclassname">emcee3.backends.hdf.</code><code class="descname">HDFBackend</code><span class="sig-paren">(</span><em>filename</em>, <em>name='mcmc'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.backends.hdf.HDFBackend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#emcee3.backends.backend.Backend" title="emcee3.backends.backend.Backend"><code class="xref py py-class docutils literal"><span class="pre">emcee3.backends.backend.Backend</span></code></a></p>
+<dl class="attribute">
+<dt id="emcee3.backends.hdf.HDFBackend.acceptance">
+<code class="descname">acceptance</code><a class="headerlink" href="#emcee3.backends.hdf.HDFBackend.acceptance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="emcee3.backends.hdf.HDFBackend.current_coords">
+<code class="descname">current_coords</code><a class="headerlink" href="#emcee3.backends.hdf.HDFBackend.current_coords" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="emcee3.backends.hdf.HDFBackend.extend">
+<code class="descname">extend</code><span class="sig-paren">(</span><em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.backends.hdf.HDFBackend.extend" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="emcee3.backends.hdf.HDFBackend.niter">
+<code class="descname">niter</code><a class="headerlink" href="#emcee3.backends.hdf.HDFBackend.niter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="emcee3.backends.hdf.HDFBackend.open">
+<code class="descname">open</code><span class="sig-paren">(</span><em>mode='r'</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.backends.hdf.HDFBackend.open" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="emcee3.backends.hdf.HDFBackend.random_state">
+<code class="descname">random_state</code><a class="headerlink" href="#emcee3.backends.hdf.HDFBackend.random_state" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="emcee3.backends.hdf.HDFBackend.reset">
+<code class="descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.backends.hdf.HDFBackend.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear the chain and reset it to its default state.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.backends.hdf.HDFBackend.update">
+<code class="descname">update</code><span class="sig-paren">(</span><em>ensemble</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.backends.hdf.HDFBackend.update" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-emcee3.backends">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-emcee3.backends" title="Permalink to this headline">¶</a></h2>
+<p>These backends abstract the storage of and access to emcee3 MCMC chains.</p>
+<dl class="class">
+<dt id="emcee3.backends.Backend">
+<em class="property">class </em><code class="descclassname">emcee3.backends.</code><code class="descname">Backend</code><a class="headerlink" href="#emcee3.backends.Backend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>The default backend that stores the data in memory as numpy arrays.</p>
+<p>The backend can be subscripted to access the data.</p>
+<dl class="attribute">
+<dt id="emcee3.backends.Backend.acceptance">
+<code class="descname">acceptance</code><a class="headerlink" href="#emcee3.backends.Backend.acceptance" title="Permalink to this definition">¶</a></dt>
+<dd><p>An array of <code class="docutils literal"><span class="pre">nwalkers</span></code> integer acceptance counts.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="emcee3.backends.Backend.acceptance_fraction">
+<code class="descname">acceptance_fraction</code><a class="headerlink" href="#emcee3.backends.Backend.acceptance_fraction" title="Permalink to this definition">¶</a></dt>
+<dd><p>An array of <code class="docutils literal"><span class="pre">nwalkers</span></code> acceptance fractions.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="emcee3.backends.Backend.coords">
+<code class="descname">coords</code><a class="headerlink" href="#emcee3.backends.Backend.coords" title="Permalink to this definition">¶</a></dt>
+<dd><p>An array of <code class="docutils literal"><span class="pre">(niter,</span> <span class="pre">nwalkers,</span> <span class="pre">ndim)</span></code> coordinates.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="emcee3.backends.Backend.log_prior">
+<code class="descname">log_prior</code><a class="headerlink" href="#emcee3.backends.Backend.log_prior" title="Permalink to this definition">¶</a></dt>
+<dd><p>An array of <code class="docutils literal"><span class="pre">(niter,</span> <span class="pre">nwalkers)</span></code> log prior evaluations.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="emcee3.backends.Backend.log_likelihood">
+<code class="descname">log_likelihood</code><a class="headerlink" href="#emcee3.backends.Backend.log_likelihood" title="Permalink to this definition">¶</a></dt>
+<dd><p>An array of <code class="docutils literal"><span class="pre">(niter,</span> <span class="pre">nwalkers)</span></code> log likelihood
+evaluations.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="emcee3.backends.Backend.log_probability">
+<code class="descname">log_probability</code><a class="headerlink" href="#emcee3.backends.Backend.log_probability" title="Permalink to this definition">¶</a></dt>
+<dd><p>An array of <code class="docutils literal"><span class="pre">(niter,</span> <span class="pre">nwalkers)</span></code> log probability
+evaluations.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">acceptance</code></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">acceptance_fraction</code></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="emcee3.backends.Backend.check_dimensions">
+<code class="descname">check_dimensions</code><span class="sig-paren">(</span><em>ensemble</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.backends.Backend.check_dimensions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that an ensemble is consistent with the current chain.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ensemble</strong> (<a class="reference internal" href="../emcee3/#emcee3.Ensemble" title="emcee3.Ensemble"><em>Ensemble</em></a>) &#8211; The ensemble to check.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">ValueError</span></code> &#8211; If the dimension or data type of the ensemble is
+inconsistent with the stored data.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">coords</code></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="emcee3.backends.Backend.current_coords">
+<code class="descname">current_coords</code><a class="headerlink" href="#emcee3.backends.Backend.current_coords" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="emcee3.backends.Backend.extend">
+<code class="descname">extend</code><span class="sig-paren">(</span><em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.backends.Backend.extend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extend the chain by a given number of steps.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>n</strong> (<em>int</em>) &#8211; The number of steps to extend the chain by.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.backends.Backend.get_coords">
+<code class="descname">get_coords</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.backends.Backend.get_coords" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the stored chain of MCMC samples.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>flat</strong> (<em>Optional[bool]</em>) &#8211; Flatten the chain across the ensemble.
+(default: <code class="docutils literal"><span class="pre">False</span></code>)</li>
+<li><strong>thin</strong> (<em>Optional[int]</em>) &#8211; Take only every <code class="docutils literal"><span class="pre">thin</span></code> steps from the
+chain. (default: <code class="docutils literal"><span class="pre">1</span></code>)</li>
+<li><strong>discard</strong> (<em>Optional[int]</em>) &#8211; Discard the first <code class="docutils literal"><span class="pre">discard</span></code> steps in
+the chain as burn-in. (default: <code class="docutils literal"><span class="pre">0</span></code>)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The MCMC samples.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">array[..., nwalkers, ndim]</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.backends.Backend.get_integrated_autocorr_time">
+<code class="descname">get_integrated_autocorr_time</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.backends.Backend.get_integrated_autocorr_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the integrated autocorrelation time for each dimension.</p>
+<p>Any arguments are passed directly to <code class="xref py py-func docutils literal"><span class="pre">autocorr.integrated_time()</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The estimated autocorrelation time in each dimension.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">array[ndim]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.backends.Backend.get_log_likelihood">
+<code class="descname">get_log_likelihood</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.backends.Backend.get_log_likelihood" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the chain of log likelihoods evaluated at the MCMC samples.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>flat</strong> (<em>Optional[bool]</em>) &#8211; Flatten the chain across the ensemble.
+(default: <code class="docutils literal"><span class="pre">False</span></code>)</li>
+<li><strong>thin</strong> (<em>Optional[int]</em>) &#8211; Take only every <code class="docutils literal"><span class="pre">thin</span></code> steps from the
+chain. (default: <code class="docutils literal"><span class="pre">1</span></code>)</li>
+<li><strong>discard</strong> (<em>Optional[int]</em>) &#8211; Discard the first <code class="docutils literal"><span class="pre">discard</span></code> steps in
+the chain as burn-in. (default: <code class="docutils literal"><span class="pre">0</span></code>)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The chain of log likelihoods.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">array[..., nwalkers]</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.backends.Backend.get_log_prior">
+<code class="descname">get_log_prior</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.backends.Backend.get_log_prior" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the chain of log priors evaluated at the MCMC samples.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>flat</strong> (<em>Optional[bool]</em>) &#8211; Flatten the chain across the ensemble.
+(default: <code class="docutils literal"><span class="pre">False</span></code>)</li>
+<li><strong>thin</strong> (<em>Optional[int]</em>) &#8211; Take only every <code class="docutils literal"><span class="pre">thin</span></code> steps from the
+chain. (default: <code class="docutils literal"><span class="pre">1</span></code>)</li>
+<li><strong>discard</strong> (<em>Optional[int]</em>) &#8211; Discard the first <code class="docutils literal"><span class="pre">discard</span></code> steps in
+the chain as burn-in. (default: <code class="docutils literal"><span class="pre">0</span></code>)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The chain of log priors.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">array[..., nwalkers]</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.backends.Backend.get_log_probability">
+<code class="descname">get_log_probability</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.backends.Backend.get_log_probability" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the chain of log probabilities evaluated at the MCMC samples.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>flat</strong> (<em>Optional[bool]</em>) &#8211; Flatten the chain across the ensemble.
+(default: <code class="docutils literal"><span class="pre">False</span></code>)</li>
+<li><strong>thin</strong> (<em>Optional[int]</em>) &#8211; Take only every <code class="docutils literal"><span class="pre">thin</span></code> steps from the
+chain. (default: <code class="docutils literal"><span class="pre">1</span></code>)</li>
+<li><strong>discard</strong> (<em>Optional[int]</em>) &#8211; Discard the first <code class="docutils literal"><span class="pre">discard</span></code> steps in
+the chain as burn-in. (default: <code class="docutils literal"><span class="pre">0</span></code>)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The chain of log probabilities.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">array[..., nwalkers]</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.backends.Backend.get_value">
+<code class="descname">get_value</code><span class="sig-paren">(</span><em>name</em>, <em>flat=False</em>, <em>thin=1</em>, <em>discard=0</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.backends.Backend.get_value" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">log_likelihood</code></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">log_prior</code></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">log_probability</code></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="emcee3.backends.Backend.random_state">
+<code class="descname">random_state</code><a class="headerlink" href="#emcee3.backends.Backend.random_state" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="emcee3.backends.Backend.reset">
+<code class="descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.backends.Backend.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear the chain and reset it to its default state.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.backends.Backend.update">
+<code class="descname">update</code><span class="sig-paren">(</span><em>ensemble</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.backends.Backend.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Append an ensemble to the chain.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ensemble</strong> (<a class="reference internal" href="../emcee3/#emcee3.Ensemble" title="emcee3.Ensemble"><em>Ensemble</em></a>) &#8211; The ensemble to append.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="emcee3.backends.HDFBackend">
+<em class="property">class </em><code class="descclassname">emcee3.backends.</code><code class="descname">HDFBackend</code><span class="sig-paren">(</span><em>filename</em>, <em>name='mcmc'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.backends.HDFBackend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#emcee3.backends.backend.Backend" title="emcee3.backends.backend.Backend"><code class="xref py py-class docutils literal"><span class="pre">emcee3.backends.backend.Backend</span></code></a></p>
+<dl class="attribute">
+<dt id="emcee3.backends.HDFBackend.acceptance">
+<code class="descname">acceptance</code><a class="headerlink" href="#emcee3.backends.HDFBackend.acceptance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="emcee3.backends.HDFBackend.current_coords">
+<code class="descname">current_coords</code><a class="headerlink" href="#emcee3.backends.HDFBackend.current_coords" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="emcee3.backends.HDFBackend.extend">
+<code class="descname">extend</code><span class="sig-paren">(</span><em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.backends.HDFBackend.extend" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="emcee3.backends.HDFBackend.niter">
+<code class="descname">niter</code><a class="headerlink" href="#emcee3.backends.HDFBackend.niter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="emcee3.backends.HDFBackend.open">
+<code class="descname">open</code><span class="sig-paren">(</span><em>mode='r'</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.backends.HDFBackend.open" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="emcee3.backends.HDFBackend.random_state">
+<code class="descname">random_state</code><a class="headerlink" href="#emcee3.backends.HDFBackend.random_state" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="emcee3.backends.HDFBackend.reset">
+<code class="descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.backends.HDFBackend.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear the chain and reset it to its default state.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.backends.HDFBackend.update">
+<code class="descname">update</code><span class="sig-paren">(</span><em>ensemble</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.backends.HDFBackend.update" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014-2016 Dan Foreman-Mackey &amp; contributors.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'3.0.0.dev0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="../../_static/js/analytics.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

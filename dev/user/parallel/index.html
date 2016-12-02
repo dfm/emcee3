@@ -1,0 +1,365 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Parallelization &mdash; emcee3 3.0.0.dev0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.png"/>
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+  
+        <link rel="index" title="Index"
+              href="../../genindex/"/>
+        <link rel="search" title="Search" href="../../search/"/>
+    <link rel="top" title="emcee3 3.0.0.dev0 documentation" href="../../"/>
+        <link rel="next" title="Porting your code to emcee3 from earlier versions" href="../porting/"/>
+        <link rel="prev" title="Modeling" href="../modeling/"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="../../" class="fa fa-home"> emcee3</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../install/">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modeling/">Modeling</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Parallelization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#using-multiprocessing">Using multiprocessing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#using-mpi">Using MPI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#using-ipyparallel">Using ipyparallel</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../porting/">Porting your code to emcee3 from earlier versions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../porting/#why-switch">Why switch?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../porting/#a-complete-example">A complete example</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/line/">Tutorial: Fitting a Model to Data</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/line/#generating-fake-data-from-the-model">Generating fake data from the model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/line/#maximum-likelihood-solution">Maximum-likelihood solution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/line/#building-the-probabilistic-model">Building the probabilistic model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/line/#sampling-from-the-posterior-probability">Sampling from the posterior probability</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/mixture-models/">Tutorial: Practical mixture models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/mixture-models/#the-basic-model">The basic model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/mixture-models/#the-marginalized-likelihood">The marginalized likelihood</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/mixture-models/#mixture-membership-probabilities">Mixture membership probabilities</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/#model-building">Model Building</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../">emcee3</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../">Docs</a> &raquo;</li>
+      
+    <li>Parallelization</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="https://github.com/dfm/emcee/blob/emcee3/docs/user/parallel.rst" class="fa fa-github"> Edit on GitHub</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+
+            <div class="admonition warning">
+              <p class="first admonition-title">Version Warning</p>
+              <p class="last">
+                This documentation is for the development version of
+                <strong>emcee</strong> ("emcee3") and it isn't
+                backwards-compatible with earlier stable versions.
+                If you're using an earlier version, get that documentation
+                <a href="http://dfm.io/emcee">here</a>.
+              </p>
+            </div>
+
+            
+  <div class="section" id="parallelization">
+<h1>Parallelization<a class="headerlink" href="#parallelization" title="Permalink to this headline">¶</a></h1>
+<p><strong>emcee</strong> supports parallelization out of the box. The algorithmic
+details are given in <a class="reference external" href="http://arxiv.org/abs/1202.3665">the paper</a> but
+the implementation is very simple. The parallelization is applied across
+the walkers in the ensemble at each step and it must therefore be
+synchronized after each iteration. This means that you will really only
+benefit from this feature when your probability function is relatively
+expensive to compute.</p>
+<p>The recommended method is to use <a class="reference external" href="http://ipython.org/ipython-doc/dev/parallel/">IPython&#8217;s parallel
+feature</a> but it&#8217;s
+possible to use other &#8220;mappers&#8221; like the Python standard library&#8217;s
+<code class="docutils literal"><span class="pre">multiprocessing.Pool</span></code>. The only requirement of the mapper is that it
+exposes a <code class="docutils literal"><span class="pre">map</span></code> method.</p>
+<div class="section" id="using-multiprocessing">
+<h2>Using multiprocessing<a class="headerlink" href="#using-multiprocessing" title="Permalink to this headline">¶</a></h2>
+<p>As mentioned above, it&#8217;s possible to parallelize your model using the
+standard library&#8217;s <code class="docutils literal"><span class="pre">multiprocessing</span></code> package. Instead, I would
+recommend the <code class="docutils literal"><span class="pre">pools.InterruptiblePool</span></code> that is included with
+<strong>emcee</strong> because it is a simple thin wrapper around
+<code class="docutils literal"><span class="pre">multiprocessing.Pool</span></code> with support for a keyboard interrupt
+(<code class="docutils literal"><span class="pre">^C</span></code>)... you&#8217;ll thank me later! If we wanted to use this pool, the
+final few lines from the example on the front page would become the
+following:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">emcee3</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="k">def</span> <span class="nf">log_prob</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="n">ndim</span><span class="p">,</span> <span class="n">nwalkers</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span>
+<span class="k">with</span> <span class="n">emcee3</span><span class="o">.</span><span class="n">pools</span><span class="o">.</span><span class="n">InterruptiblePool</span><span class="p">()</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+    <span class="n">ensemble</span> <span class="o">=</span> <span class="n">emcee3</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="n">log_prob</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">nwalkers</span><span class="p">,</span> <span class="n">ndim</span><span class="p">),</span> <span class="n">pool</span><span class="o">=</span><span class="n">pool</span><span class="p">)</span>
+    <span class="n">sampler</span> <span class="o">=</span> <span class="n">emcee3</span><span class="o">.</span><span class="n">Sampler</span><span class="p">()</span>
+    <span class="n">sampler</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">ensemble</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Don&#8217;t forget to close the pool! It is <strong>your responsibility</strong> as the
+user to close the pool. Otherwise, the Python processes that get
+initialized to run your code won&#8217;t shut down until your main process
+exits. It&#8217;s not enough to <code class="docutils literal"><span class="pre">del</span></code> the pool, you have to close it!</p>
+</div>
+</div>
+<div class="section" id="using-mpi">
+<h2>Using MPI<a class="headerlink" href="#using-mpi" title="Permalink to this headline">¶</a></h2>
+<p>To distribute emcee3 across nodes on a cluster, you&#8217;ll need to use MPI.
+This can be done with the <code class="docutils literal"><span class="pre">MPIPool</span></code> from
+<a class="reference external" href="https://github.com/adrn/schwimmbad">schwimmbad</a>. To use this, you&#8217;ll
+need to install the dependency
+<a class="reference external" href="http://mpi4py.readthedocs.io/">mpi4py</a>. Otherwise, the code is
+almost the same as the multiprocessing example above – the main change
+is the definition of the pool:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">schwimmbad</span>
+
+<span class="k">with</span> <span class="n">schwimmbad</span><span class="o">.</span><span class="n">MPIPool</span><span class="p">()</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">pool</span><span class="o">.</span><span class="n">is_master</span><span class="p">():</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">ensemble</span> <span class="o">=</span> <span class="n">emcee3</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="n">log_prob</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">nwalkers</span><span class="p">,</span> <span class="n">ndim</span><span class="p">),</span> <span class="n">pool</span><span class="o">=</span><span class="n">pool</span><span class="p">)</span>
+    <span class="n">sampler</span> <span class="o">=</span> <span class="n">emcee3</span><span class="o">.</span><span class="n">Sampler</span><span class="p">()</span>
+    <span class="n">sampler</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">ensemble</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal"><span class="pre">if</span> <span class="pre">not</span> <span class="pre">pool.is_master()</span></code> block is crucial otherwise the code will
+hang at the end of execution. To run this code, you would execute
+something like the following:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>mpiexec -np <span class="m">16</span> name_of_file.py
+</pre></div>
+</div>
+</div>
+<div class="section" id="using-ipyparallel">
+<h2>Using ipyparallel<a class="headerlink" href="#using-ipyparallel" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://ipyparallel.readthedocs.io">ipyparallel</a> is a flexible and
+powerful framework for running distributed computation in Python. It
+works on a single machine with multiple cores in the same way as it does
+on a huge compute cluster and in both cases it is very efficient!</p>
+<p>To use IPython parallel, make sure that you have a recent version of
+IPython installed (<a class="reference external" href="https://ipyparallel.readthedocs.io">ipyparallel
+docs</a>) and start up the cluster
+by running:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>ipcluster start --engines<span class="o">=</span>MPI
+</pre></div>
+</div>
+<p>Then, run the following:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Connect to the cluster.</span>
+<span class="kn">from</span> <span class="nn">ipyparallel</span> <span class="k">import</span> <span class="n">Client</span>
+<span class="n">rc</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
+<span class="n">dv</span> <span class="o">=</span> <span class="n">rc</span><span class="o">.</span><span class="n">direct_view</span><span class="p">()</span>
+
+<span class="c1"># Run the imports on the cluster too.</span>
+<span class="k">with</span> <span class="n">dv</span><span class="o">.</span><span class="n">sync_imports</span><span class="p">():</span>
+    <span class="kn">import</span> <span class="nn">emcee3</span>
+    <span class="kn">import</span> <span class="nn">numpy</span>
+
+<span class="c1"># Define the model.</span>
+<span class="k">def</span> <span class="nf">log_prob</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Distribute the model to the nodes of the cluster.</span>
+<span class="n">dv</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">log_prob</span><span class="o">=</span><span class="n">log_prob</span><span class="p">),</span> <span class="n">block</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Set up the ensemble with the IPython &quot;DirectView&quot; as the pool.</span>
+<span class="n">ndim</span><span class="p">,</span> <span class="n">nwalkers</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span>
+<span class="n">ensemble</span> <span class="o">=</span> <span class="n">emcee3</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="n">log_prob</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">nwalkers</span><span class="p">,</span> <span class="n">ndim</span><span class="p">),</span> <span class="n">pool</span><span class="o">=</span><span class="n">dv</span><span class="p">)</span>
+
+<span class="c1"># Run the sampler in the same way as usual.</span>
+<span class="n">sampler</span> <span class="o">=</span> <span class="n">emcee3</span><span class="o">.</span><span class="n">Sampler</span><span class="p">()</span>
+<span class="n">ensemble</span> <span class="o">=</span> <span class="n">sampler</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">ensemble</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">importing</span> <span class="n">emcee3</span> <span class="n">on</span> <span class="n">engine</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="n">importing</span> <span class="n">numpy</span> <span class="n">on</span> <span class="n">engine</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>There is a significant overhead incurred when using any of these
+parallelization methods so for this simple example, the parallel version
+is actually <em>slower</em> but this effect will be quickly offset if your
+probability function is computationally expensive.</p>
+<p>One major benefit of using ipyparallel is that it can also be used
+identically on a cluster with MPI if you have a really big problem. The
+Python code would look identical and the only change that you would have
+to make is to start the cluster using:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>ipcluster start --engines<span class="o">=</span>MPI
+</pre></div>
+</div>
+<p>Take a look at <a class="reference external" href="http://ipython.org/ipython-doc/dev/parallel/">the
+documentation</a> for more
+details of all of the features available in ipyparallel.</p>
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../porting/" class="btn btn-neutral float-right" title="Porting your code to emcee3 from earlier versions" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../modeling/" class="btn btn-neutral" title="Modeling" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014-2016 Dan Foreman-Mackey &amp; contributors.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'3.0.0.dev0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="../../_static/js/analytics.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

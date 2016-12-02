@@ -1,0 +1,327 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>emcee3.tests.integration package &mdash; emcee3 3.0.0.dev0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.png"/>
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+  
+        <link rel="index" title="Index"
+              href="../../genindex/"/>
+        <link rel="search" title="Search" href="../../search/"/>
+    <link rel="top" title="emcee3 3.0.0.dev0 documentation" href="../../"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="../../" class="fa fa-home"> emcee3</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../user/install/">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user/modeling/">Modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user/porting/">Porting your code to emcee3 from earlier versions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../user/porting/#why-switch">Why switch?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../user/porting/#a-complete-example">A complete example</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/line/">Tutorial: Fitting a Model to Data</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/line/#generating-fake-data-from-the-model">Generating fake data from the model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/line/#maximum-likelihood-solution">Maximum-likelihood solution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/line/#building-the-probabilistic-model">Building the probabilistic model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/line/#sampling-from-the-posterior-probability">Sampling from the posterior probability</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/mixture-models/">Tutorial: Practical mixture models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/mixture-models/#the-basic-model">The basic model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/mixture-models/#the-marginalized-likelihood">The marginalized likelihood</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/mixture-models/#mixture-membership-probabilities">Mixture membership probabilities</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/#model-building">Model Building</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../">emcee3</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../">Docs</a> &raquo;</li>
+      
+    <li>emcee3.tests.integration package</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="https://github.com/dfm/emcee/blob/emcee3/docs/source/emcee3.tests.integration.rst" class="fa fa-github"> Edit on GitHub</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+
+            <div class="admonition warning">
+              <p class="first admonition-title">Version Warning</p>
+              <p class="last">
+                This documentation is for the development version of
+                <strong>emcee</strong> ("emcee3") and it isn't
+                backwards-compatible with earlier stable versions.
+                If you're using an earlier version, get that documentation
+                <a href="http://dfm.io/emcee">here</a>.
+              </p>
+            </div>
+
+            
+  <div class="section" id="emcee3-tests-integration-package">
+<h1>emcee3.tests.integration package<a class="headerlink" href="#emcee3-tests-integration-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-emcee3.tests.integration.test_de">
+<span id="emcee3-tests-integration-test-de-module"></span><h2>emcee3.tests.integration.test_de module<a class="headerlink" href="#module-emcee3.tests.integration.test_de" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="emcee3.tests.integration.test_de.test_normal_de">
+<code class="descclassname">emcee3.tests.integration.test_de.</code><code class="descname">test_normal_de</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.tests.integration.test_de.test_normal_de" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="emcee3.tests.integration.test_de.test_uniform_de">
+<code class="descclassname">emcee3.tests.integration.test_de.</code><code class="descname">test_uniform_de</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.tests.integration.test_de.test_uniform_de" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-emcee3.tests.integration.test_gaussian">
+<span id="emcee3-tests-integration-test-gaussian-module"></span><h2>emcee3.tests.integration.test_gaussian module<a class="headerlink" href="#module-emcee3.tests.integration.test_gaussian" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="emcee3.tests.integration.test_gaussian.test_normal_gaussian">
+<code class="descclassname">emcee3.tests.integration.test_gaussian.</code><code class="descname">test_normal_gaussian</code><span class="sig-paren">(</span><em>mode</em>, <em>factor</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.tests.integration.test_gaussian.test_normal_gaussian" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="emcee3.tests.integration.test_gaussian.test_uniform_gaussian">
+<code class="descclassname">emcee3.tests.integration.test_gaussian.</code><code class="descname">test_uniform_gaussian</code><span class="sig-paren">(</span><em>mode</em>, <em>factor</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.tests.integration.test_gaussian.test_uniform_gaussian" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="emcee3.tests.integration.test_gaussian.test_normal_gaussian_nd">
+<code class="descclassname">emcee3.tests.integration.test_gaussian.</code><code class="descname">test_normal_gaussian_nd</code><span class="sig-paren">(</span><em>mode</em>, <em>factor</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.tests.integration.test_gaussian.test_normal_gaussian_nd" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-emcee3.tests.integration.test_hmc">
+<span id="emcee3-tests-integration-test-hmc-module"></span><h2>emcee3.tests.integration.test_hmc module<a class="headerlink" href="#module-emcee3.tests.integration.test_hmc" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="emcee3.tests.integration.test_hmc.test_normal_hmc">
+<code class="descclassname">emcee3.tests.integration.test_hmc.</code><code class="descname">test_normal_hmc</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.tests.integration.test_hmc.test_normal_hmc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="emcee3.tests.integration.test_hmc.test_normal_hmc_nd">
+<code class="descclassname">emcee3.tests.integration.test_hmc.</code><code class="descname">test_normal_hmc_nd</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.tests.integration.test_hmc.test_normal_hmc_nd" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-emcee3.tests.integration.test_kde">
+<span id="emcee3-tests-integration-test-kde-module"></span><h2>emcee3.tests.integration.test_kde module<a class="headerlink" href="#module-emcee3.tests.integration.test_kde" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="emcee3.tests.integration.test_kde.test_normal_kde">
+<code class="descclassname">emcee3.tests.integration.test_kde.</code><code class="descname">test_normal_kde</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.tests.integration.test_kde.test_normal_kde" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="emcee3.tests.integration.test_kde.test_uniform_kde">
+<code class="descclassname">emcee3.tests.integration.test_kde.</code><code class="descname">test_uniform_kde</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.tests.integration.test_kde.test_uniform_kde" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="emcee3.tests.integration.test_kde.test_nsplits_kde">
+<code class="descclassname">emcee3.tests.integration.test_kde.</code><code class="descname">test_nsplits_kde</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.tests.integration.test_kde.test_nsplits_kde" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-emcee3.tests.integration.test_nuts">
+<span id="emcee3-tests-integration-test-nuts-module"></span><h2>emcee3.tests.integration.test_nuts module<a class="headerlink" href="#module-emcee3.tests.integration.test_nuts" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="emcee3.tests.integration.test_nuts.test_normal_nuts">
+<code class="descclassname">emcee3.tests.integration.test_nuts.</code><code class="descname">test_normal_nuts</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.tests.integration.test_nuts.test_normal_nuts" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-emcee3.tests.integration.test_proposal">
+<span id="emcee3-tests-integration-test-proposal-module"></span><h2>emcee3.tests.integration.test_proposal module<a class="headerlink" href="#module-emcee3.tests.integration.test_proposal" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-emcee3.tests.integration.test_stretch">
+<span id="emcee3-tests-integration-test-stretch-module"></span><h2>emcee3.tests.integration.test_stretch module<a class="headerlink" href="#module-emcee3.tests.integration.test_stretch" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="emcee3.tests.integration.test_stretch.test_normal_stretch">
+<code class="descclassname">emcee3.tests.integration.test_stretch.</code><code class="descname">test_normal_stretch</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.tests.integration.test_stretch.test_normal_stretch" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="emcee3.tests.integration.test_stretch.test_uniform_stretch">
+<code class="descclassname">emcee3.tests.integration.test_stretch.</code><code class="descname">test_uniform_stretch</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.tests.integration.test_stretch.test_uniform_stretch" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="emcee3.tests.integration.test_stretch.test_nsplits_stretch">
+<code class="descclassname">emcee3.tests.integration.test_stretch.</code><code class="descname">test_nsplits_stretch</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.tests.integration.test_stretch.test_nsplits_stretch" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-emcee3.tests.integration.test_walk">
+<span id="emcee3-tests-integration-test-walk-module"></span><h2>emcee3.tests.integration.test_walk module<a class="headerlink" href="#module-emcee3.tests.integration.test_walk" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="emcee3.tests.integration.test_walk.test_normal_walk">
+<code class="descclassname">emcee3.tests.integration.test_walk.</code><code class="descname">test_normal_walk</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.tests.integration.test_walk.test_normal_walk" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="emcee3.tests.integration.test_walk.test_uniform_walk">
+<code class="descclassname">emcee3.tests.integration.test_walk.</code><code class="descname">test_uniform_walk</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.tests.integration.test_walk.test_uniform_walk" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-emcee3.tests.integration">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-emcee3.tests.integration" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014-2016 Dan Foreman-Mackey &amp; contributors.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'3.0.0.dev0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="../../_static/js/analytics.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

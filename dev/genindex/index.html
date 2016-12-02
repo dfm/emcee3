@@ -1,0 +1,1730 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Index &mdash; emcee3 3.0.0.dev0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  
+        <link rel="index" title="Index"
+              href="#"/>
+        <link rel="search" title="Search" href="../search/"/>
+    <link rel="top" title="emcee3 3.0.0.dev0 documentation" href="../"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="../" class="fa fa-home"> emcee3</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../user/install/">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user/modeling/">Modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user/parallel/">Parallelization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../user/parallel/#using-multiprocessing">Using multiprocessing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/parallel/#using-mpi">Using MPI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/parallel/#using-ipyparallel">Using ipyparallel</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../user/porting/">Porting your code to emcee3 from earlier versions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../user/porting/#why-switch">Why switch?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/porting/#a-complete-example">A complete example</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/line/">Tutorial: Fitting a Model to Data</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/line/#generating-fake-data-from-the-model">Generating fake data from the model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/line/#maximum-likelihood-solution">Maximum-likelihood solution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/line/#building-the-probabilistic-model">Building the probabilistic model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/line/#sampling-from-the-posterior-probability">Sampling from the posterior probability</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/mixture-models/">Tutorial: Practical mixture models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/mixture-models/#the-basic-model">The basic model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/mixture-models/#the-marginalized-likelihood">The marginalized likelihood</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/mixture-models/#mixture-membership-probabilities">Mixture membership probabilities</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/#model-building">Model Building</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../">emcee3</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../">Docs</a> &raquo;</li>
+      
+    <li></li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="https://github.com/dfm/emcee/blob/emcee3/docs/genindex" class="fa fa-github"> Edit on GitHub</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+
+            <div class="admonition warning">
+              <p class="first admonition-title">Version Warning</p>
+              <p class="last">
+                This documentation is for the development version of
+                <strong>emcee</strong> ("emcee3") and it isn't
+                backwards-compatible with earlier stable versions.
+                If you're using an earlier version, get that documentation
+                <a href="http://dfm.io/emcee">here</a>.
+              </p>
+            </div>
+
+            
+
+<h1 id="index">Index</h1>
+
+<div class="genindex-jumpbox">
+ <a href="#A"><strong>A</strong></a>
+ | <a href="#B"><strong>B</strong></a>
+ | <a href="#C"><strong>C</strong></a>
+ | <a href="#D"><strong>D</strong></a>
+ | <a href="#E"><strong>E</strong></a>
+ | <a href="#F"><strong>F</strong></a>
+ | <a href="#G"><strong>G</strong></a>
+ | <a href="#H"><strong>H</strong></a>
+ | <a href="#I"><strong>I</strong></a>
+ | <a href="#J"><strong>J</strong></a>
+ | <a href="#K"><strong>K</strong></a>
+ | <a href="#L"><strong>L</strong></a>
+ | <a href="#M"><strong>M</strong></a>
+ | <a href="#N"><strong>N</strong></a>
+ | <a href="#O"><strong>O</strong></a>
+ | <a href="#P"><strong>P</strong></a>
+ | <a href="#R"><strong>R</strong></a>
+ | <a href="#S"><strong>S</strong></a>
+ | <a href="#T"><strong>T</strong></a>
+ | <a href="#U"><strong>U</strong></a>
+ | <a href="#W"><strong>W</strong></a>
+ 
+</div>
+<h2 id="A">A</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.Backend.acceptance">acceptance (emcee3.backends.Backend attribute)</a>, <a href="../source/emcee3.backends/#emcee3.backends.Backend.acceptance">[1]</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3/#emcee3.Sampler.acceptance">(emcee3.Sampler attribute)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.HDFBackend.acceptance">(emcee3.backends.HDFBackend attribute)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.backend.Backend.acceptance">(emcee3.backends.backend.Backend attribute)</a>, <a href="../source/emcee3.backends/#emcee3.backends.backend.Backend.acceptance">[1]</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.hdf.HDFBackend.acceptance">(emcee3.backends.hdf.HDFBackend attribute)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.samplers/#emcee3.samplers.Sampler.acceptance">(emcee3.samplers.Sampler attribute)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.samplers/#emcee3.samplers.sampler.Sampler.acceptance">(emcee3.samplers.sampler.Sampler attribute)</a>
+  </dt>
+
+      </dl></dd>
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.Backend.acceptance_fraction">acceptance_fraction (emcee3.backends.Backend attribute)</a>, <a href="../source/emcee3.backends/#emcee3.backends.Backend.acceptance_fraction">[1]</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3/#emcee3.Sampler.acceptance_fraction">(emcee3.Sampler attribute)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.backend.Backend.acceptance_fraction">(emcee3.backends.backend.Backend attribute)</a>, <a href="../source/emcee3.backends/#emcee3.backends.backend.Backend.acceptance_fraction">[1]</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.samplers/#emcee3.samplers.Sampler.acceptance_fraction">(emcee3.samplers.Sampler attribute)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.samplers/#emcee3.samplers.sampler.Sampler.acceptance_fraction">(emcee3.samplers.sampler.Sampler attribute)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="../source/emcee3/#emcee3.autocorr.AutocorrError">AutocorrError</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="B">B</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.Backend">Backend (class in emcee3.backends)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.backend.Backend">(class in emcee3.backends.backend)</a>
+  </dt>
+
+      </dl></dd>
+  </dl></td>
+</tr></table>
+
+<h2 id="C">C</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.Backend.check_dimensions">check_dimensions() (emcee3.backends.Backend method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.backend.Backend.check_dimensions">(emcee3.backends.backend.Backend method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="../source/emcee3/#emcee3.model.SimpleModel.check_grad">check_grad() (emcee3.model.SimpleModel method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3/#emcee3.SimpleModel.check_grad">(emcee3.SimpleModel method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="../source/emcee3/#emcee3.Model.compute_grad_log_likelihood">compute_grad_log_likelihood() (emcee3.Model method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3/#emcee3.SimpleModel.compute_grad_log_likelihood">(emcee3.SimpleModel method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3/#emcee3.model.Model.compute_grad_log_likelihood">(emcee3.model.Model method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3/#emcee3.model.SimpleModel.compute_grad_log_likelihood">(emcee3.model.SimpleModel method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.tests/#emcee3.tests.common.NormalWalker.compute_grad_log_likelihood">(emcee3.tests.common.NormalWalker method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="../source/emcee3/#emcee3.Model.compute_grad_log_prior">compute_grad_log_prior() (emcee3.Model method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3/#emcee3.SimpleModel.compute_grad_log_prior">(emcee3.SimpleModel method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3/#emcee3.model.Model.compute_grad_log_prior">(emcee3.model.Model method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3/#emcee3.model.SimpleModel.compute_grad_log_prior">(emcee3.model.SimpleModel method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.tests/#emcee3.tests.common.NormalWalker.compute_grad_log_prior">(emcee3.tests.common.NormalWalker method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="../source/emcee3/#emcee3.Model.compute_grad_log_probability">compute_grad_log_probability() (emcee3.Model method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3/#emcee3.model.Model.compute_grad_log_probability">(emcee3.model.Model method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="../source/emcee3/#emcee3.Model.compute_log_likelihood">compute_log_likelihood() (emcee3.Model method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3/#emcee3.SimpleModel.compute_log_likelihood">(emcee3.SimpleModel method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3/#emcee3.model.Model.compute_log_likelihood">(emcee3.model.Model method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3/#emcee3.model.SimpleModel.compute_log_likelihood">(emcee3.model.SimpleModel method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.tests/#emcee3.tests.common.MetadataWalker.compute_log_likelihood">(emcee3.tests.common.MetadataWalker method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.tests/#emcee3.tests.common.NormalWalker.compute_log_likelihood">(emcee3.tests.common.NormalWalker method)</a>
+  </dt>
+
+      </dl></dd>
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="../source/emcee3/#emcee3.Model.compute_log_prior">compute_log_prior() (emcee3.Model method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3/#emcee3.SimpleModel.compute_log_prior">(emcee3.SimpleModel method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3/#emcee3.model.Model.compute_log_prior">(emcee3.model.Model method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3/#emcee3.model.SimpleModel.compute_log_prior">(emcee3.model.SimpleModel method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.tests/#emcee3.tests.common.NormalWalker.compute_log_prior">(emcee3.tests.common.NormalWalker method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="../source/emcee3/#emcee3.Model.compute_log_probability">compute_log_probability() (emcee3.Model method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3/#emcee3.model.Model.compute_log_probability">(emcee3.model.Model method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.Backend.coords">coords (emcee3.backends.Backend attribute)</a>, <a href="../source/emcee3.backends/#emcee3.backends.Backend.coords">[1]</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3/#emcee3.Sampler.coords">(emcee3.Sampler attribute)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.backend.Backend.coords">(emcee3.backends.backend.Backend attribute)</a>, <a href="../source/emcee3.backends/#emcee3.backends.backend.Backend.coords">[1]</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.samplers/#emcee3.samplers.Sampler.coords">(emcee3.samplers.Sampler attribute)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.samplers/#emcee3.samplers.sampler.Sampler.coords">(emcee3.samplers.sampler.Sampler attribute)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.Backend.current_coords">current_coords (emcee3.backends.Backend attribute)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3/#emcee3.Sampler.current_coords">(emcee3.Sampler attribute)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.HDFBackend.current_coords">(emcee3.backends.HDFBackend attribute)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.backend.Backend.current_coords">(emcee3.backends.backend.Backend attribute)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.hdf.HDFBackend.current_coords">(emcee3.backends.hdf.HDFBackend attribute)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.samplers/#emcee3.samplers.Sampler.current_coords">(emcee3.samplers.Sampler attribute)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.samplers/#emcee3.samplers.sampler.Sampler.current_coords">(emcee3.samplers.sampler.Sampler attribute)</a>
+  </dt>
+
+      </dl></dd>
+  </dl></td>
+</tr></table>
+
+<h2 id="D">D</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="../source/emcee3.pools/#emcee3.pools.DefaultPool">DefaultPool (class in emcee3.pools)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3.pools/#emcee3.pools.default.DefaultPool">(class in emcee3.pools.default)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="../source/emcee3.moves/#emcee3.moves.DEMove">DEMove (class in emcee3.moves)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3.moves/#emcee3.moves.de.DEMove">(class in emcee3.moves.de)</a>
+  </dt>
+
+      </dl></dd>
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="../source/emcee3.moves/#emcee3.moves.DESnookerMove">DESnookerMove (class in emcee3.moves)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3/#emcee3.Ensemble.dtype">dtype (emcee3.Ensemble attribute)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3/#emcee3.State.dtype">(emcee3.State attribute)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3/#emcee3.ensemble.Ensemble.dtype">(emcee3.ensemble.Ensemble attribute)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3/#emcee3.state.State.dtype">(emcee3.state.State attribute)</a>
+  </dt>
+
+      </dl></dd>
+  </dl></td>
+</tr></table>
+
+<h2 id="E">E</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="../user/modeling/#module-emcee">emcee (module)</a>, <a href="../user/porting/#module-emcee">[1]</a>, <a href="../user/quickstart/#module-emcee">[2]</a>
+  </dt>
+
+      
+  <dt><a href="../api/#module-emcee3">emcee3 (module)</a>, <a href="../source/emcee3/#module-emcee3">[1]</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3/#module-emcee3.autocorr">emcee3.autocorr (module)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.backends/#module-emcee3.backends">emcee3.backends (module)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.backends/#module-emcee3.backends.backend">emcee3.backends.backend (module)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.backends/#module-emcee3.backends.hdf">emcee3.backends.hdf (module)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3/#module-emcee3.ensemble">emcee3.ensemble (module)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3/#module-emcee3.model">emcee3.model (module)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.moves/#module-emcee3.moves">emcee3.moves (module)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.moves/#module-emcee3.moves.de">emcee3.moves.de (module)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.moves/#module-emcee3.moves.gaussian">emcee3.moves.gaussian (module)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.moves/#module-emcee3.moves.hmc">emcee3.moves.hmc (module)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.moves/#module-emcee3.moves.kde">emcee3.moves.kde (module)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.moves/#module-emcee3.moves.mh">emcee3.moves.mh (module)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.moves/#module-emcee3.moves.nuts">emcee3.moves.nuts (module)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.moves/#module-emcee3.moves.red_blue">emcee3.moves.red_blue (module)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.moves/#module-emcee3.moves.stretch">emcee3.moves.stretch (module)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.moves/#module-emcee3.moves.walk">emcee3.moves.walk (module)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3/#module-emcee3.numgrad">emcee3.numgrad (module)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.pools/#module-emcee3.pools">emcee3.pools (module)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.pools/#module-emcee3.pools.default">emcee3.pools.default (module)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.pools/#module-emcee3.pools.interruptible">emcee3.pools.interruptible (module)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.pools/#module-emcee3.pools.jl">emcee3.pools.jl (module)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.samplers/#module-emcee3.samplers">emcee3.samplers (module)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.samplers/#module-emcee3.samplers.sampler">emcee3.samplers.sampler (module)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3/#module-emcee3.state">emcee3.state (module)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="../source/emcee3.tests/#module-emcee3.tests">emcee3.tests (module)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests/#module-emcee3.tests.common">emcee3.tests.common (module)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.integration/#module-emcee3.tests.integration">emcee3.tests.integration (module)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.integration/#module-emcee3.tests.integration.test_de">emcee3.tests.integration.test_de (module)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.integration/#module-emcee3.tests.integration.test_gaussian">emcee3.tests.integration.test_gaussian (module)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.integration/#module-emcee3.tests.integration.test_hmc">emcee3.tests.integration.test_hmc (module)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.integration/#module-emcee3.tests.integration.test_kde">emcee3.tests.integration.test_kde (module)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.integration/#module-emcee3.tests.integration.test_nuts">emcee3.tests.integration.test_nuts (module)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.integration/#module-emcee3.tests.integration.test_proposal">emcee3.tests.integration.test_proposal (module)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.integration/#module-emcee3.tests.integration.test_stretch">emcee3.tests.integration.test_stretch (module)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.integration/#module-emcee3.tests.integration.test_walk">emcee3.tests.integration.test_walk (module)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.unit/#module-emcee3.tests.unit">emcee3.tests.unit (module)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.unit/#module-emcee3.tests.unit.test_autocorr">emcee3.tests.unit.test_autocorr (module)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.unit/#module-emcee3.tests.unit.test_backends">emcee3.tests.unit.test_backends (module)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.unit/#module-emcee3.tests.unit.test_ensemble">emcee3.tests.unit.test_ensemble (module)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.unit/#module-emcee3.tests.unit.test_numgrad">emcee3.tests.unit.test_numgrad (module)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.unit/#module-emcee3.tests.unit.test_pickle">emcee3.tests.unit.test_pickle (module)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.unit/#module-emcee3.tests.unit.test_sampler">emcee3.tests.unit.test_sampler (module)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.unit/#module-emcee3.tests.unit.test_state">emcee3.tests.unit.test_state (module)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.unit/#module-emcee3.tests.unit.test_stretch">emcee3.tests.unit.test_stretch (module)</a>
+  </dt>
+
+      
+  <dt><a href="../api/#emcee3.Ensemble">Ensemble (class in emcee3)</a>, <a href="../source/emcee3/#emcee3.Ensemble">[1]</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3/#emcee3.ensemble.Ensemble">(class in emcee3.ensemble)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.Backend.extend">extend() (emcee3.backends.Backend method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.HDFBackend.extend">(emcee3.backends.HDFBackend method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.backend.Backend.extend">(emcee3.backends.backend.Backend method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.hdf.HDFBackend.extend">(emcee3.backends.hdf.HDFBackend method)</a>
+  </dt>
+
+      </dl></dd>
+  </dl></td>
+</tr></table>
+
+<h2 id="F">F</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="../source/emcee3.moves/#emcee3.moves.red_blue.RedBlueMove.finalize">finalize() (emcee3.moves.red_blue.RedBlueMove method)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3/#emcee3.State.from_array">from_array() (emcee3.State class method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3/#emcee3.state.State.from_array">(emcee3.state.State class method)</a>
+  </dt>
+
+      </dl></dd>
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="../source/emcee3/#emcee3.autocorr.function">function() (in module emcee3.autocorr)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="G">G</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="../source/emcee3.moves/#emcee3.moves.GaussianMove">GaussianMove (class in emcee3.moves)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3.moves/#emcee3.moves.gaussian.GaussianMove">(class in emcee3.moves.gaussian)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="../source/emcee3.moves/#emcee3.moves.HamiltonianMove.get_args">get_args() (emcee3.moves.HamiltonianMove method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3.moves/#emcee3.moves.NoUTurnsMove.get_args">(emcee3.moves.NoUTurnsMove method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.moves/#emcee3.moves.hmc.HamiltonianMove.get_args">(emcee3.moves.hmc.HamiltonianMove method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.moves/#emcee3.moves.nuts.NoUTurnsMove.get_args">(emcee3.moves.nuts.NoUTurnsMove method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.Backend.get_coords">get_coords() (emcee3.backends.Backend method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3/#emcee3.Sampler.get_coords">(emcee3.Sampler method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.backend.Backend.get_coords">(emcee3.backends.backend.Backend method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.samplers/#emcee3.samplers.Sampler.get_coords">(emcee3.samplers.Sampler method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.samplers/#emcee3.samplers.sampler.Sampler.get_coords">(emcee3.samplers.sampler.Sampler method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.Backend.get_integrated_autocorr_time">get_integrated_autocorr_time() (emcee3.backends.Backend method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3/#emcee3.Sampler.get_integrated_autocorr_time">(emcee3.Sampler method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.backend.Backend.get_integrated_autocorr_time">(emcee3.backends.backend.Backend method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.samplers/#emcee3.samplers.Sampler.get_integrated_autocorr_time">(emcee3.samplers.Sampler method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.samplers/#emcee3.samplers.sampler.Sampler.get_integrated_autocorr_time">(emcee3.samplers.sampler.Sampler method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.Backend.get_log_likelihood">get_log_likelihood() (emcee3.backends.Backend method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3/#emcee3.Sampler.get_log_likelihood">(emcee3.Sampler method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.backend.Backend.get_log_likelihood">(emcee3.backends.backend.Backend method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.samplers/#emcee3.samplers.Sampler.get_log_likelihood">(emcee3.samplers.Sampler method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.samplers/#emcee3.samplers.sampler.Sampler.get_log_likelihood">(emcee3.samplers.sampler.Sampler method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.Backend.get_log_prior">get_log_prior() (emcee3.backends.Backend method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3/#emcee3.Sampler.get_log_prior">(emcee3.Sampler method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.backend.Backend.get_log_prior">(emcee3.backends.backend.Backend method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.samplers/#emcee3.samplers.Sampler.get_log_prior">(emcee3.samplers.Sampler method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.samplers/#emcee3.samplers.sampler.Sampler.get_log_prior">(emcee3.samplers.sampler.Sampler method)</a>
+  </dt>
+
+      </dl></dd>
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.Backend.get_log_probability">get_log_probability() (emcee3.backends.Backend method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3/#emcee3.Sampler.get_log_probability">(emcee3.Sampler method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.backend.Backend.get_log_probability">(emcee3.backends.backend.Backend method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.samplers/#emcee3.samplers.Sampler.get_log_probability">(emcee3.samplers.Sampler method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.samplers/#emcee3.samplers.sampler.Sampler.get_log_probability">(emcee3.samplers.sampler.Sampler method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="../source/emcee3.moves/#emcee3.moves.de.DEMove.get_proposal">get_proposal() (emcee3.moves.de.DEMove method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3.moves/#emcee3.moves.DEMove.get_proposal">(emcee3.moves.DEMove method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.moves/#emcee3.moves.DESnookerMove.get_proposal">(emcee3.moves.DESnookerMove method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.moves/#emcee3.moves.KDEMove.get_proposal">(emcee3.moves.KDEMove method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.moves/#emcee3.moves.StretchMove.get_proposal">(emcee3.moves.StretchMove method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.moves/#emcee3.moves.WalkMove.get_proposal">(emcee3.moves.WalkMove method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.moves/#emcee3.moves.kde.KDEMove.get_proposal">(emcee3.moves.kde.KDEMove method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.moves/#emcee3.moves.red_blue.RedBlueMove.get_proposal">(emcee3.moves.red_blue.RedBlueMove method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.moves/#emcee3.moves.stretch.StretchMove.get_proposal">(emcee3.moves.stretch.StretchMove method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.moves/#emcee3.moves.walk.WalkMove.get_proposal">(emcee3.moves.walk.WalkMove method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.Backend.get_value">get_value() (emcee3.backends.Backend method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3/#emcee3.Ensemble.get_value">(emcee3.Ensemble method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.backend.Backend.get_value">(emcee3.backends.backend.Backend method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3/#emcee3.ensemble.Ensemble.get_value">(emcee3.ensemble.Ensemble method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="../source/emcee3/#emcee3.State.grad_log_probability">grad_log_probability (emcee3.State attribute)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3/#emcee3.state.State.grad_log_probability">(emcee3.state.State attribute)</a>
+  </dt>
+
+      </dl></dd>
+  </dl></td>
+</tr></table>
+
+<h2 id="H">H</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="../source/emcee3.moves/#emcee3.moves.HamiltonianMove">HamiltonianMove (class in emcee3.moves)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3.moves/#emcee3.moves.hmc.HamiltonianMove">(class in emcee3.moves.hmc)</a>
+  </dt>
+
+      </dl></dd>
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.HDFBackend">HDFBackend (class in emcee3.backends)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.hdf.HDFBackend">(class in emcee3.backends.hdf)</a>
+  </dt>
+
+      </dl></dd>
+  </dl></td>
+</tr></table>
+
+<h2 id="I">I</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="../source/emcee3/#emcee3.autocorr.integrated_time">integrated_time() (in module emcee3.autocorr)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.pools/#emcee3.pools.InterruptiblePool">InterruptiblePool (class in emcee3.pools)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3.pools/#emcee3.pools.interruptible.InterruptiblePool">(class in emcee3.pools.interruptible)</a>
+  </dt>
+
+      </dl></dd>
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="../source/emcee3/#emcee3.model.is_model">is_model() (in module emcee3.model)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="J">J</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="../source/emcee3.pools/#emcee3.pools.JoblibPool">JoblibPool (class in emcee3.pools)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3.pools/#emcee3.pools.jl.JoblibPool">(class in emcee3.pools.jl)</a>
+  </dt>
+
+      </dl></dd>
+  </dl></td>
+</tr></table>
+
+<h2 id="K">K</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="../source/emcee3.moves/#emcee3.moves.KDEMove">KDEMove (class in emcee3.moves)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3.moves/#emcee3.moves.kde.KDEMove">(class in emcee3.moves.kde)</a>
+  </dt>
+
+      </dl></dd>
+  </dl></td>
+</tr></table>
+
+<h2 id="L">L</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.Backend.log_likelihood">log_likelihood (emcee3.backends.Backend attribute)</a>, <a href="../source/emcee3.backends/#emcee3.backends.Backend.log_likelihood">[1]</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3/#emcee3.Sampler.log_likelihood">(emcee3.Sampler attribute)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.backend.Backend.log_likelihood">(emcee3.backends.backend.Backend attribute)</a>, <a href="../source/emcee3.backends/#emcee3.backends.backend.Backend.log_likelihood">[1]</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.samplers/#emcee3.samplers.Sampler.log_likelihood">(emcee3.samplers.Sampler attribute)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.samplers/#emcee3.samplers.sampler.Sampler.log_likelihood">(emcee3.samplers.sampler.Sampler attribute)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.Backend.log_prior">log_prior (emcee3.backends.Backend attribute)</a>, <a href="../source/emcee3.backends/#emcee3.backends.Backend.log_prior">[1]</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3/#emcee3.Sampler.log_prior">(emcee3.Sampler attribute)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.backend.Backend.log_prior">(emcee3.backends.backend.Backend attribute)</a>, <a href="../source/emcee3.backends/#emcee3.backends.backend.Backend.log_prior">[1]</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.samplers/#emcee3.samplers.Sampler.log_prior">(emcee3.samplers.Sampler attribute)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.samplers/#emcee3.samplers.sampler.Sampler.log_prior">(emcee3.samplers.sampler.Sampler attribute)</a>
+  </dt>
+
+      </dl></dd>
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.Backend.log_probability">log_probability (emcee3.backends.Backend attribute)</a>, <a href="../source/emcee3.backends/#emcee3.backends.Backend.log_probability">[1]</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3/#emcee3.Sampler.log_probability">(emcee3.Sampler attribute)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3/#emcee3.State.log_probability">(emcee3.State attribute)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.backend.Backend.log_probability">(emcee3.backends.backend.Backend attribute)</a>, <a href="../source/emcee3.backends/#emcee3.backends.backend.Backend.log_probability">[1]</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.samplers/#emcee3.samplers.Sampler.log_probability">(emcee3.samplers.Sampler attribute)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.samplers/#emcee3.samplers.sampler.Sampler.log_probability">(emcee3.samplers.sampler.Sampler attribute)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3/#emcee3.state.State.log_probability">(emcee3.state.State attribute)</a>
+  </dt>
+
+      </dl></dd>
+  </dl></td>
+</tr></table>
+
+<h2 id="M">M</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="../source/emcee3.pools/#emcee3.pools.default.DefaultPool.map">map() (emcee3.pools.default.DefaultPool method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3.pools/#emcee3.pools.DefaultPool.map">(emcee3.pools.DefaultPool method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.pools/#emcee3.pools.InterruptiblePool.map">(emcee3.pools.InterruptiblePool method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.pools/#emcee3.pools.JoblibPool.map">(emcee3.pools.JoblibPool method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.pools/#emcee3.pools.interruptible.InterruptiblePool.map">(emcee3.pools.interruptible.InterruptiblePool method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.pools/#emcee3.pools.jl.JoblibPool.map">(emcee3.pools.jl.JoblibPool method)</a>
+  </dt>
+
+      </dl></dd>
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="../source/emcee3.tests/#emcee3.tests.common.MetadataWalker">MetadataWalker (class in emcee3.tests.common)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.moves/#emcee3.moves.MHMove">MHMove (class in emcee3.moves)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3.moves/#emcee3.moves.mh.MHMove">(class in emcee3.moves.mh)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="../source/emcee3/#emcee3.Model">Model (class in emcee3)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3/#emcee3.model.Model">(class in emcee3.model)</a>
+  </dt>
+
+      </dl></dd>
+  </dl></td>
+</tr></table>
+
+<h2 id="N">N</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.hdf.HDFBackend.niter">niter (emcee3.backends.hdf.HDFBackend attribute)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.HDFBackend.niter">(emcee3.backends.HDFBackend attribute)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="../source/emcee3.tests/#emcee3.tests.common.NormalWalker">NormalWalker (class in emcee3.tests.common)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="../source/emcee3.moves/#emcee3.moves.NoUTurnsMove">NoUTurnsMove (class in emcee3.moves)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3.moves/#emcee3.moves.nuts.NoUTurnsMove">(class in emcee3.moves.nuts)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="../source/emcee3/#emcee3.numgrad.numerical_gradient_1">numerical_gradient_1 (class in emcee3.numgrad)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3/#emcee3.numgrad.numerical_gradient_2">numerical_gradient_2 (class in emcee3.numgrad)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="O">O</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.hdf.HDFBackend.open">open() (emcee3.backends.hdf.HDFBackend method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.HDFBackend.open">(emcee3.backends.HDFBackend method)</a>
+  </dt>
+
+      </dl></dd>
+  </dl></td>
+</tr></table>
+
+<h2 id="P">P</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="../api/#emcee3.Ensemble.propose">propose() (emcee3.Ensemble method)</a>, <a href="../source/emcee3/#emcee3.Ensemble.propose">[1]</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3/#emcee3.ensemble.Ensemble.propose">(emcee3.ensemble.Ensemble method)</a>
+  </dt>
+
+      </dl></dd>
+  </dl></td>
+</tr></table>
+
+<h2 id="R">R</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.Backend.random_state">random_state (emcee3.backends.Backend attribute)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.HDFBackend.random_state">(emcee3.backends.HDFBackend attribute)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.backend.Backend.random_state">(emcee3.backends.backend.Backend attribute)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.hdf.HDFBackend.random_state">(emcee3.backends.hdf.HDFBackend attribute)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="../source/emcee3.moves/#emcee3.moves.red_blue.RedBlueMove">RedBlueMove (class in emcee3.moves.red_blue)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.Backend.reset">reset() (emcee3.backends.Backend method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3/#emcee3.Sampler.reset">(emcee3.Sampler method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.HDFBackend.reset">(emcee3.backends.HDFBackend method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.backend.Backend.reset">(emcee3.backends.backend.Backend method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.hdf.HDFBackend.reset">(emcee3.backends.hdf.HDFBackend method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.samplers/#emcee3.samplers.Sampler.reset">(emcee3.samplers.Sampler method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.samplers/#emcee3.samplers.sampler.Sampler.reset">(emcee3.samplers.sampler.Sampler method)</a>
+  </dt>
+
+      </dl></dd>
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="../source/emcee3/#emcee3.Sampler.run">run() (emcee3.Sampler method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3.samplers/#emcee3.samplers.Sampler.run">(emcee3.samplers.Sampler method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.samplers/#emcee3.samplers.sampler.Sampler.run">(emcee3.samplers.sampler.Sampler method)</a>
+  </dt>
+
+      </dl></dd>
+  </dl></td>
+</tr></table>
+
+<h2 id="S">S</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="../source/emcee3/#emcee3.Sampler.sample">sample() (emcee3.Sampler method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3.samplers/#emcee3.samplers.Sampler.sample">(emcee3.samplers.Sampler method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.samplers/#emcee3.samplers.sampler.Sampler.sample">(emcee3.samplers.sampler.Sampler method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="../source/emcee3/#emcee3.Sampler">Sampler (class in emcee3)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3.samplers/#emcee3.samplers.Sampler">(class in emcee3.samplers)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.samplers/#emcee3.samplers.sampler.Sampler">(class in emcee3.samplers.sampler)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="../source/emcee3.moves/#emcee3.moves.de.DEMove.setup">setup() (emcee3.moves.de.DEMove method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3.moves/#emcee3.moves.DEMove.setup">(emcee3.moves.DEMove method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.moves/#emcee3.moves.red_blue.RedBlueMove.setup">(emcee3.moves.red_blue.RedBlueMove method)</a>
+  </dt>
+
+      </dl></dd>
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="../source/emcee3/#emcee3.SimpleModel">SimpleModel (class in emcee3)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3/#emcee3.model.SimpleModel">(class in emcee3.model)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="../source/emcee3/#emcee3.State">State (class in emcee3)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3/#emcee3.state.State">(class in emcee3.state)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="../source/emcee3.moves/#emcee3.moves.StretchMove">StretchMove (class in emcee3.moves)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3.moves/#emcee3.moves.stretch.StretchMove">(class in emcee3.moves.stretch)</a>
+  </dt>
+
+      </dl></dd>
+  </dl></td>
+</tr></table>
+
+<h2 id="T">T</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="../source/emcee3.tests.unit/#emcee3.tests.unit.test_state.test_dtype">test_dtype() (in module emcee3.tests.unit.test_state)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.unit/#emcee3.tests.unit.test_pickle.test_ensemble_pickle">test_ensemble_pickle() (in module emcee3.tests.unit.test_pickle)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.unit/#emcee3.tests.unit.test_sampler.test_errors">test_errors() (in module emcee3.tests.unit.test_sampler)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.unit/#emcee3.tests.unit.test_backends.test_hdf">test_hdf() (in module emcee3.tests.unit.test_backends)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.unit/#emcee3.tests.unit.test_backends.test_hdf_reload">test_hdf_reload() (in module emcee3.tests.unit.test_backends)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.unit/#emcee3.tests.unit.test_ensemble.test_invalid_coords_init">test_invalid_coords_init() (in module emcee3.tests.unit.test_ensemble)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.unit/#emcee3.tests.unit.test_ensemble.test_invalid_dims_init">test_invalid_dims_init() (in module emcee3.tests.unit.test_ensemble)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.unit/#emcee3.tests.unit.test_stretch.test_live_dangerously">test_live_dangerously() (in module emcee3.tests.unit.test_stretch)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.unit/#emcee3.tests.unit.test_backends.test_metadata">test_metadata() (in module emcee3.tests.unit.test_backends)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.unit/#emcee3.tests.unit.test_pickle.test_moves_pickle">test_moves_pickle() (in module emcee3.tests.unit.test_pickle)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.unit/#emcee3.tests.unit.test_autocorr.test_nd">test_nd() (in module emcee3.tests.unit.test_autocorr)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.integration/#emcee3.tests.integration.test_de.test_normal_de">test_normal_de() (in module emcee3.tests.integration.test_de)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.integration/#emcee3.tests.integration.test_gaussian.test_normal_gaussian">test_normal_gaussian() (in module emcee3.tests.integration.test_gaussian)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.integration/#emcee3.tests.integration.test_gaussian.test_normal_gaussian_nd">test_normal_gaussian_nd() (in module emcee3.tests.integration.test_gaussian)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.integration/#emcee3.tests.integration.test_hmc.test_normal_hmc">test_normal_hmc() (in module emcee3.tests.integration.test_hmc)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.integration/#emcee3.tests.integration.test_hmc.test_normal_hmc_nd">test_normal_hmc_nd() (in module emcee3.tests.integration.test_hmc)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.integration/#emcee3.tests.integration.test_kde.test_normal_kde">test_normal_kde() (in module emcee3.tests.integration.test_kde)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.integration/#emcee3.tests.integration.test_nuts.test_normal_nuts">test_normal_nuts() (in module emcee3.tests.integration.test_nuts)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.integration/#emcee3.tests.integration.test_stretch.test_normal_stretch">test_normal_stretch() (in module emcee3.tests.integration.test_stretch)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="../source/emcee3.tests.integration/#emcee3.tests.integration.test_walk.test_normal_walk">test_normal_walk() (in module emcee3.tests.integration.test_walk)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.integration/#emcee3.tests.integration.test_kde.test_nsplits_kde">test_nsplits_kde() (in module emcee3.tests.integration.test_kde)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.integration/#emcee3.tests.integration.test_stretch.test_nsplits_stretch">test_nsplits_stretch() (in module emcee3.tests.integration.test_stretch)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.unit/#emcee3.tests.unit.test_numgrad.test_numgrad">test_numgrad() (in module emcee3.tests.unit.test_numgrad)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.unit/#emcee3.tests.unit.test_state.test_repr">test_repr() (in module emcee3.tests.unit.test_state)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.unit/#emcee3.tests.unit.test_sampler.test_schedule">test_schedule() (in module emcee3.tests.unit.test_sampler)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.unit/#emcee3.tests.unit.test_state.test_serialization">test_serialization() (in module emcee3.tests.unit.test_state)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.unit/#emcee3.tests.unit.test_sampler.test_shapes">test_shapes() (in module emcee3.tests.unit.test_sampler)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.unit/#emcee3.tests.unit.test_sampler.test_thin">test_thin() (in module emcee3.tests.unit.test_sampler)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.unit/#emcee3.tests.unit.test_autocorr.test_too_short">test_too_short() (in module emcee3.tests.unit.test_autocorr)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.integration/#emcee3.tests.integration.test_de.test_uniform_de">test_uniform_de() (in module emcee3.tests.integration.test_de)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.integration/#emcee3.tests.integration.test_gaussian.test_uniform_gaussian">test_uniform_gaussian() (in module emcee3.tests.integration.test_gaussian)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.integration/#emcee3.tests.integration.test_kde.test_uniform_kde">test_uniform_kde() (in module emcee3.tests.integration.test_kde)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.integration/#emcee3.tests.integration.test_stretch.test_uniform_stretch">test_uniform_stretch() (in module emcee3.tests.integration.test_stretch)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.integration/#emcee3.tests.integration.test_walk.test_uniform_walk">test_uniform_walk() (in module emcee3.tests.integration.test_walk)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.unit/#emcee3.tests.unit.test_ensemble.test_valid_init">test_valid_init() (in module emcee3.tests.unit.test_ensemble)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.tests.unit/#emcee3.tests.unit.test_pickle.test_walker_pickle">test_walker_pickle() (in module emcee3.tests.unit.test_pickle)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3/#emcee3.State.to_array">to_array() (emcee3.State method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3/#emcee3.state.State.to_array">(emcee3.state.State method)</a>
+  </dt>
+
+      </dl></dd>
+  </dl></td>
+</tr></table>
+
+<h2 id="U">U</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="../source/emcee3.tests/#emcee3.tests.common.UniformWalker">UniformWalker (class in emcee3.tests.common)</a>
+  </dt>
+
+      
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.Backend.update">update() (emcee3.backends.Backend method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../api/#emcee3.Ensemble.update">(emcee3.Ensemble method)</a>, <a href="../source/emcee3/#emcee3.Ensemble.update">[1]</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.HDFBackend.update">(emcee3.backends.HDFBackend method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.backend.Backend.update">(emcee3.backends.backend.Backend method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.backends/#emcee3.backends.hdf.HDFBackend.update">(emcee3.backends.hdf.HDFBackend method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3/#emcee3.ensemble.Ensemble.update">(emcee3.ensemble.Ensemble method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.moves/#emcee3.moves.HamiltonianMove.update">(emcee3.moves.HamiltonianMove method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.moves/#emcee3.moves.MHMove.update">(emcee3.moves.MHMove method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.moves/#emcee3.moves.hmc.HamiltonianMove.update">(emcee3.moves.hmc.HamiltonianMove method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.moves/#emcee3.moves.mh.MHMove.update">(emcee3.moves.mh.MHMove method)</a>
+  </dt>
+
+        
+  <dt><a href="../source/emcee3.moves/#emcee3.moves.red_blue.RedBlueMove.update">(emcee3.moves.red_blue.RedBlueMove method)</a>
+  </dt>
+
+      </dl></dd>
+  </dl></td>
+</tr></table>
+
+<h2 id="W">W</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="../source/emcee3.pools/#emcee3.pools.interruptible.InterruptiblePool.wait_timeout">wait_timeout (emcee3.pools.interruptible.InterruptiblePool attribute)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3.pools/#emcee3.pools.InterruptiblePool.wait_timeout">(emcee3.pools.InterruptiblePool attribute)</a>
+  </dt>
+
+      </dl></dd>
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="../source/emcee3.moves/#emcee3.moves.WalkMove">WalkMove (class in emcee3.moves)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="../source/emcee3.moves/#emcee3.moves.walk.WalkMove">(class in emcee3.moves.walk)</a>
+  </dt>
+
+      </dl></dd>
+  </dl></td>
+</tr></table>
+
+
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014-2016 Dan Foreman-Mackey &amp; contributors.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.0.0.dev0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="../_static/js/analytics.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

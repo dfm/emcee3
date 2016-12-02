@@ -1,0 +1,330 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Porting your code to emcee3 from earlier versions &mdash; emcee3 3.0.0.dev0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.png"/>
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+  
+        <link rel="index" title="Index"
+              href="../../genindex/"/>
+        <link rel="search" title="Search" href="../../search/"/>
+    <link rel="top" title="emcee3 3.0.0.dev0 documentation" href="../../"/>
+        <link rel="next" title="Tutorial: Fitting a Model to Data" href="../../tutorials/line/"/>
+        <link rel="prev" title="Modeling" href="../modeling/"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="../../" class="fa fa-home"> emcee3</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../install/">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modeling/">Modeling</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Porting your code to emcee3 from earlier versions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#why-switch">Why switch?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#a-complete-example">A complete example</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/line/">Tutorial: Fitting a Model to Data</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/line/#generating-fake-data-from-the-model">Generating fake data from the model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/line/#maximum-likelihood-solution">Maximum-likelihood solution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/line/#building-the-probabilistic-model">Building the probabilistic model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/line/#sampling-from-the-posterior-probability">Sampling from the posterior probability</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/mixture-models/">Tutorial: Practical mixture models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/mixture-models/#the-basic-model">The basic model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/mixture-models/#the-marginalized-likelihood">The marginalized likelihood</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/mixture-models/#mixture-membership-probabilities">Mixture membership probabilities</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/#model-building">Model Building</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../">emcee3</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../">Docs</a> &raquo;</li>
+      
+    <li>Porting your code to emcee3 from earlier versions</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="https://github.com/dfm/emcee/blob/emcee3/docs/user/porting.rst" class="fa fa-github"> Edit on GitHub</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+
+            <div class="admonition warning">
+              <p class="first admonition-title">Version Warning</p>
+              <p class="last">
+                This documentation is for the development version of
+                <strong>emcee</strong> ("emcee3") and it isn't
+                backwards-compatible with earlier stable versions.
+                If you're using an earlier version, get that documentation
+                <a href="http://dfm.io/emcee">here</a>.
+              </p>
+            </div>
+
+            
+  <span class="target" id="module-emcee"><span id="porting"></span></span><div class="section" id="porting-your-code-to-emcee3-from-earlier-versions">
+<h1>Porting your code to emcee3 from earlier versions<a class="headerlink" href="#porting-your-code-to-emcee3-from-earlier-versions" title="Permalink to this headline">¶</a></h1>
+<p><strong>emcee3</strong> comes with a pile of new features and an API redesigned from the
+ground up to be simultaneously more user-friendly and more powerful.</p>
+<div class="section" id="why-switch">
+<h2>Why switch?<a class="headerlink" href="#why-switch" title="Permalink to this headline">¶</a></h2>
+<p>I implemented emcee3 from scratch with a completely re-thought API using
+everything that I learned from answering support requests and data-analysis
+questions.
+emcee3 now supports nearly all of the earlier features (with the notable
+exception of the parallel tempering sampler but that should be added soon) and
+a lot of new features that should make everyone&#8217;s life better!
+This isn&#8217;t the place to list all of the new features but here are some of the
+most important ones:</p>
+<ol class="arabic simple">
+<li>First class support for alternative moves and schedules of moves. This
+means that you can sample using one or more of the many included proposals
+(including the original stretch move but also a new walk move, differential
+evolution, and others) or implement your own.</li>
+<li></li>
+</ol>
+</div>
+<div class="section" id="a-complete-example">
+<h2>A complete example<a class="headerlink" href="#a-complete-example" title="Permalink to this headline">¶</a></h2>
+<p>The main difference between older versions of emcee and emcee3 is that the
+probabilistic model is no longer specified as a function.
+Instead, the model is defined as a class that should probably inherit from
+<code class="xref py py-class docutils literal"><span class="pre">BaseWalker</span></code> or otherwise implement the full walker API.
+To get started, let&#8217;s take the sample code from the front page and show how
+you would update it to work with emcee3.
+From the front page of the original docs, here is a full example showing you
+how to sample from a multidimensional Gaussian:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># This code is for emcee versions earlier than 3.</span>
+<span class="kn">import</span> <span class="nn">emcee</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="k">def</span> <span class="nf">lnprob</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">var</span><span class="p">):</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="n">var</span><span class="p">)</span>
+
+<span class="n">ndim</span><span class="p">,</span> <span class="n">nwalkers</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span>
+<span class="n">p0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">nwalkers</span><span class="p">,</span> <span class="n">ndim</span><span class="p">)</span>
+<span class="n">sampler</span> <span class="o">=</span> <span class="n">emcee</span><span class="o">.</span><span class="n">EnsembleSampler</span><span class="p">(</span><span class="n">nwalkers</span><span class="p">,</span> <span class="n">ndim</span><span class="p">,</span> <span class="n">lnprob</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">])</span>
+<span class="n">sampler</span><span class="o">.</span><span class="n">run_mcmc</span><span class="p">(</span><span class="n">p0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">samples</span> <span class="o">=</span> <span class="n">sampler</span><span class="o">.</span><span class="n">chain</span>
+</pre></div>
+</div>
+<p>In emcee3, this example becomes:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># This is emcee &gt;= 3 code.</span>
+<span class="kn">import</span> <span class="nn">emcee</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="k">class</span> <span class="nc">MyModel</span><span class="p">(</span><span class="n">emcee</span><span class="o">.</span><span class="n">BaseWalker</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">var</span> <span class="o">=</span> <span class="n">var</span>
+    <span class="k">def</span> <span class="nf">lnpriorfn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+    <span class="k">def</span> <span class="nf">lnlikefn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">var</span><span class="p">)</span>
+
+<span class="n">ndim</span><span class="p">,</span> <span class="n">nwalkers</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span>
+<span class="n">ensemble</span> <span class="o">=</span> <span class="n">emcee</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="n">MyModel</span><span class="p">(</span><span class="mf">0.5</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">nwalkers</span><span class="p">,</span> <span class="n">ndim</span><span class="p">))</span>
+<span class="n">sampler</span> <span class="o">=</span> <span class="n">emcee</span><span class="o">.</span><span class="n">Sampler</span><span class="p">()</span>
+<span class="n">sampler</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">ensemble</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">samples</span> <span class="o">=</span> <span class="n">sampler</span><span class="o">.</span><span class="n">get_coords</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>As mentioned above, the main difference is that the model is implemented as a
+class.
+The code for the <code class="docutils literal"><span class="pre">lnlikefn</span></code> method is <em>identical</em> to the <code class="docutils literal"><span class="pre">lnprob</span></code> function
+defined previously but the walker must now also implement a <code class="docutils literal"><span class="pre">lnpriorfn</span></code> that
+is responsible for evaluating the logarithm of the prior function.</p>
+<p>After the differences in model specification, the only other major difference
+is that the ensemble state is stored in a specific object instead of a set of
+numpy arrays.
+To construct a new ensemble with the specified model <code class="docutils literal"><span class="pre">MyModel</span></code> at a set of
+random coordinates, you run:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">ensemble</span> <span class="o">=</span> <span class="n">emcee</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="n">MyModel</span><span class="p">(</span><span class="mf">0.5</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">nwalkers</span><span class="p">,</span> <span class="n">ndim</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>As with previous versions of emcee, it is the user&#8217;s responsibility to specify
+the initial coordinates as a numpy matrix with dimensions <code class="docutils literal"><span class="pre">(nwalkers,</span>
+<span class="pre">ndim)</span></code>.
+In general, the best initial condition is to have the walkers distributed in a
+&#8220;small&#8221; clump around your current best guess of the solution.</p>
+<div class="section" id="results">
+<h3>Results<a class="headerlink" href="#results" title="Permalink to this headline">¶</a></h3>
+<p>To access the sampling results, the best practice is to use the methods
+defined on <code class="xref py py-class docutils literal"><span class="pre">Sampler</span></code>.
+Access to the chain of samples is provided by the <code class="xref py py-func docutils literal"><span class="pre">Sampler.get_coords()</span></code>
+method and the result will have the shape: <code class="docutils literal"><span class="pre">(nsteps,</span> <span class="pre">nwalkers,</span> <span class="pre">ndim)</span></code>.
+You can also get the &#8220;flattened&#8221; chain by calling
+<code class="docutils literal"><span class="pre">sampler.get_coords(flat=True)</span></code>.
+Other keyword arguments can be used to thin the chain or discard burn-in
+samples.
+Similar methods are also available for the ln-prior, ln-likelihood, and
+ln-probability chains.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The shape of the chain returned by emcee3 is different from previous
+versions. In emcee3, the chain is a <em>list of ensembles</em> so it has
+the shape <code class="docutils literal"><span class="pre">(nsteps,</span> <span class="pre">nwalkers,</span> <span class="pre">ndim)</span></code>.</p>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../../tutorials/line/" class="btn btn-neutral float-right" title="Tutorial: Fitting a Model to Data" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../modeling/" class="btn btn-neutral" title="Modeling" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014-2016 Dan Foreman-Mackey &amp; contributors.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'3.0.0.dev0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="../../_static/js/analytics.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

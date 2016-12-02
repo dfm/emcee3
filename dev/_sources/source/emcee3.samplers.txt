@@ -1,0 +1,22 @@
+emcee3.samplers package
+=======================
+
+Submodules
+----------
+
+emcee3.samplers.sampler module
+------------------------------
+
+.. automodule:: emcee3.samplers.sampler
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: emcee3.samplers
+    :members:
+    :undoc-members:
+    :show-inheritance:

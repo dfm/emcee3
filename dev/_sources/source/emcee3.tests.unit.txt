@@ -1,0 +1,78 @@
+emcee3.tests.unit package
+=========================
+
+Submodules
+----------
+
+emcee3.tests.unit.test_autocorr module
+--------------------------------------
+
+.. automodule:: emcee3.tests.unit.test_autocorr
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+emcee3.tests.unit.test_backends module
+--------------------------------------
+
+.. automodule:: emcee3.tests.unit.test_backends
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+emcee3.tests.unit.test_ensemble module
+--------------------------------------
+
+.. automodule:: emcee3.tests.unit.test_ensemble
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+emcee3.tests.unit.test_numgrad module
+-------------------------------------
+
+.. automodule:: emcee3.tests.unit.test_numgrad
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+emcee3.tests.unit.test_pickle module
+------------------------------------
+
+.. automodule:: emcee3.tests.unit.test_pickle
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+emcee3.tests.unit.test_sampler module
+-------------------------------------
+
+.. automodule:: emcee3.tests.unit.test_sampler
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+emcee3.tests.unit.test_state module
+-----------------------------------
+
+.. automodule:: emcee3.tests.unit.test_state
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+emcee3.tests.unit.test_stretch module
+-------------------------------------
+
+.. automodule:: emcee3.tests.unit.test_stretch
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: emcee3.tests.unit
+    :members:
+    :undoc-members:
+    :show-inheritance:

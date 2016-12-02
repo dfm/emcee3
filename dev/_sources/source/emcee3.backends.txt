@@ -1,0 +1,30 @@
+emcee3.backends package
+=======================
+
+Submodules
+----------
+
+emcee3.backends.backend module
+------------------------------
+
+.. automodule:: emcee3.backends.backend
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+emcee3.backends.hdf module
+--------------------------
+
+.. automodule:: emcee3.backends.hdf
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: emcee3.backends
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,0 +1,1665 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>emcee3 package &mdash; emcee3 3.0.0.dev0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.png"/>
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+  
+        <link rel="index" title="Index"
+              href="../../genindex/"/>
+        <link rel="search" title="Search" href="../../search/"/>
+    <link rel="top" title="emcee3 3.0.0.dev0 documentation" href="../../"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="../../" class="fa fa-home"> emcee3</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../user/install/">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user/modeling/">Modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user/porting/">Porting your code to emcee3 from earlier versions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../user/porting/#why-switch">Why switch?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../user/porting/#a-complete-example">A complete example</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/line/">Tutorial: Fitting a Model to Data</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/line/#generating-fake-data-from-the-model">Generating fake data from the model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/line/#maximum-likelihood-solution">Maximum-likelihood solution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/line/#building-the-probabilistic-model">Building the probabilistic model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/line/#sampling-from-the-posterior-probability">Sampling from the posterior probability</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/mixture-models/">Tutorial: Practical mixture models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/mixture-models/#the-basic-model">The basic model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/mixture-models/#the-marginalized-likelihood">The marginalized likelihood</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/mixture-models/#mixture-membership-probabilities">Mixture membership probabilities</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/#model-building">Model Building</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../">emcee3</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../">Docs</a> &raquo;</li>
+      
+    <li>emcee3 package</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="https://github.com/dfm/emcee/blob/emcee3/docs/source/emcee3.rst" class="fa fa-github"> Edit on GitHub</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+
+            <div class="admonition warning">
+              <p class="first admonition-title">Version Warning</p>
+              <p class="last">
+                This documentation is for the development version of
+                <strong>emcee</strong> ("emcee3") and it isn't
+                backwards-compatible with earlier stable versions.
+                If you're using an earlier version, get that documentation
+                <a href="http://dfm.io/emcee">here</a>.
+              </p>
+            </div>
+
+            
+  <div class="section" id="emcee3-package">
+<h1>emcee3 package<a class="headerlink" href="#emcee3-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../emcee3.backends/">emcee3.backends package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../emcee3.backends/#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emcee3.backends/#module-emcee3.backends.backend">emcee3.backends.backend module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emcee3.backends/#module-emcee3.backends.hdf">emcee3.backends.hdf module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emcee3.backends/#module-emcee3.backends">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../emcee3.moves/">emcee3.moves package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../emcee3.moves/#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emcee3.moves/#module-emcee3.moves.de">emcee3.moves.de module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emcee3.moves/#module-emcee3.moves.gaussian">emcee3.moves.gaussian module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emcee3.moves/#module-emcee3.moves.hmc">emcee3.moves.hmc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emcee3.moves/#module-emcee3.moves.kde">emcee3.moves.kde module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emcee3.moves/#module-emcee3.moves.mh">emcee3.moves.mh module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emcee3.moves/#module-emcee3.moves.nuts">emcee3.moves.nuts module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emcee3.moves/#module-emcee3.moves.red_blue">emcee3.moves.red_blue module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emcee3.moves/#module-emcee3.moves.stretch">emcee3.moves.stretch module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emcee3.moves/#module-emcee3.moves.walk">emcee3.moves.walk module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emcee3.moves/#module-emcee3.moves">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../emcee3.pools/">emcee3.pools package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../emcee3.pools/#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emcee3.pools/#module-emcee3.pools.default">emcee3.pools.default module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emcee3.pools/#module-emcee3.pools.interruptible">emcee3.pools.interruptible module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emcee3.pools/#module-emcee3.pools.jl">emcee3.pools.jl module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emcee3.pools/#module-emcee3.pools">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../emcee3.samplers/">emcee3.samplers package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../emcee3.samplers/#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emcee3.samplers/#module-emcee3.samplers.sampler">emcee3.samplers.sampler module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emcee3.samplers/#module-emcee3.samplers">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../emcee3.tests/">emcee3.tests package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../emcee3.tests/#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../emcee3.tests.integration/">emcee3.tests.integration package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../emcee3.tests.integration/#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../emcee3.tests.integration/#module-emcee3.tests.integration.test_de">emcee3.tests.integration.test_de module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../emcee3.tests.integration/#module-emcee3.tests.integration.test_gaussian">emcee3.tests.integration.test_gaussian module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../emcee3.tests.integration/#module-emcee3.tests.integration.test_hmc">emcee3.tests.integration.test_hmc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../emcee3.tests.integration/#module-emcee3.tests.integration.test_kde">emcee3.tests.integration.test_kde module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../emcee3.tests.integration/#module-emcee3.tests.integration.test_nuts">emcee3.tests.integration.test_nuts module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../emcee3.tests.integration/#module-emcee3.tests.integration.test_proposal">emcee3.tests.integration.test_proposal module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../emcee3.tests.integration/#module-emcee3.tests.integration.test_stretch">emcee3.tests.integration.test_stretch module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../emcee3.tests.integration/#module-emcee3.tests.integration.test_walk">emcee3.tests.integration.test_walk module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../emcee3.tests.integration/#module-emcee3.tests.integration">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../emcee3.tests.unit/">emcee3.tests.unit package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../emcee3.tests.unit/#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../emcee3.tests.unit/#module-emcee3.tests.unit.test_autocorr">emcee3.tests.unit.test_autocorr module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../emcee3.tests.unit/#module-emcee3.tests.unit.test_backends">emcee3.tests.unit.test_backends module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../emcee3.tests.unit/#module-emcee3.tests.unit.test_ensemble">emcee3.tests.unit.test_ensemble module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../emcee3.tests.unit/#module-emcee3.tests.unit.test_numgrad">emcee3.tests.unit.test_numgrad module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../emcee3.tests.unit/#module-emcee3.tests.unit.test_pickle">emcee3.tests.unit.test_pickle module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../emcee3.tests.unit/#module-emcee3.tests.unit.test_sampler">emcee3.tests.unit.test_sampler module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../emcee3.tests.unit/#module-emcee3.tests.unit.test_state">emcee3.tests.unit.test_state module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../emcee3.tests.unit/#module-emcee3.tests.unit.test_stretch">emcee3.tests.unit.test_stretch module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../emcee3.tests.unit/#module-emcee3.tests.unit">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../emcee3.tests/#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emcee3.tests/#module-emcee3.tests.common">emcee3.tests.common module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emcee3.tests/#module-emcee3.tests">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-emcee3.autocorr">
+<span id="emcee3-autocorr-module"></span><h2>emcee3.autocorr module<a class="headerlink" href="#module-emcee3.autocorr" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="emcee3.autocorr.function">
+<code class="descclassname">emcee3.autocorr.</code><code class="descname">function</code><span class="sig-paren">(</span><em>x</em>, <em>axis=0</em>, <em>fast=False</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.autocorr.function" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimate the autocorrelation function of a time series using the FFT.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> &#8211; The time series. If multidimensional, set the time axis using the
+<code class="docutils literal"><span class="pre">axis</span></code> keyword argument and the function will be computed for
+every other axis.</li>
+<li><strong>axis</strong> (<em>Optional[int]</em>) &#8211; The time axis of <code class="docutils literal"><span class="pre">x</span></code>. Assumed to be the first
+axis if not specified.</li>
+<li><strong>fast</strong> (<em>Optional[bool]</em>) &#8211; If <code class="docutils literal"><span class="pre">True</span></code>, only use the first <code class="docutils literal"><span class="pre">2^n</span></code> (for
+the largest power) entries for efficiency. (default: False)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The autocorrelation function of the time series.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="emcee3.autocorr.integrated_time">
+<code class="descclassname">emcee3.autocorr.</code><code class="descname">integrated_time</code><span class="sig-paren">(</span><em>x</em>, <em>low=10</em>, <em>high=None</em>, <em>step=1</em>, <em>c=10</em>, <em>full_output=False</em>, <em>axis=0</em>, <em>fast=False</em>, <em>quiet=False</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.autocorr.integrated_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimate the integrated autocorrelation time of a time series.</p>
+<p>This estimate uses the iterative procedure described on page 16 of <a class="reference external" href="http://www.stat.unc.edu/faculty/cji/Sokal.pdf">Sokal&#8217;s
+notes</a> to determine a
+reasonable window size.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> &#8211; The time series. If multidimensional, set the time axis using the
+<code class="docutils literal"><span class="pre">axis</span></code> keyword argument and the function will be computed for
+every other axis.</li>
+<li><strong>low</strong> (<em>Optional[int]</em>) &#8211; The minimum window size to test. (default: <code class="docutils literal"><span class="pre">10</span></code>)</li>
+<li><strong>high</strong> (<em>Optional[int]</em>) &#8211; The maximum window size to test. (default:
+<code class="docutils literal"><span class="pre">x.shape[axis]</span> <span class="pre">/</span> <span class="pre">(2*c)</span></code>)</li>
+<li><strong>step</strong> (<em>Optional[int]</em>) &#8211; The step size for the window search. (default:
+<code class="docutils literal"><span class="pre">1</span></code>)</li>
+<li><strong>c</strong> (<em>Optional[float]</em>) &#8211; The minimum number of autocorrelation times
+needed to trust the estimate. (default: <code class="docutils literal"><span class="pre">10</span></code>)</li>
+<li><strong>full_output</strong> (<em>Optional[bool]</em>) &#8211; Return the final window size as well as
+the autocorrelation time. (default: <code class="docutils literal"><span class="pre">False</span></code>)</li>
+<li><strong>axis</strong> (<em>Optional[int]</em>) &#8211; The time axis of <code class="docutils literal"><span class="pre">x</span></code>. Assumed to be the first
+axis if not specified.</li>
+<li><strong>fast</strong> (<em>Optional[bool]</em>) &#8211; If <code class="docutils literal"><span class="pre">True</span></code>, only use the first <code class="docutils literal"><span class="pre">2^n</span></code> (for
+the largest power) entries for efficiency. (default: False)</li>
+<li><strong>quiet</strong> (<em>Optional[bool]</em>) &#8211; If <code class="docutils literal"><span class="pre">True</span></code>, silence the <code class="docutils literal"><span class="pre">AutocorrError</span></code>
+that should occur if the chain is too short for a reliable
+estimate and return <code class="docutils literal"><span class="pre">None</span></code> instead. (default: False)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><dl class="docutils">
+<dt>An estimate of the integrated autocorrelation time of</dt>
+<dd><p class="first last">the time series <code class="docutils literal"><span class="pre">x</span></code> computed along the axis <code class="docutils literal"><span class="pre">axis</span></code>.</p>
+</dd>
+<dt>Optional[int]: The final window size that was used. Only returned if</dt>
+<dd><p class="first last"><code class="docutils literal"><span class="pre">full_output</span></code> is <code class="docutils literal"><span class="pre">True</span></code>.</p>
+</dd>
+</dl>
+</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">float or array</p>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Raises</dt>
+<dd><dl class="first last docutils">
+<dt>AutocorrError: If the autocorrelation time can&#8217;t be reliably estimated</dt>
+<dd>from the chain. This normally means that the chain is too short.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="exception">
+<dt id="emcee3.autocorr.AutocorrError">
+<em class="property">exception </em><code class="descclassname">emcee3.autocorr.</code><code class="descname">AutocorrError</code><a class="headerlink" href="#emcee3.autocorr.AutocorrError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Exception</span></code></p>
+<p>Raised if the chain is too short to estimate an autocorrelation time.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-emcee3.ensemble">
+<span id="emcee3-ensemble-module"></span><h2>emcee3.ensemble module<a class="headerlink" href="#module-emcee3.ensemble" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="emcee3.ensemble.Ensemble">
+<em class="property">class </em><code class="descclassname">emcee3.ensemble.</code><code class="descname">Ensemble</code><span class="sig-paren">(</span><em>model</em>, <em>coords</em>, <em>pool=None</em>, <em>random=None</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.ensemble.Ensemble" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>The state of the ensemble of walkers.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>model</strong> (<em>callable or Model</em>) &#8211; The model specification. This can be a
+callable, an instance of <code class="xref py py-class docutils literal"><span class="pre">SimpleModel</span></code>, or another instance
+that quacks like a <code class="xref py py-class docutils literal"><span class="pre">Model</span></code>. If <code class="docutils literal"><span class="pre">model</span></code> is a callable, it
+should take a coordinate vector as input and return the evaluated
+log-probability up to an additive constant.</li>
+<li><strong>coords</strong> (<em>Optional[array[nwalkers, ndim]]</em>) &#8211; The array of walker
+coordinate vectors.</li>
+<li><strong>pool</strong> (<em>Optional</em>) &#8211; A pool object that exposes a map function for
+parallelization purposes.</li>
+<li><strong>random</strong> (<em>Optional</em>) &#8211; A numpy-compatible random number generator. By
+default, this will be the built-in <code class="docutils literal"><span class="pre">numpy.random</span></code> module but if
+you want the ensemble to own its own state, you can supply an
+instance of <code class="docutils literal"><span class="pre">numpy.random.RandomState</span></code>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="emcee3.ensemble.Ensemble.dtype">
+<code class="descname">dtype</code><a class="headerlink" href="#emcee3.ensemble.Ensemble.dtype" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="emcee3.ensemble.Ensemble.get_value">
+<code class="descname">get_value</code><span class="sig-paren">(</span><em>key</em>, <em>out=None</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.ensemble.Ensemble.get_value" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="emcee3.ensemble.Ensemble.propose">
+<code class="descname">propose</code><span class="sig-paren">(</span><em>coords</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.ensemble.Ensemble.propose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a new set of coordinates return arrays of log-prior and
+log-likelihood values.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>coords</strong> (<em>array[nwalkers, ndim]</em>) &#8211; The new coordinate matrix.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="docutils">
+<dt>A list of walker <code class="xref py py-class docutils literal"><span class="pre">State</span></code> objects evaluated at the</dt>
+<dd>specified coordinates.</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.ensemble.Ensemble.update">
+<code class="descname">update</code><span class="sig-paren">(</span><em>walkers</em>, <em>subset=None</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.ensemble.Ensemble.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the coordinate matrix and probability containers given the
+current list of walkers. Moves should call this after proposing and
+accepting the walkers.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Only the walkers with <code class="docutils literal"><span class="pre">accepted</span> <span class="pre">==</span> <span class="pre">True</span></code> are updated.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>walkers</strong> (<em>list[State]</em>) &#8211; A list of walkers states.</li>
+<li><strong>subset</strong> &#8211; If provided, <code class="docutils literal"><span class="pre">walkers</span></code> only corresponds to the indicated
+subset of the walkers.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal"><span class="pre">RuntimeError</span></code> &#8211; If an invalid state is accepted.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-emcee3.model">
+<span id="emcee3-model-module"></span><h2>emcee3.model module<a class="headerlink" href="#module-emcee3.model" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="emcee3.model.is_model">
+<code class="descclassname">emcee3.model.</code><code class="descname">is_model</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.model.is_model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="emcee3.model.Model">
+<em class="property">class </em><code class="descclassname">emcee3.model.</code><code class="descname">Model</code><a class="headerlink" href="#emcee3.model.Model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>An interface to a probabilistic model.</p>
+<p>Subclasses should overload the <a class="reference internal" href="#emcee3.model.Model.compute_log_prior" title="emcee3.model.Model.compute_log_prior"><code class="xref py py-func docutils literal"><span class="pre">Model.compute_log_prior()</span></code></a> and
+<a class="reference internal" href="#emcee3.model.Model.compute_log_likelihood" title="emcee3.model.Model.compute_log_likelihood"><code class="xref py py-func docutils literal"><span class="pre">Model.compute_log_likelihood()</span></code></a> methods to expose the model. To use
+any Hamiltonian moves (<code class="xref py py-class docutils literal"><span class="pre">moves.HMCMove</span></code>, <code class="xref py py-class docutils literal"><span class="pre">moves.NUTSMove</span></code>,
+etc.), <a class="reference internal" href="#emcee3.model.Model.compute_grad_log_prior" title="emcee3.model.Model.compute_grad_log_prior"><code class="xref py py-func docutils literal"><span class="pre">Model.compute_grad_log_prior()</span></code></a> and
+<a class="reference internal" href="#emcee3.model.Model.compute_grad_log_likelihood" title="emcee3.model.Model.compute_grad_log_likelihood"><code class="xref py py-func docutils literal"><span class="pre">Model.compute_grad_log_likelihood()</span></code></a> should also be implemented. Each
+of these methods should take a <code class="xref py py-class docutils literal"><span class="pre">State</span></code> as input, update the relevant
+attributes in place, and return the updated <code class="xref py py-class docutils literal"><span class="pre">State</span></code>.</p>
+<dl class="method">
+<dt id="emcee3.model.Model.compute_grad_log_likelihood">
+<code class="descname">compute_grad_log_likelihood</code><span class="sig-paren">(</span><em>state</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.model.Model.compute_grad_log_likelihood" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the gradient of the log likelihood with respect to coords.</p>
+<p>Subclasses should implement this method and overwrite the
+<code class="docutils literal"><span class="pre">grad_log_likelihood</span></code> attribute on the input <code class="docutils literal"><span class="pre">state</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>state</strong> (<a class="reference internal" href="#emcee3.state.State" title="emcee3.state.State"><em>State</em></a>) &#8211; The current state.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The updated state.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#emcee3.state.State" title="emcee3.state.State">State</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.model.Model.compute_grad_log_prior">
+<code class="descname">compute_grad_log_prior</code><span class="sig-paren">(</span><em>state</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.model.Model.compute_grad_log_prior" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the gradient of the log prior with respect to coords.</p>
+<p>Subclasses should implement this method and overwrite the
+<code class="docutils literal"><span class="pre">grad_log_prior</span></code> attribute on the input <code class="docutils literal"><span class="pre">state</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>state</strong> (<a class="reference internal" href="#emcee3.state.State" title="emcee3.state.State"><em>State</em></a>) &#8211; The current state.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The updated state.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#emcee3.state.State" title="emcee3.state.State">State</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.model.Model.compute_grad_log_probability">
+<code class="descname">compute_grad_log_probability</code><span class="sig-paren">(</span><em>state</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.model.Model.compute_grad_log_probability" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the gradient of the log probability of the model.</p>
+<p>Subclasses won&#8217;t generally need to overload this method. Instead,
+<a class="reference internal" href="#emcee3.model.Model.compute_grad_log_prior" title="emcee3.model.Model.compute_grad_log_prior"><code class="xref py py-func docutils literal"><span class="pre">compute_grad_log_prior()</span></code></a> and <a class="reference internal" href="#emcee3.model.Model.compute_grad_log_likelihood" title="emcee3.model.Model.compute_grad_log_likelihood"><code class="xref py py-func docutils literal"><span class="pre">compute_grad_log_likelihood()</span></code></a>
+should be implemented.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>state</strong> (<a class="reference internal" href="#emcee3.state.State" title="emcee3.state.State"><em>State</em></a>) &#8211; The current state.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The updated state.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#emcee3.state.State" title="emcee3.state.State">State</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.model.Model.compute_log_likelihood">
+<code class="descname">compute_log_likelihood</code><span class="sig-paren">(</span><em>state</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.model.Model.compute_log_likelihood" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the log likelihood of the model.</p>
+<p>This method should always be called after <a class="reference internal" href="#emcee3.model.Model.compute_log_prior" title="emcee3.model.Model.compute_log_prior"><code class="xref py py-func docutils literal"><span class="pre">compute_log_prior()</span></code></a>.
+Subclasses should implement this method and overwrite the
+<code class="docutils literal"><span class="pre">log_likelihood</span></code> attribute on the input <code class="docutils literal"><span class="pre">state</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>state</strong> (<a class="reference internal" href="#emcee3.state.State" title="emcee3.state.State"><em>State</em></a>) &#8211; The current state.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The updated state.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#emcee3.state.State" title="emcee3.state.State">State</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.model.Model.compute_log_prior">
+<code class="descname">compute_log_prior</code><span class="sig-paren">(</span><em>state</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.model.Model.compute_log_prior" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the log prior probability of the model.</p>
+<p>Since this method is called first, the input <code class="docutils literal"><span class="pre">state</span></code> can only be
+expected to have a <code class="docutils literal"><span class="pre">coords</span></code> attribute. Subclasses should implement
+this method and overwrite the <code class="docutils literal"><span class="pre">log_prior</span></code> attribute on the input
+<code class="docutils literal"><span class="pre">state</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>state</strong> (<a class="reference internal" href="#emcee3.state.State" title="emcee3.state.State"><em>State</em></a>) &#8211; The current state.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The updated state.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#emcee3.state.State" title="emcee3.state.State">State</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.model.Model.compute_log_probability">
+<code class="descname">compute_log_probability</code><span class="sig-paren">(</span><em>state</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.model.Model.compute_log_probability" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the log probability of the model.</p>
+<p>Subclasses won&#8217;t generally need to overload this method. Instead,
+<a class="reference internal" href="#emcee3.model.Model.compute_log_prior" title="emcee3.model.Model.compute_log_prior"><code class="xref py py-func docutils literal"><span class="pre">compute_log_prior()</span></code></a> and <a class="reference internal" href="#emcee3.model.Model.compute_log_likelihood" title="emcee3.model.Model.compute_log_likelihood"><code class="xref py py-func docutils literal"><span class="pre">compute_log_likelihood()</span></code></a> should be
+implemented.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>state</strong> (<a class="reference internal" href="#emcee3.state.State" title="emcee3.state.State"><em>State</em></a>) &#8211; The current state.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The updated state.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#emcee3.state.State" title="emcee3.state.State">State</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="emcee3.model.SimpleModel">
+<em class="property">class </em><code class="descclassname">emcee3.model.</code><code class="descname">SimpleModel</code><span class="sig-paren">(</span><em>log_likelihood</em>, <em>log_prior=None</em>, <em>grad_log_likelihood=None</em>, <em>grad_log_prior=None</em>, <em>args=()</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.model.SimpleModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#emcee3.model.Model" title="emcee3.model.Model"><code class="xref py py-class docutils literal"><span class="pre">emcee3.model.Model</span></code></a></p>
+<p>The simplest modeling interface.</p>
+<p>This model interface wraps functions describing the components of the
+model. At a minimum, a function evaluating the log likelihood (up to a
+constant) must be provided. In this case, the prior function is assumed to
+be uniform and improper. All functions must have the call structure:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">log_likelihood</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal"><span class="pre">coords</span></code> is a coordinate vector and <code class="docutils literal"><span class="pre">*args</span></code> can be provided
+using the <code class="docutils literal"><span class="pre">args</span></code> keyword argument. The <code class="docutils literal"><span class="pre">log_likelihood</span></code> and
+<code class="docutils literal"><span class="pre">log_prior</span></code> functions should return scalars and the <code class="docutils literal"><span class="pre">grad_*</span></code> functions
+should return <code class="docutils literal"><span class="pre">numpy.array</span></code> objects of the same length as the input
+<code class="docutils literal"><span class="pre">coords</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>log_likelihood</strong> (<em>callable</em>) &#8211; A function that evaluates the log
+likelihood of the model.</li>
+<li><strong>log_prior</strong> (<em>Optional[callable]</em>) &#8211; A function that evaluates the log
+prior of the model. If not provided, this will be assumed to be
+uniform and improper.</li>
+<li><strong>grad_log_likelihood</strong> (<em>Optional[callable]</em>) &#8211; A function that evaluates the
+gradient of the log likelihood of the model. If needed but not
+provided, this will be evaluated numerically using a first order
+method.</li>
+<li><strong>grad_log_prior</strong> (<em>Optional[callable]</em>) &#8211; A function that evaluates the
+gradient of the log prior of the model. If needed but not
+provided, this will be evaluated numerically using a first order
+method.</li>
+<li><strong>args</strong> (<em>Optional[tuple]</em>) &#8211; Any other arguments to be provided to the
+probability functions.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="emcee3.model.SimpleModel.check_grad">
+<code class="descname">check_grad</code><span class="sig-paren">(</span><em>coords</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.model.SimpleModel.check_grad" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check the gradients numerically.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>coords</strong> (<em>array</em>) &#8211; The coordinates.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="docutils">
+<dt>If the numerical gradients and analytic gradients satisfy</dt>
+<dd><code class="docutils literal"><span class="pre">numpy.allclose</span></code>.</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">bool</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.model.SimpleModel.compute_grad_log_likelihood">
+<code class="descname">compute_grad_log_likelihood</code><span class="sig-paren">(</span><em>state</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.model.SimpleModel.compute_grad_log_likelihood" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the gradient of the log likelihood with respect to coords.</p>
+<p>Subclasses should implement this method and overwrite the
+<code class="docutils literal"><span class="pre">grad_log_likelihood</span></code> attribute on the input <code class="docutils literal"><span class="pre">state</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>state</strong> (<a class="reference internal" href="#emcee3.state.State" title="emcee3.state.State"><em>State</em></a>) &#8211; The current state.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The updated state.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#emcee3.state.State" title="emcee3.state.State">State</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.model.SimpleModel.compute_grad_log_prior">
+<code class="descname">compute_grad_log_prior</code><span class="sig-paren">(</span><em>state</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.model.SimpleModel.compute_grad_log_prior" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the gradient of the log prior with respect to coords.</p>
+<p>Subclasses should implement this method and overwrite the
+<code class="docutils literal"><span class="pre">grad_log_prior</span></code> attribute on the input <code class="docutils literal"><span class="pre">state</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>state</strong> (<a class="reference internal" href="#emcee3.state.State" title="emcee3.state.State"><em>State</em></a>) &#8211; The current state.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The updated state.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#emcee3.state.State" title="emcee3.state.State">State</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.model.SimpleModel.compute_log_likelihood">
+<code class="descname">compute_log_likelihood</code><span class="sig-paren">(</span><em>state</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.model.SimpleModel.compute_log_likelihood" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the log likelihood of the model.</p>
+<p>This method should always be called after <a class="reference internal" href="#emcee3.model.SimpleModel.compute_log_prior" title="emcee3.model.SimpleModel.compute_log_prior"><code class="xref py py-func docutils literal"><span class="pre">compute_log_prior()</span></code></a>.
+Subclasses should implement this method and overwrite the
+<code class="docutils literal"><span class="pre">log_likelihood</span></code> attribute on the input <code class="docutils literal"><span class="pre">state</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>state</strong> (<a class="reference internal" href="#emcee3.state.State" title="emcee3.state.State"><em>State</em></a>) &#8211; The current state.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The updated state.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#emcee3.state.State" title="emcee3.state.State">State</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.model.SimpleModel.compute_log_prior">
+<code class="descname">compute_log_prior</code><span class="sig-paren">(</span><em>state</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.model.SimpleModel.compute_log_prior" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the log prior probability of the model.</p>
+<p>Since this method is called first, the input <code class="docutils literal"><span class="pre">state</span></code> can only be
+expected to have a <code class="docutils literal"><span class="pre">coords</span></code> attribute. Subclasses should implement
+this method and overwrite the <code class="docutils literal"><span class="pre">log_prior</span></code> attribute on the input
+<code class="docutils literal"><span class="pre">state</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>state</strong> (<a class="reference internal" href="#emcee3.state.State" title="emcee3.state.State"><em>State</em></a>) &#8211; The current state.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The updated state.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#emcee3.state.State" title="emcee3.state.State">State</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-emcee3.numgrad">
+<span id="emcee3-numgrad-module"></span><h2>emcee3.numgrad module<a class="headerlink" href="#module-emcee3.numgrad" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="emcee3.numgrad.numerical_gradient_1">
+<em class="property">class </em><code class="descclassname">emcee3.numgrad.</code><code class="descname">numerical_gradient_1</code><span class="sig-paren">(</span><em>f</em>, <em>eps=1.234e-07</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.numgrad.numerical_gradient_1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Wrap a function to numerically compute first order gradients.</p>
+<p>The function is expected to take a numpy array as its first argument and
+calling an instance of this object will return the gradient with respect
+to this first argument.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>f</strong> (<em>callable</em>) &#8211; The function.</li>
+<li><strong>eps</strong> (<em>Optional[float]</em>) &#8211; The step size.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="emcee3.numgrad.numerical_gradient_2">
+<em class="property">class </em><code class="descclassname">emcee3.numgrad.</code><code class="descname">numerical_gradient_2</code><span class="sig-paren">(</span><em>f</em>, <em>eps=1.234e-07</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.numgrad.numerical_gradient_2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Wrap a function to numerically compute second order gradients.</p>
+<p>The function is expected to take a numpy array as its first argument and
+calling an instance of this object will return the gradient with respect
+to this first argument.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>f</strong> (<em>callable</em>) &#8211; The function.</li>
+<li><strong>eps</strong> (<em>Optional[float]</em>) &#8211; The step size.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-emcee3.state">
+<span id="emcee3-state-module"></span><h2>emcee3.state module<a class="headerlink" href="#module-emcee3.state" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="emcee3.state.State">
+<em class="property">class </em><code class="descclassname">emcee3.state.</code><code class="descname">State</code><span class="sig-paren">(</span><em>coords</em>, <em>log_prior=-inf</em>, <em>log_likelihood=-inf</em>, <em>accepted=False</em>, <em>**metadata</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.state.State" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>The current state of a walker.</p>
+<p>This object captures the state of a walker. It will store the coordinates,
+probabilities, and any other computed metadata. Metadata can be added by
+simply adding an attribute to a <a class="reference internal" href="#emcee3.state.State" title="emcee3.state.State"><code class="xref py py-class docutils literal"><span class="pre">State</span></code></a> object. Any attributes with
+names that don&#8217;t start with an underscore will be serialized by the
+<a class="reference internal" href="#emcee3.state.State.to_array" title="emcee3.state.State.to_array"><code class="xref py py-func docutils literal"><span class="pre">to_array()</span></code></a> method.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Unless the <code class="docutils literal"><span class="pre">accepted</span></code> attribute is <code class="docutils literal"><span class="pre">True</span></code>, this object can&#8217;t
+be expected to have the correct data type.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>coords</strong> (<em>array[ndim]</em>) &#8211; The coordinate vector of the walker&#8217;s state.</li>
+<li><strong>log_prior</strong> (<em>Optional[float]</em>) &#8211; The log prior evaluated at <code class="docutils literal"><span class="pre">coords</span></code>. If
+not provided, it is expected that the
+<code class="xref py py-func docutils literal"><span class="pre">Model.compute_log_prior()</span></code> method of a model will save the
+<code class="docutils literal"><span class="pre">log_prior</span></code> attribute on this object.</li>
+<li><strong>log_likelihood</strong> (<em>Optional[float]</em>) &#8211; The log likelihood evaluated at
+<code class="docutils literal"><span class="pre">coords</span></code>. Like <code class="docutils literal"><span class="pre">log_prior</span></code>, this should be evaluated by the
+model.</li>
+<li><strong>accepted</strong> (<em>Optional[bool]</em>) &#8211; Was this proposal accepted?</li>
+<li><strong>**kwargs</strong> &#8211; Any other values to store as metadata.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="emcee3.state.State.dtype">
+<code class="descname">dtype</code><a class="headerlink" href="#emcee3.state.State.dtype" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="emcee3.state.State.from_array">
+<em class="property">classmethod </em><code class="descname">from_array</code><span class="sig-paren">(</span><em>array</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.state.State.from_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reconstruct a saved state from a structured numpy array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>array</strong> (<em>array</em>) &#8211; An array produced by serializing a state using the
+<a class="reference internal" href="#emcee3.state.State.to_array" title="emcee3.state.State.to_array"><code class="xref py py-func docutils literal"><span class="pre">to_array()</span></code></a> method.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The reconstructed state.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#emcee3.state.State" title="emcee3.state.State">State</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="emcee3.state.State.grad_log_probability">
+<code class="descname">grad_log_probability</code><a class="headerlink" href="#emcee3.state.State.grad_log_probability" title="Permalink to this definition">¶</a></dt>
+<dd><p>A helper attribute that provides access to the log probability.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="emcee3.state.State.log_probability">
+<code class="descname">log_probability</code><a class="headerlink" href="#emcee3.state.State.log_probability" title="Permalink to this definition">¶</a></dt>
+<dd><p>A helper attribute that provides access to the log probability.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.state.State.to_array">
+<code class="descname">to_array</code><span class="sig-paren">(</span><em>out=None</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.state.State.to_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serialize the state to a structured numpy array representation.</p>
+<p>This representation will include all attributes of this instance that
+don&#8217;t have a name beginning with an underscore. There will also always
+be special fields: <code class="docutils literal"><span class="pre">coords</span></code>, <code class="docutils literal"><span class="pre">log_prior</span></code>, <code class="docutils literal"><span class="pre">log_likelihood</span></code>, and
+<code class="docutils literal"><span class="pre">accepted</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>out</strong> (<em>Optional[array]</em>) &#8211; If provided, the state will be serialized
+in place.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The serialized state.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">array</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-emcee3">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-emcee3" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="emcee3.Model">
+<em class="property">class </em><code class="descclassname">emcee3.</code><code class="descname">Model</code><a class="headerlink" href="#emcee3.Model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>An interface to a probabilistic model.</p>
+<p>Subclasses should overload the <a class="reference internal" href="#emcee3.Model.compute_log_prior" title="emcee3.Model.compute_log_prior"><code class="xref py py-func docutils literal"><span class="pre">Model.compute_log_prior()</span></code></a> and
+<a class="reference internal" href="#emcee3.Model.compute_log_likelihood" title="emcee3.Model.compute_log_likelihood"><code class="xref py py-func docutils literal"><span class="pre">Model.compute_log_likelihood()</span></code></a> methods to expose the model. To use
+any Hamiltonian moves (<code class="xref py py-class docutils literal"><span class="pre">moves.HMCMove</span></code>, <code class="xref py py-class docutils literal"><span class="pre">moves.NUTSMove</span></code>,
+etc.), <a class="reference internal" href="#emcee3.Model.compute_grad_log_prior" title="emcee3.Model.compute_grad_log_prior"><code class="xref py py-func docutils literal"><span class="pre">Model.compute_grad_log_prior()</span></code></a> and
+<a class="reference internal" href="#emcee3.Model.compute_grad_log_likelihood" title="emcee3.Model.compute_grad_log_likelihood"><code class="xref py py-func docutils literal"><span class="pre">Model.compute_grad_log_likelihood()</span></code></a> should also be implemented. Each
+of these methods should take a <a class="reference internal" href="#emcee3.State" title="emcee3.State"><code class="xref py py-class docutils literal"><span class="pre">State</span></code></a> as input, update the relevant
+attributes in place, and return the updated <a class="reference internal" href="#emcee3.State" title="emcee3.State"><code class="xref py py-class docutils literal"><span class="pre">State</span></code></a>.</p>
+<dl class="method">
+<dt id="emcee3.Model.compute_grad_log_likelihood">
+<code class="descname">compute_grad_log_likelihood</code><span class="sig-paren">(</span><em>state</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.Model.compute_grad_log_likelihood" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the gradient of the log likelihood with respect to coords.</p>
+<p>Subclasses should implement this method and overwrite the
+<code class="docutils literal"><span class="pre">grad_log_likelihood</span></code> attribute on the input <code class="docutils literal"><span class="pre">state</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>state</strong> (<a class="reference internal" href="#emcee3.state.State" title="emcee3.state.State"><em>State</em></a>) &#8211; The current state.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The updated state.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#emcee3.state.State" title="emcee3.state.State">State</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.Model.compute_grad_log_prior">
+<code class="descname">compute_grad_log_prior</code><span class="sig-paren">(</span><em>state</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.Model.compute_grad_log_prior" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the gradient of the log prior with respect to coords.</p>
+<p>Subclasses should implement this method and overwrite the
+<code class="docutils literal"><span class="pre">grad_log_prior</span></code> attribute on the input <code class="docutils literal"><span class="pre">state</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>state</strong> (<a class="reference internal" href="#emcee3.state.State" title="emcee3.state.State"><em>State</em></a>) &#8211; The current state.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The updated state.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#emcee3.state.State" title="emcee3.state.State">State</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.Model.compute_grad_log_probability">
+<code class="descname">compute_grad_log_probability</code><span class="sig-paren">(</span><em>state</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.Model.compute_grad_log_probability" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the gradient of the log probability of the model.</p>
+<p>Subclasses won&#8217;t generally need to overload this method. Instead,
+<a class="reference internal" href="#emcee3.Model.compute_grad_log_prior" title="emcee3.Model.compute_grad_log_prior"><code class="xref py py-func docutils literal"><span class="pre">compute_grad_log_prior()</span></code></a> and <a class="reference internal" href="#emcee3.Model.compute_grad_log_likelihood" title="emcee3.Model.compute_grad_log_likelihood"><code class="xref py py-func docutils literal"><span class="pre">compute_grad_log_likelihood()</span></code></a>
+should be implemented.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>state</strong> (<a class="reference internal" href="#emcee3.state.State" title="emcee3.state.State"><em>State</em></a>) &#8211; The current state.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The updated state.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#emcee3.state.State" title="emcee3.state.State">State</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.Model.compute_log_likelihood">
+<code class="descname">compute_log_likelihood</code><span class="sig-paren">(</span><em>state</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.Model.compute_log_likelihood" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the log likelihood of the model.</p>
+<p>This method should always be called after <a class="reference internal" href="#emcee3.Model.compute_log_prior" title="emcee3.Model.compute_log_prior"><code class="xref py py-func docutils literal"><span class="pre">compute_log_prior()</span></code></a>.
+Subclasses should implement this method and overwrite the
+<code class="docutils literal"><span class="pre">log_likelihood</span></code> attribute on the input <code class="docutils literal"><span class="pre">state</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>state</strong> (<a class="reference internal" href="#emcee3.state.State" title="emcee3.state.State"><em>State</em></a>) &#8211; The current state.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The updated state.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#emcee3.state.State" title="emcee3.state.State">State</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.Model.compute_log_prior">
+<code class="descname">compute_log_prior</code><span class="sig-paren">(</span><em>state</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.Model.compute_log_prior" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the log prior probability of the model.</p>
+<p>Since this method is called first, the input <code class="docutils literal"><span class="pre">state</span></code> can only be
+expected to have a <code class="docutils literal"><span class="pre">coords</span></code> attribute. Subclasses should implement
+this method and overwrite the <code class="docutils literal"><span class="pre">log_prior</span></code> attribute on the input
+<code class="docutils literal"><span class="pre">state</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>state</strong> (<a class="reference internal" href="#emcee3.state.State" title="emcee3.state.State"><em>State</em></a>) &#8211; The current state.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The updated state.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#emcee3.state.State" title="emcee3.state.State">State</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.Model.compute_log_probability">
+<code class="descname">compute_log_probability</code><span class="sig-paren">(</span><em>state</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.Model.compute_log_probability" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the log probability of the model.</p>
+<p>Subclasses won&#8217;t generally need to overload this method. Instead,
+<a class="reference internal" href="#emcee3.Model.compute_log_prior" title="emcee3.Model.compute_log_prior"><code class="xref py py-func docutils literal"><span class="pre">compute_log_prior()</span></code></a> and <a class="reference internal" href="#emcee3.Model.compute_log_likelihood" title="emcee3.Model.compute_log_likelihood"><code class="xref py py-func docutils literal"><span class="pre">compute_log_likelihood()</span></code></a> should be
+implemented.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>state</strong> (<a class="reference internal" href="#emcee3.state.State" title="emcee3.state.State"><em>State</em></a>) &#8211; The current state.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The updated state.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#emcee3.state.State" title="emcee3.state.State">State</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="emcee3.SimpleModel">
+<em class="property">class </em><code class="descclassname">emcee3.</code><code class="descname">SimpleModel</code><span class="sig-paren">(</span><em>log_likelihood</em>, <em>log_prior=None</em>, <em>grad_log_likelihood=None</em>, <em>grad_log_prior=None</em>, <em>args=()</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.SimpleModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#emcee3.model.Model" title="emcee3.model.Model"><code class="xref py py-class docutils literal"><span class="pre">emcee3.model.Model</span></code></a></p>
+<p>The simplest modeling interface.</p>
+<p>This model interface wraps functions describing the components of the
+model. At a minimum, a function evaluating the log likelihood (up to a
+constant) must be provided. In this case, the prior function is assumed to
+be uniform and improper. All functions must have the call structure:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">log_likelihood</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal"><span class="pre">coords</span></code> is a coordinate vector and <code class="docutils literal"><span class="pre">*args</span></code> can be provided
+using the <code class="docutils literal"><span class="pre">args</span></code> keyword argument. The <code class="docutils literal"><span class="pre">log_likelihood</span></code> and
+<code class="docutils literal"><span class="pre">log_prior</span></code> functions should return scalars and the <code class="docutils literal"><span class="pre">grad_*</span></code> functions
+should return <code class="docutils literal"><span class="pre">numpy.array</span></code> objects of the same length as the input
+<code class="docutils literal"><span class="pre">coords</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>log_likelihood</strong> (<em>callable</em>) &#8211; A function that evaluates the log
+likelihood of the model.</li>
+<li><strong>log_prior</strong> (<em>Optional[callable]</em>) &#8211; A function that evaluates the log
+prior of the model. If not provided, this will be assumed to be
+uniform and improper.</li>
+<li><strong>grad_log_likelihood</strong> (<em>Optional[callable]</em>) &#8211; A function that evaluates the
+gradient of the log likelihood of the model. If needed but not
+provided, this will be evaluated numerically using a first order
+method.</li>
+<li><strong>grad_log_prior</strong> (<em>Optional[callable]</em>) &#8211; A function that evaluates the
+gradient of the log prior of the model. If needed but not
+provided, this will be evaluated numerically using a first order
+method.</li>
+<li><strong>args</strong> (<em>Optional[tuple]</em>) &#8211; Any other arguments to be provided to the
+probability functions.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="emcee3.SimpleModel.check_grad">
+<code class="descname">check_grad</code><span class="sig-paren">(</span><em>coords</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.SimpleModel.check_grad" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check the gradients numerically.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>coords</strong> (<em>array</em>) &#8211; The coordinates.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="docutils">
+<dt>If the numerical gradients and analytic gradients satisfy</dt>
+<dd><code class="docutils literal"><span class="pre">numpy.allclose</span></code>.</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">bool</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.SimpleModel.compute_grad_log_likelihood">
+<code class="descname">compute_grad_log_likelihood</code><span class="sig-paren">(</span><em>state</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.SimpleModel.compute_grad_log_likelihood" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the gradient of the log likelihood with respect to coords.</p>
+<p>Subclasses should implement this method and overwrite the
+<code class="docutils literal"><span class="pre">grad_log_likelihood</span></code> attribute on the input <code class="docutils literal"><span class="pre">state</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>state</strong> (<a class="reference internal" href="#emcee3.state.State" title="emcee3.state.State"><em>State</em></a>) &#8211; The current state.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The updated state.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#emcee3.state.State" title="emcee3.state.State">State</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.SimpleModel.compute_grad_log_prior">
+<code class="descname">compute_grad_log_prior</code><span class="sig-paren">(</span><em>state</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.SimpleModel.compute_grad_log_prior" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the gradient of the log prior with respect to coords.</p>
+<p>Subclasses should implement this method and overwrite the
+<code class="docutils literal"><span class="pre">grad_log_prior</span></code> attribute on the input <code class="docutils literal"><span class="pre">state</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>state</strong> (<a class="reference internal" href="#emcee3.state.State" title="emcee3.state.State"><em>State</em></a>) &#8211; The current state.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The updated state.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#emcee3.state.State" title="emcee3.state.State">State</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.SimpleModel.compute_log_likelihood">
+<code class="descname">compute_log_likelihood</code><span class="sig-paren">(</span><em>state</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.SimpleModel.compute_log_likelihood" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the log likelihood of the model.</p>
+<p>This method should always be called after <a class="reference internal" href="#emcee3.SimpleModel.compute_log_prior" title="emcee3.SimpleModel.compute_log_prior"><code class="xref py py-func docutils literal"><span class="pre">compute_log_prior()</span></code></a>.
+Subclasses should implement this method and overwrite the
+<code class="docutils literal"><span class="pre">log_likelihood</span></code> attribute on the input <code class="docutils literal"><span class="pre">state</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>state</strong> (<a class="reference internal" href="#emcee3.state.State" title="emcee3.state.State"><em>State</em></a>) &#8211; The current state.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The updated state.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#emcee3.state.State" title="emcee3.state.State">State</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.SimpleModel.compute_log_prior">
+<code class="descname">compute_log_prior</code><span class="sig-paren">(</span><em>state</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.SimpleModel.compute_log_prior" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the log prior probability of the model.</p>
+<p>Since this method is called first, the input <code class="docutils literal"><span class="pre">state</span></code> can only be
+expected to have a <code class="docutils literal"><span class="pre">coords</span></code> attribute. Subclasses should implement
+this method and overwrite the <code class="docutils literal"><span class="pre">log_prior</span></code> attribute on the input
+<code class="docutils literal"><span class="pre">state</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>state</strong> (<a class="reference internal" href="#emcee3.state.State" title="emcee3.state.State"><em>State</em></a>) &#8211; The current state.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The updated state.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#emcee3.state.State" title="emcee3.state.State">State</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="emcee3.Sampler">
+<em class="property">class </em><code class="descclassname">emcee3.</code><code class="descname">Sampler</code><span class="sig-paren">(</span><em>moves=None</em>, <em>backend=None</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.Sampler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>A simple MCMC sampler with a customizable schedule of moves.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>moves</strong> (<em>Optional</em>) &#8211; This can be a single move object, a list of moves,
+or a &#8220;weighted&#8221; list of the form
+<code class="docutils literal"><span class="pre">[(emcee3.moves.StretchMove(),</span> <span class="pre">0.1),</span> <span class="pre">...]</span></code>. When running, the
+sampler will randomly select a move from this list (optionally
+with weights) for each proposal. (default: <code class="xref py py-class docutils literal"><span class="pre">StretchMove</span></code>)</li>
+<li><strong>backend</strong> (<em>Optional</em>) &#8211; The interface used for saving the samples. By
+default, the samples will be saved to memory using the
+<code class="xref py py-class docutils literal"><span class="pre">Backend</span></code> interface.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="emcee3.Sampler.acceptance">
+<code class="descname">acceptance</code><a class="headerlink" href="#emcee3.Sampler.acceptance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="emcee3.Sampler.acceptance_fraction">
+<code class="descname">acceptance_fraction</code><a class="headerlink" href="#emcee3.Sampler.acceptance_fraction" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="emcee3.Sampler.coords">
+<code class="descname">coords</code><a class="headerlink" href="#emcee3.Sampler.coords" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="emcee3.Sampler.current_coords">
+<code class="descname">current_coords</code><a class="headerlink" href="#emcee3.Sampler.current_coords" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="emcee3.Sampler.get_coords">
+<code class="descname">get_coords</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.Sampler.get_coords" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the stored chain of MCMC samples.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>flat</strong> (<em>Optional[bool]</em>) &#8211; Flatten the chain across the ensemble.
+(default: <code class="docutils literal"><span class="pre">False</span></code>)</li>
+<li><strong>thin</strong> (<em>Optional[int]</em>) &#8211; Take only every <code class="docutils literal"><span class="pre">thin</span></code> steps from the
+chain. (default: <code class="docutils literal"><span class="pre">1</span></code>)</li>
+<li><strong>discard</strong> (<em>Optional[int]</em>) &#8211; Discard the first <code class="docutils literal"><span class="pre">discard</span></code> steps in
+the chain as burn-in. (default: <code class="docutils literal"><span class="pre">0</span></code>)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The MCMC samples.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">array[..., nwalkers, ndim]</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.Sampler.get_integrated_autocorr_time">
+<code class="descname">get_integrated_autocorr_time</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.Sampler.get_integrated_autocorr_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the integrated autocorrelation time for each dimension.</p>
+<p>Any arguments are passed directly to <a class="reference internal" href="#emcee3.autocorr.integrated_time" title="emcee3.autocorr.integrated_time"><code class="xref py py-func docutils literal"><span class="pre">autocorr.integrated_time()</span></code></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The estimated autocorrelation time in each dimension.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">array[ndim]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.Sampler.get_log_likelihood">
+<code class="descname">get_log_likelihood</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.Sampler.get_log_likelihood" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the chain of log likelihoods evaluated at the MCMC samples.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>flat</strong> (<em>Optional[bool]</em>) &#8211; Flatten the chain across the ensemble.
+(default: <code class="docutils literal"><span class="pre">False</span></code>)</li>
+<li><strong>thin</strong> (<em>Optional[int]</em>) &#8211; Take only every <code class="docutils literal"><span class="pre">thin</span></code> steps from the
+chain. (default: <code class="docutils literal"><span class="pre">1</span></code>)</li>
+<li><strong>discard</strong> (<em>Optional[int]</em>) &#8211; Discard the first <code class="docutils literal"><span class="pre">discard</span></code> steps in
+the chain as burn-in. (default: <code class="docutils literal"><span class="pre">0</span></code>)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The chain of log likelihoods.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">array[..., nwalkers]</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.Sampler.get_log_prior">
+<code class="descname">get_log_prior</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.Sampler.get_log_prior" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the chain of log priors evaluated at the MCMC samples.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>flat</strong> (<em>Optional[bool]</em>) &#8211; Flatten the chain across the ensemble.
+(default: <code class="docutils literal"><span class="pre">False</span></code>)</li>
+<li><strong>thin</strong> (<em>Optional[int]</em>) &#8211; Take only every <code class="docutils literal"><span class="pre">thin</span></code> steps from the
+chain. (default: <code class="docutils literal"><span class="pre">1</span></code>)</li>
+<li><strong>discard</strong> (<em>Optional[int]</em>) &#8211; Discard the first <code class="docutils literal"><span class="pre">discard</span></code> steps in
+the chain as burn-in. (default: <code class="docutils literal"><span class="pre">0</span></code>)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The chain of log priors.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">array[..., nwalkers]</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.Sampler.get_log_probability">
+<code class="descname">get_log_probability</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.Sampler.get_log_probability" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the chain of log probabilities evaluated at the MCMC samples.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>flat</strong> (<em>Optional[bool]</em>) &#8211; Flatten the chain across the ensemble.
+(default: <code class="docutils literal"><span class="pre">False</span></code>)</li>
+<li><strong>thin</strong> (<em>Optional[int]</em>) &#8211; Take only every <code class="docutils literal"><span class="pre">thin</span></code> steps from the
+chain. (default: <code class="docutils literal"><span class="pre">1</span></code>)</li>
+<li><strong>discard</strong> (<em>Optional[int]</em>) &#8211; Discard the first <code class="docutils literal"><span class="pre">discard</span></code> steps in
+the chain as burn-in. (default: <code class="docutils literal"><span class="pre">0</span></code>)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The chain of log probabilities.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">array[..., nwalkers]</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="emcee3.Sampler.log_likelihood">
+<code class="descname">log_likelihood</code><a class="headerlink" href="#emcee3.Sampler.log_likelihood" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="emcee3.Sampler.log_prior">
+<code class="descname">log_prior</code><a class="headerlink" href="#emcee3.Sampler.log_prior" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="emcee3.Sampler.log_probability">
+<code class="descname">log_probability</code><a class="headerlink" href="#emcee3.Sampler.log_probability" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="emcee3.Sampler.reset">
+<code class="descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.Sampler.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear the chain and reset it to its default state.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.Sampler.run">
+<code class="descname">run</code><span class="sig-paren">(</span><em>ensemble</em>, <em>niter</em>, <em>progress=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.Sampler.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the specified number of iterations of MCMC.</p>
+<p>Starting from a given ensemble, run <code class="docutils literal"><span class="pre">niter</span></code> steps of MCMC. In
+practice, this method just calls <a class="reference internal" href="#emcee3.Sampler.sample" title="emcee3.Sampler.sample"><code class="xref py py-func docutils literal"><span class="pre">Sampler.sample()</span></code></a> and
+and returns the final ensemble from the iterator.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>ensemble</strong> (<a class="reference internal" href="#emcee3.Ensemble" title="emcee3.Ensemble"><em>Ensemble</em></a>) &#8211; The starting <a class="reference internal" href="#emcee3.Ensemble" title="emcee3.Ensemble"><code class="xref py py-class docutils literal"><span class="pre">Ensemble</span></code></a>.</li>
+<li><strong>niter</strong> (<em>int</em>) &#8211; The number of steps to run.</li>
+<li><strong>progress</strong> (<em>Optional[bool]</em>) &#8211; Optionally show the sampling progress
+using <a class="reference external" href="https://github.com/tqdm/tqdm">tqdm</a>.
+(default: <code class="docutils literal"><span class="pre">False</span></code>)</li>
+<li><strong>**kwargs</strong> &#8211; Any other arguments are passed to <a class="reference internal" href="#emcee3.Sampler.sample" title="emcee3.Sampler.sample"><code class="xref py py-func docutils literal"><span class="pre">Sampler.sample()</span></code></a>.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The final state of the ensemble.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#emcee3.Ensemble" title="emcee3.Ensemble">Ensemble</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.Sampler.sample">
+<code class="descname">sample</code><span class="sig-paren">(</span><em>ensemble</em>, <em>niter=None</em>, <em>store=None</em>, <em>thin=1</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.Sampler.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run MCMC iterations and yield each updated ensemble.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>ensemble</strong> (<a class="reference internal" href="#emcee3.Ensemble" title="emcee3.Ensemble"><em>Ensemble</em></a>) &#8211; The starting <a class="reference internal" href="#emcee3.Ensemble" title="emcee3.Ensemble"><code class="xref py py-class docutils literal"><span class="pre">Ensemble</span></code></a>.</li>
+<li><strong>niter</strong> (<em>Optional[int]</em>) &#8211; The number of steps to run. If not provided,
+the sampler will run forever.</li>
+<li><strong>store</strong> (<em>Optional[bool]</em>) &#8211; If <code class="docutils literal"><span class="pre">True</span></code>, save the chain using the
+backend. If <code class="docutils literal"><span class="pre">False</span></code>, reset the backend but don&#8217;t store
+anything.</li>
+<li><strong>thin</strong> (<em>Optional[int]</em>) &#8211; Only store every <code class="docutils literal"><span class="pre">thin</span></code> step. Note: the
+backend won&#8217;t ever know about this thinning. Instead, it will
+just think that the chain had only <code class="docutils literal"><span class="pre">niter</span> <span class="pre">//</span> <span class="pre">thin</span></code> steps.
+(default: <code class="docutils literal"><span class="pre">1</span></code>)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Yields:</th><td class="field-body"><p class="first last"><em>Ensemble</em> &#8211; The state of the ensemble at every <code class="docutils literal"><span class="pre">thin</span></code>-th step.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="emcee3.Ensemble">
+<em class="property">class </em><code class="descclassname">emcee3.</code><code class="descname">Ensemble</code><span class="sig-paren">(</span><em>model</em>, <em>coords</em>, <em>pool=None</em>, <em>random=None</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.Ensemble" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>The state of the ensemble of walkers.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>model</strong> (<em>callable or Model</em>) &#8211; The model specification. This can be a
+callable, an instance of <a class="reference internal" href="#emcee3.SimpleModel" title="emcee3.SimpleModel"><code class="xref py py-class docutils literal"><span class="pre">SimpleModel</span></code></a>, or another instance
+that quacks like a <a class="reference internal" href="#emcee3.Model" title="emcee3.Model"><code class="xref py py-class docutils literal"><span class="pre">Model</span></code></a>. If <code class="docutils literal"><span class="pre">model</span></code> is a callable, it
+should take a coordinate vector as input and return the evaluated
+log-probability up to an additive constant.</li>
+<li><strong>coords</strong> (<em>Optional[array[nwalkers, ndim]]</em>) &#8211; The array of walker
+coordinate vectors.</li>
+<li><strong>pool</strong> (<em>Optional</em>) &#8211; A pool object that exposes a map function for
+parallelization purposes.</li>
+<li><strong>random</strong> (<em>Optional</em>) &#8211; A numpy-compatible random number generator. By
+default, this will be the built-in <code class="docutils literal"><span class="pre">numpy.random</span></code> module but if
+you want the ensemble to own its own state, you can supply an
+instance of <code class="docutils literal"><span class="pre">numpy.random.RandomState</span></code>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="emcee3.Ensemble.dtype">
+<code class="descname">dtype</code><a class="headerlink" href="#emcee3.Ensemble.dtype" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="emcee3.Ensemble.get_value">
+<code class="descname">get_value</code><span class="sig-paren">(</span><em>key</em>, <em>out=None</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.Ensemble.get_value" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="emcee3.Ensemble.propose">
+<code class="descname">propose</code><span class="sig-paren">(</span><em>coords</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.Ensemble.propose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a new set of coordinates return arrays of log-prior and
+log-likelihood values.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>coords</strong> (<em>array[nwalkers, ndim]</em>) &#8211; The new coordinate matrix.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="docutils">
+<dt>A list of walker <a class="reference internal" href="#emcee3.State" title="emcee3.State"><code class="xref py py-class docutils literal"><span class="pre">State</span></code></a> objects evaluated at the</dt>
+<dd>specified coordinates.</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.Ensemble.update">
+<code class="descname">update</code><span class="sig-paren">(</span><em>walkers</em>, <em>subset=None</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.Ensemble.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the coordinate matrix and probability containers given the
+current list of walkers. Moves should call this after proposing and
+accepting the walkers.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Only the walkers with <code class="docutils literal"><span class="pre">accepted</span> <span class="pre">==</span> <span class="pre">True</span></code> are updated.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>walkers</strong> (<em>list[State]</em>) &#8211; A list of walkers states.</li>
+<li><strong>subset</strong> &#8211; If provided, <code class="docutils literal"><span class="pre">walkers</span></code> only corresponds to the indicated
+subset of the walkers.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal"><span class="pre">RuntimeError</span></code> &#8211; If an invalid state is accepted.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="emcee3.State">
+<em class="property">class </em><code class="descclassname">emcee3.</code><code class="descname">State</code><span class="sig-paren">(</span><em>coords</em>, <em>log_prior=-inf</em>, <em>log_likelihood=-inf</em>, <em>accepted=False</em>, <em>**metadata</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.State" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>The current state of a walker.</p>
+<p>This object captures the state of a walker. It will store the coordinates,
+probabilities, and any other computed metadata. Metadata can be added by
+simply adding an attribute to a <a class="reference internal" href="#emcee3.State" title="emcee3.State"><code class="xref py py-class docutils literal"><span class="pre">State</span></code></a> object. Any attributes with
+names that don&#8217;t start with an underscore will be serialized by the
+<a class="reference internal" href="#emcee3.State.to_array" title="emcee3.State.to_array"><code class="xref py py-func docutils literal"><span class="pre">to_array()</span></code></a> method.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Unless the <code class="docutils literal"><span class="pre">accepted</span></code> attribute is <code class="docutils literal"><span class="pre">True</span></code>, this object can&#8217;t
+be expected to have the correct data type.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>coords</strong> (<em>array[ndim]</em>) &#8211; The coordinate vector of the walker&#8217;s state.</li>
+<li><strong>log_prior</strong> (<em>Optional[float]</em>) &#8211; The log prior evaluated at <code class="docutils literal"><span class="pre">coords</span></code>. If
+not provided, it is expected that the
+<a class="reference internal" href="#emcee3.Model.compute_log_prior" title="emcee3.Model.compute_log_prior"><code class="xref py py-func docutils literal"><span class="pre">Model.compute_log_prior()</span></code></a> method of a model will save the
+<code class="docutils literal"><span class="pre">log_prior</span></code> attribute on this object.</li>
+<li><strong>log_likelihood</strong> (<em>Optional[float]</em>) &#8211; The log likelihood evaluated at
+<code class="docutils literal"><span class="pre">coords</span></code>. Like <code class="docutils literal"><span class="pre">log_prior</span></code>, this should be evaluated by the
+model.</li>
+<li><strong>accepted</strong> (<em>Optional[bool]</em>) &#8211; Was this proposal accepted?</li>
+<li><strong>**kwargs</strong> &#8211; Any other values to store as metadata.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="emcee3.State.dtype">
+<code class="descname">dtype</code><a class="headerlink" href="#emcee3.State.dtype" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="emcee3.State.from_array">
+<em class="property">classmethod </em><code class="descname">from_array</code><span class="sig-paren">(</span><em>array</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.State.from_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reconstruct a saved state from a structured numpy array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>array</strong> (<em>array</em>) &#8211; An array produced by serializing a state using the
+<a class="reference internal" href="#emcee3.State.to_array" title="emcee3.State.to_array"><code class="xref py py-func docutils literal"><span class="pre">to_array()</span></code></a> method.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The reconstructed state.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#emcee3.state.State" title="emcee3.state.State">State</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="emcee3.State.grad_log_probability">
+<code class="descname">grad_log_probability</code><a class="headerlink" href="#emcee3.State.grad_log_probability" title="Permalink to this definition">¶</a></dt>
+<dd><p>A helper attribute that provides access to the log probability.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="emcee3.State.log_probability">
+<code class="descname">log_probability</code><a class="headerlink" href="#emcee3.State.log_probability" title="Permalink to this definition">¶</a></dt>
+<dd><p>A helper attribute that provides access to the log probability.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.State.to_array">
+<code class="descname">to_array</code><span class="sig-paren">(</span><em>out=None</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.State.to_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serialize the state to a structured numpy array representation.</p>
+<p>This representation will include all attributes of this instance that
+don&#8217;t have a name beginning with an underscore. There will also always
+be special fields: <code class="docutils literal"><span class="pre">coords</span></code>, <code class="docutils literal"><span class="pre">log_prior</span></code>, <code class="docutils literal"><span class="pre">log_likelihood</span></code>, and
+<code class="docutils literal"><span class="pre">accepted</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>out</strong> (<em>Optional[array]</em>) &#8211; If provided, the state will be serialized
+in place.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The serialized state.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">array</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014-2016 Dan Foreman-Mackey &amp; contributors.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'3.0.0.dev0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="../../_static/js/analytics.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

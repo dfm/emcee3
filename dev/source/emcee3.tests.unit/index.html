@@ -1,0 +1,347 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>emcee3.tests.unit package &mdash; emcee3 3.0.0.dev0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.png"/>
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+  
+        <link rel="index" title="Index"
+              href="../../genindex/"/>
+        <link rel="search" title="Search" href="../../search/"/>
+    <link rel="top" title="emcee3 3.0.0.dev0 documentation" href="../../"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="../../" class="fa fa-home"> emcee3</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../user/install/">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user/modeling/">Modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user/porting/">Porting your code to emcee3 from earlier versions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../user/porting/#why-switch">Why switch?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../user/porting/#a-complete-example">A complete example</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/line/">Tutorial: Fitting a Model to Data</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/line/#generating-fake-data-from-the-model">Generating fake data from the model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/line/#maximum-likelihood-solution">Maximum-likelihood solution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/line/#building-the-probabilistic-model">Building the probabilistic model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/line/#sampling-from-the-posterior-probability">Sampling from the posterior probability</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/mixture-models/">Tutorial: Practical mixture models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/mixture-models/#the-basic-model">The basic model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/mixture-models/#the-marginalized-likelihood">The marginalized likelihood</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/mixture-models/#mixture-membership-probabilities">Mixture membership probabilities</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/#model-building">Model Building</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../">emcee3</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../">Docs</a> &raquo;</li>
+      
+    <li>emcee3.tests.unit package</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="https://github.com/dfm/emcee/blob/emcee3/docs/source/emcee3.tests.unit.rst" class="fa fa-github"> Edit on GitHub</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+
+            <div class="admonition warning">
+              <p class="first admonition-title">Version Warning</p>
+              <p class="last">
+                This documentation is for the development version of
+                <strong>emcee</strong> ("emcee3") and it isn't
+                backwards-compatible with earlier stable versions.
+                If you're using an earlier version, get that documentation
+                <a href="http://dfm.io/emcee">here</a>.
+              </p>
+            </div>
+
+            
+  <div class="section" id="emcee3-tests-unit-package">
+<h1>emcee3.tests.unit package<a class="headerlink" href="#emcee3-tests-unit-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-emcee3.tests.unit.test_autocorr">
+<span id="emcee3-tests-unit-test-autocorr-module"></span><h2>emcee3.tests.unit.test_autocorr module<a class="headerlink" href="#module-emcee3.tests.unit.test_autocorr" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="emcee3.tests.unit.test_autocorr.test_nd">
+<code class="descclassname">emcee3.tests.unit.test_autocorr.</code><code class="descname">test_nd</code><span class="sig-paren">(</span><em>seed=1234</em>, <em>ndim=3</em>, <em>N=150000</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.tests.unit.test_autocorr.test_nd" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="emcee3.tests.unit.test_autocorr.test_too_short">
+<code class="descclassname">emcee3.tests.unit.test_autocorr.</code><code class="descname">test_too_short</code><span class="sig-paren">(</span><em>seed=1234</em>, <em>ndim=3</em>, <em>N=500</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.tests.unit.test_autocorr.test_too_short" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-emcee3.tests.unit.test_backends">
+<span id="emcee3-tests-unit-test-backends-module"></span><h2>emcee3.tests.unit.test_backends module<a class="headerlink" href="#module-emcee3.tests.unit.test_backends" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="emcee3.tests.unit.test_backends.test_metadata">
+<code class="descclassname">emcee3.tests.unit.test_backends.</code><code class="descname">test_metadata</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.tests.unit.test_backends.test_metadata" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="emcee3.tests.unit.test_backends.test_hdf">
+<code class="descclassname">emcee3.tests.unit.test_backends.</code><code class="descname">test_hdf</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.tests.unit.test_backends.test_hdf" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="emcee3.tests.unit.test_backends.test_hdf_reload">
+<code class="descclassname">emcee3.tests.unit.test_backends.</code><code class="descname">test_hdf_reload</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.tests.unit.test_backends.test_hdf_reload" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-emcee3.tests.unit.test_ensemble">
+<span id="emcee3-tests-unit-test-ensemble-module"></span><h2>emcee3.tests.unit.test_ensemble module<a class="headerlink" href="#module-emcee3.tests.unit.test_ensemble" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="emcee3.tests.unit.test_ensemble.test_invalid_coords_init">
+<code class="descclassname">emcee3.tests.unit.test_ensemble.</code><code class="descname">test_invalid_coords_init</code><span class="sig-paren">(</span><em>nwalkers=32</em>, <em>ndim=5</em>, <em>seed=1234</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.tests.unit.test_ensemble.test_invalid_coords_init" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="emcee3.tests.unit.test_ensemble.test_invalid_dims_init">
+<code class="descclassname">emcee3.tests.unit.test_ensemble.</code><code class="descname">test_invalid_dims_init</code><span class="sig-paren">(</span><em>nwalkers=32</em>, <em>ndim=5</em>, <em>seed=1234</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.tests.unit.test_ensemble.test_invalid_dims_init" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="emcee3.tests.unit.test_ensemble.test_valid_init">
+<code class="descclassname">emcee3.tests.unit.test_ensemble.</code><code class="descname">test_valid_init</code><span class="sig-paren">(</span><em>nwalkers=32</em>, <em>ndim=5</em>, <em>seed=1234</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.tests.unit.test_ensemble.test_valid_init" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-emcee3.tests.unit.test_numgrad">
+<span id="emcee3-tests-unit-test-numgrad-module"></span><h2>emcee3.tests.unit.test_numgrad module<a class="headerlink" href="#module-emcee3.tests.unit.test_numgrad" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="emcee3.tests.unit.test_numgrad.test_numgrad">
+<code class="descclassname">emcee3.tests.unit.test_numgrad.</code><code class="descname">test_numgrad</code><span class="sig-paren">(</span><em>funcs</em>, <em>gf</em>, <em>seed=42</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.tests.unit.test_numgrad.test_numgrad" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-emcee3.tests.unit.test_pickle">
+<span id="emcee3-tests-unit-test-pickle-module"></span><h2>emcee3.tests.unit.test_pickle module<a class="headerlink" href="#module-emcee3.tests.unit.test_pickle" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="emcee3.tests.unit.test_pickle.test_walker_pickle">
+<code class="descclassname">emcee3.tests.unit.test_pickle.</code><code class="descname">test_walker_pickle</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.tests.unit.test_pickle.test_walker_pickle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="emcee3.tests.unit.test_pickle.test_ensemble_pickle">
+<code class="descclassname">emcee3.tests.unit.test_pickle.</code><code class="descname">test_ensemble_pickle</code><span class="sig-paren">(</span><em>seed=1234</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.tests.unit.test_pickle.test_ensemble_pickle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="emcee3.tests.unit.test_pickle.test_moves_pickle">
+<code class="descclassname">emcee3.tests.unit.test_pickle.</code><code class="descname">test_moves_pickle</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.tests.unit.test_pickle.test_moves_pickle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-emcee3.tests.unit.test_sampler">
+<span id="emcee3-tests-unit-test-sampler-module"></span><h2>emcee3.tests.unit.test_sampler module<a class="headerlink" href="#module-emcee3.tests.unit.test_sampler" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="emcee3.tests.unit.test_sampler.test_schedule">
+<code class="descclassname">emcee3.tests.unit.test_sampler.</code><code class="descname">test_schedule</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.tests.unit.test_sampler.test_schedule" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="emcee3.tests.unit.test_sampler.test_shapes">
+<code class="descclassname">emcee3.tests.unit.test_sampler.</code><code class="descname">test_shapes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.tests.unit.test_sampler.test_shapes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="emcee3.tests.unit.test_sampler.test_errors">
+<code class="descclassname">emcee3.tests.unit.test_sampler.</code><code class="descname">test_errors</code><span class="sig-paren">(</span><em>nwalkers=32</em>, <em>ndim=3</em>, <em>nsteps=5</em>, <em>seed=1234</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.tests.unit.test_sampler.test_errors" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="emcee3.tests.unit.test_sampler.test_thin">
+<code class="descclassname">emcee3.tests.unit.test_sampler.</code><code class="descname">test_thin</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.tests.unit.test_sampler.test_thin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-emcee3.tests.unit.test_state">
+<span id="emcee3-tests-unit-test-state-module"></span><h2>emcee3.tests.unit.test_state module<a class="headerlink" href="#module-emcee3.tests.unit.test_state" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="emcee3.tests.unit.test_state.test_dtype">
+<code class="descclassname">emcee3.tests.unit.test_state.</code><code class="descname">test_dtype</code><span class="sig-paren">(</span><em>seed=1234</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.tests.unit.test_state.test_dtype" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="emcee3.tests.unit.test_state.test_serialization">
+<code class="descclassname">emcee3.tests.unit.test_state.</code><code class="descname">test_serialization</code><span class="sig-paren">(</span><em>seed=1234</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.tests.unit.test_state.test_serialization" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="emcee3.tests.unit.test_state.test_repr">
+<code class="descclassname">emcee3.tests.unit.test_state.</code><code class="descname">test_repr</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.tests.unit.test_state.test_repr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-emcee3.tests.unit.test_stretch">
+<span id="emcee3-tests-unit-test-stretch-module"></span><h2>emcee3.tests.unit.test_stretch module<a class="headerlink" href="#module-emcee3.tests.unit.test_stretch" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="emcee3.tests.unit.test_stretch.test_live_dangerously">
+<code class="descclassname">emcee3.tests.unit.test_stretch.</code><code class="descname">test_live_dangerously</code><span class="sig-paren">(</span><em>nwalkers=32</em>, <em>nsteps=3000</em>, <em>seed=1234</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.tests.unit.test_stretch.test_live_dangerously" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-emcee3.tests.unit">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-emcee3.tests.unit" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014-2016 Dan Foreman-Mackey &amp; contributors.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'3.0.0.dev0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="../../_static/js/analytics.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

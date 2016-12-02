@@ -1,0 +1,343 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Quickstart &mdash; emcee3 3.0.0.dev0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.png"/>
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+  
+        <link rel="index" title="Index"
+              href="../../genindex/"/>
+        <link rel="search" title="Search" href="../../search/"/>
+    <link rel="top" title="emcee3 3.0.0.dev0 documentation" href="../../"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="../../" class="fa fa-home"> emcee3</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../install/">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modeling/">Modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../porting/">Porting your code to emcee3 from earlier versions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../porting/#why-switch">Why switch?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../porting/#a-complete-example">A complete example</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/line/">Tutorial: Fitting a Model to Data</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/line/#generating-fake-data-from-the-model">Generating fake data from the model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/line/#maximum-likelihood-solution">Maximum-likelihood solution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/line/#building-the-probabilistic-model">Building the probabilistic model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/line/#sampling-from-the-posterior-probability">Sampling from the posterior probability</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/mixture-models/">Tutorial: Practical mixture models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/mixture-models/#the-basic-model">The basic model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/mixture-models/#the-marginalized-likelihood">The marginalized likelihood</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/mixture-models/#mixture-membership-probabilities">Mixture membership probabilities</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/#model-building">Model Building</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../">emcee3</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../">Docs</a> &raquo;</li>
+      
+    <li>Quickstart</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="https://github.com/dfm/emcee/blob/emcee3/docs/user/quickstart.rst" class="fa fa-github"> Edit on GitHub</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+
+            <div class="admonition warning">
+              <p class="first admonition-title">Version Warning</p>
+              <p class="last">
+                This documentation is for the development version of
+                <strong>emcee</strong> ("emcee3") and it isn't
+                backwards-compatible with earlier stable versions.
+                If you're using an earlier version, get that documentation
+                <a href="http://dfm.io/emcee">here</a>.
+              </p>
+            </div>
+
+            
+  <span class="target" id="module-emcee"><span id="quickstart"></span></span><div class="section" id="id1">
+<h1>Quickstart<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>The easiest way to get started with using <code class="docutils literal"><span class="pre">emcee</span></code> is to use it for a
+project. To get you started, here&#8217;s an annotated, fully-functional
+example that demonstrates a standard usage pattern.</p>
+<div class="section" id="how-to-sample-a-multi-dimensional-gaussian">
+<h2>How to sample a multi-dimensional Gaussian<a class="headerlink" href="#how-to-sample-a-multi-dimensional-gaussian" title="Permalink to this headline">¶</a></h2>
+<p>We&#8217;re going to demonstrate how you might draw samples from the multivariate
+Gaussian density given by:</p>
+<div class="math">
+\[p(\vec{x}) \propto \exp \left [ - \frac{1}{2} (\vec{x} -
+    \vec{\mu})^\mathrm{T} \, \Sigma ^{-1} \, (\vec{x} - \vec{\mu})
+    \right ]\]</div>
+<p>where <span class="math">\(\vec{\mu}\)</span> is an <em>N</em>-dimensional vector position of
+the mean of the density and <span class="math">\(\Sigma\)</span> is the square <em>N</em>-by-<em>N</em>
+covariance matrix.</p>
+<p>The first thing that we need to do is import the necessary
+modules:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">emcee3</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+</pre></div>
+</div>
+<p>Then, we&#8217;ll code up a Python function that returns the density
+<span class="math">\(p(\vec{x})\)</span> for specific values of <span class="math">\(\vec{x}\)</span>,
+<span class="math">\(\vec{\mu}\)</span> and <span class="math">\(\Sigma^{-1}\)</span>. In fact,
+<code class="docutils literal"><span class="pre">emcee</span></code> actually requires the logarithm of <em>p</em>. We&#8217;ll call it <code class="docutils literal"><span class="pre">lnprob</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">lnprob</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">icov</span><span class="p">):</span>
+    <span class="n">diff</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">mu</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">diff</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">icov</span><span class="p">,</span> <span class="n">diff</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>It is important that the first argument of the probability function is
+the position of a single <span class="xref std std-ref">walker</span> (a <em>N</em> dimensional
+<code class="docutils literal"><span class="pre">numpy</span></code> array). The following arguments are going to be constant every
+time the function is called.</p>
+<p>Now, we&#8217;ll set up the specific values of those &#8220;hyperparameters&#8221; in 10
+dimensions:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">ndim</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">means</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">ndim</span><span class="p">)</span>
+<span class="n">cov</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">ndim</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">ndim</span><span class="p">,</span> <span class="n">ndim</span><span class="p">))</span>
+<span class="n">cov</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">triu</span><span class="p">(</span><span class="n">cov</span><span class="p">)</span>
+<span class="n">cov</span> <span class="o">+=</span> <span class="n">cov</span><span class="o">.</span><span class="n">T</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">cov</span><span class="o">.</span><span class="n">diagonal</span><span class="p">())</span>
+<span class="n">cov</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">cov</span><span class="p">,</span><span class="n">cov</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>and where <code class="docutils literal"><span class="pre">cov</span></code> is <span class="math">\(\Sigma\)</span>. Before going on, let&#8217;s
+compute the inverse of <code class="docutils literal"><span class="pre">cov</span></code> because that&#8217;s what we need in our
+probability function:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">icov</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">cov</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>It&#8217;s probably overkill this time but how about we use 100 <span class="xref std std-ref">walkers</span>? Before we go on, we need to guess a starting point for each
+of the 100 walkers. This position will be a 10-dimensional vector so the
+initial guess should be a 100-by-10 array—or a list of 100 arrays that
+each have 10 elements. It&#8217;s not a very good guess but we&#8217;ll just guess a
+random number between 0 and 1 for each component:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">nwalkers</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">initial_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">ndim</span> <span class="o">*</span> <span class="n">nwalkers</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">nwalkers</span><span class="p">,</span> <span class="n">ndim</span><span class="p">))</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">emcee3</span><span class="o">.</span><span class="n">SimpleModel</span><span class="p">(</span><span class="n">lnprob</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">icov</span><span class="p">))</span>
+<span class="n">ensemble</span> <span class="o">=</span> <span class="n">emcee3</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">initial_coords</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now that we&#8217;ve gotten past all the bookkeeping stuff, we can move on to
+the fun stuff. The main interface provided by <code class="docutils literal"><span class="pre">emcee3</span></code> is the
+<code class="xref py py-class docutils literal"><span class="pre">Sampler</span></code> object so let&#8217;s get ourselves one of those:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">sampler</span> <span class="o">=</span> <span class="n">emcee3</span><span class="o">.</span><span class="n">Sampler</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Remember how our function <code class="docutils literal"><span class="pre">lnprob</span></code> required two extra arguments when it
+was called? By setting up our sampler with the <code class="docutils literal"><span class="pre">args</span></code> argument, we&#8217;re
+saying that the probability function should be called as:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">lnprob</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">means</span><span class="p">,</span> <span class="n">icov</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal"><span class="pre">p</span></code> is the position of a single walker. If we didn&#8217;t provide any
+<code class="docutils literal"><span class="pre">args</span></code> parameter, the calling sequence would be <code class="docutils literal"><span class="pre">lnprob(p)</span></code> instead.</p>
+<p>It&#8217;s generally a good idea to run a few &#8220;burn-in&#8221; steps in your MCMC
+chain to let the walkers explore the parameter space a bit and get
+settled into the maximum of the density. We&#8217;ll run a burn-in of 200
+steps (yep, I just made that number up... it&#8217;s hard to really know
+how many steps of burn-in you&#8217;ll need before you start) starting from
+our initial guess <code class="docutils literal"><span class="pre">p0</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">ensemble</span> <span class="o">=</span> <span class="n">sampler</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">ensemble</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="n">sampler</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>You&#8217;ll notice that I saved the final position of the walkers (after the
+100 steps) to a variable called <code class="docutils literal"><span class="pre">pos</span></code>. You can check out what will be
+contained in the other output variables by looking at the documentation for
+the <code class="xref py py-func docutils literal"><span class="pre">EnsembleSampler.run_mcmc()</span></code> function. The call to the
+<code class="xref py py-func docutils literal"><span class="pre">EnsembleSampler.reset()</span></code> method clears all of the important bookkeeping
+parameters in the sampler so that we get a fresh start. It also clears the
+current positions of the walkers so it&#8217;s a good thing that we saved them
+first.</p>
+<p>Now, we can do our production run of 1000 steps (again, this is probably
+overkill... it&#8217;s generally very silly to take way more samples than you
+need to but never mind that for now):</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">sampler</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">ensemble</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The sampler now has a property <code class="xref py py-attr docutils literal"><span class="pre">Sampler.coords</span></code> that is a
+<code class="docutils literal"><span class="pre">numpy</span></code> array with the shape <code class="docutils literal"><span class="pre">(1000,</span> <span class="pre">100,</span> <span class="pre">10)</span></code>. Take note of that
+shape and make sure that you know where each of those numbers come from.
+A much more useful object is the <code class="xref py py-func docutils literal"><span class="pre">Sampler.get_coords(flat=True)()</span></code> which
+has the shape <code class="docutils literal"><span class="pre">(100000,</span> <span class="pre">10)</span></code> and contains all the samples reshaped into
+a flat list. You can see now that we now have 100 000 unbiased samples of
+the density <span class="math">\(p(\vec{x})\)</span>. You can make histograms of these
+samples to get an estimate of the density that you were sampling:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ndim</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">sampler</span><span class="o">.</span><span class="n">flatchain</span><span class="p">[:,</span><span class="n">i</span><span class="p">],</span> <span class="mi">100</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">histtype</span><span class="o">=</span><span class="s2">&quot;step&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Dimension {0:d}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Another good test of whether or not the sampling went well is to check
+the mean acceptance fraction of the ensemble using the
+<code class="xref py py-func docutils literal"><span class="pre">Sampler.acceptance_fraction()</span></code> property:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="s2">&quot;Mean acceptance fraction: {0:.3f}&quot;</span>
+                <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">sampler</span><span class="o">.</span><span class="n">acceptance_fraction</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p>This number should be between approximately 0.25 and 0.5 if everything
+went as planned.</p>
+<p>Well, that&#8217;s it for this example. You&#8217;ll find the full, unadulterated
+sample code for this demo <a class="reference external" href="https://github.com/dfm/emcee3/blob/master/examples/quickstart.py">here</a>.</p>
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014-2016 Dan Foreman-Mackey &amp; contributors.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'3.0.0.dev0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="../../_static/js/analytics.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

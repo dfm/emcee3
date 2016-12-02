@@ -1,0 +1,86 @@
+emcee3.moves package
+====================
+
+Submodules
+----------
+
+emcee3.moves.de module
+----------------------
+
+.. automodule:: emcee3.moves.de
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+emcee3.moves.gaussian module
+----------------------------
+
+.. automodule:: emcee3.moves.gaussian
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+emcee3.moves.hmc module
+-----------------------
+
+.. automodule:: emcee3.moves.hmc
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+emcee3.moves.kde module
+-----------------------
+
+.. automodule:: emcee3.moves.kde
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+emcee3.moves.mh module
+----------------------
+
+.. automodule:: emcee3.moves.mh
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+emcee3.moves.nuts module
+------------------------
+
+.. automodule:: emcee3.moves.nuts
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+emcee3.moves.red_blue module
+----------------------------
+
+.. automodule:: emcee3.moves.red_blue
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+emcee3.moves.stretch module
+---------------------------
+
+.. automodule:: emcee3.moves.stretch
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+emcee3.moves.walk module
+------------------------
+
+.. automodule:: emcee3.moves.walk
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: emcee3.moves
+    :members:
+    :undoc-members:
+    :show-inheritance:

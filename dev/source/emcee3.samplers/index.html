@@ -1,0 +1,737 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>emcee3.samplers package &mdash; emcee3 3.0.0.dev0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.png"/>
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+  
+        <link rel="index" title="Index"
+              href="../../genindex/"/>
+        <link rel="search" title="Search" href="../../search/"/>
+    <link rel="top" title="emcee3 3.0.0.dev0 documentation" href="../../"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="../../" class="fa fa-home"> emcee3</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../user/install/">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user/modeling/">Modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user/porting/">Porting your code to emcee3 from earlier versions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../user/porting/#why-switch">Why switch?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../user/porting/#a-complete-example">A complete example</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/line/">Tutorial: Fitting a Model to Data</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/line/#generating-fake-data-from-the-model">Generating fake data from the model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/line/#maximum-likelihood-solution">Maximum-likelihood solution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/line/#building-the-probabilistic-model">Building the probabilistic model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/line/#sampling-from-the-posterior-probability">Sampling from the posterior probability</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/mixture-models/">Tutorial: Practical mixture models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/mixture-models/#the-basic-model">The basic model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/mixture-models/#the-marginalized-likelihood">The marginalized likelihood</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/mixture-models/#mixture-membership-probabilities">Mixture membership probabilities</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/#model-building">Model Building</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../">emcee3</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../">Docs</a> &raquo;</li>
+      
+    <li>emcee3.samplers package</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="https://github.com/dfm/emcee/blob/emcee3/docs/source/emcee3.samplers.rst" class="fa fa-github"> Edit on GitHub</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+
+            <div class="admonition warning">
+              <p class="first admonition-title">Version Warning</p>
+              <p class="last">
+                This documentation is for the development version of
+                <strong>emcee</strong> ("emcee3") and it isn't
+                backwards-compatible with earlier stable versions.
+                If you're using an earlier version, get that documentation
+                <a href="http://dfm.io/emcee">here</a>.
+              </p>
+            </div>
+
+            
+  <div class="section" id="emcee3-samplers-package">
+<h1>emcee3.samplers package<a class="headerlink" href="#emcee3-samplers-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-emcee3.samplers.sampler">
+<span id="emcee3-samplers-sampler-module"></span><h2>emcee3.samplers.sampler module<a class="headerlink" href="#module-emcee3.samplers.sampler" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="emcee3.samplers.sampler.Sampler">
+<em class="property">class </em><code class="descclassname">emcee3.samplers.sampler.</code><code class="descname">Sampler</code><span class="sig-paren">(</span><em>moves=None</em>, <em>backend=None</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.samplers.sampler.Sampler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>A simple MCMC sampler with a customizable schedule of moves.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>moves</strong> (<em>Optional</em>) &#8211; This can be a single move object, a list of moves,
+or a &#8220;weighted&#8221; list of the form
+<code class="docutils literal"><span class="pre">[(emcee3.moves.StretchMove(),</span> <span class="pre">0.1),</span> <span class="pre">...]</span></code>. When running, the
+sampler will randomly select a move from this list (optionally
+with weights) for each proposal. (default: <code class="xref py py-class docutils literal"><span class="pre">StretchMove</span></code>)</li>
+<li><strong>backend</strong> (<em>Optional</em>) &#8211; The interface used for saving the samples. By
+default, the samples will be saved to memory using the
+<code class="xref py py-class docutils literal"><span class="pre">Backend</span></code> interface.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="emcee3.samplers.sampler.Sampler.acceptance">
+<code class="descname">acceptance</code><a class="headerlink" href="#emcee3.samplers.sampler.Sampler.acceptance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="emcee3.samplers.sampler.Sampler.acceptance_fraction">
+<code class="descname">acceptance_fraction</code><a class="headerlink" href="#emcee3.samplers.sampler.Sampler.acceptance_fraction" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="emcee3.samplers.sampler.Sampler.coords">
+<code class="descname">coords</code><a class="headerlink" href="#emcee3.samplers.sampler.Sampler.coords" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="emcee3.samplers.sampler.Sampler.current_coords">
+<code class="descname">current_coords</code><a class="headerlink" href="#emcee3.samplers.sampler.Sampler.current_coords" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="emcee3.samplers.sampler.Sampler.get_coords">
+<code class="descname">get_coords</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.samplers.sampler.Sampler.get_coords" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the stored chain of MCMC samples.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>flat</strong> (<em>Optional[bool]</em>) &#8211; Flatten the chain across the ensemble.
+(default: <code class="docutils literal"><span class="pre">False</span></code>)</li>
+<li><strong>thin</strong> (<em>Optional[int]</em>) &#8211; Take only every <code class="docutils literal"><span class="pre">thin</span></code> steps from the
+chain. (default: <code class="docutils literal"><span class="pre">1</span></code>)</li>
+<li><strong>discard</strong> (<em>Optional[int]</em>) &#8211; Discard the first <code class="docutils literal"><span class="pre">discard</span></code> steps in
+the chain as burn-in. (default: <code class="docutils literal"><span class="pre">0</span></code>)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The MCMC samples.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">array[..., nwalkers, ndim]</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.samplers.sampler.Sampler.get_integrated_autocorr_time">
+<code class="descname">get_integrated_autocorr_time</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.samplers.sampler.Sampler.get_integrated_autocorr_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the integrated autocorrelation time for each dimension.</p>
+<p>Any arguments are passed directly to <code class="xref py py-func docutils literal"><span class="pre">autocorr.integrated_time()</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The estimated autocorrelation time in each dimension.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">array[ndim]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.samplers.sampler.Sampler.get_log_likelihood">
+<code class="descname">get_log_likelihood</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.samplers.sampler.Sampler.get_log_likelihood" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the chain of log likelihoods evaluated at the MCMC samples.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>flat</strong> (<em>Optional[bool]</em>) &#8211; Flatten the chain across the ensemble.
+(default: <code class="docutils literal"><span class="pre">False</span></code>)</li>
+<li><strong>thin</strong> (<em>Optional[int]</em>) &#8211; Take only every <code class="docutils literal"><span class="pre">thin</span></code> steps from the
+chain. (default: <code class="docutils literal"><span class="pre">1</span></code>)</li>
+<li><strong>discard</strong> (<em>Optional[int]</em>) &#8211; Discard the first <code class="docutils literal"><span class="pre">discard</span></code> steps in
+the chain as burn-in. (default: <code class="docutils literal"><span class="pre">0</span></code>)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The chain of log likelihoods.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">array[..., nwalkers]</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.samplers.sampler.Sampler.get_log_prior">
+<code class="descname">get_log_prior</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.samplers.sampler.Sampler.get_log_prior" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the chain of log priors evaluated at the MCMC samples.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>flat</strong> (<em>Optional[bool]</em>) &#8211; Flatten the chain across the ensemble.
+(default: <code class="docutils literal"><span class="pre">False</span></code>)</li>
+<li><strong>thin</strong> (<em>Optional[int]</em>) &#8211; Take only every <code class="docutils literal"><span class="pre">thin</span></code> steps from the
+chain. (default: <code class="docutils literal"><span class="pre">1</span></code>)</li>
+<li><strong>discard</strong> (<em>Optional[int]</em>) &#8211; Discard the first <code class="docutils literal"><span class="pre">discard</span></code> steps in
+the chain as burn-in. (default: <code class="docutils literal"><span class="pre">0</span></code>)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The chain of log priors.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">array[..., nwalkers]</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.samplers.sampler.Sampler.get_log_probability">
+<code class="descname">get_log_probability</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.samplers.sampler.Sampler.get_log_probability" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the chain of log probabilities evaluated at the MCMC samples.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>flat</strong> (<em>Optional[bool]</em>) &#8211; Flatten the chain across the ensemble.
+(default: <code class="docutils literal"><span class="pre">False</span></code>)</li>
+<li><strong>thin</strong> (<em>Optional[int]</em>) &#8211; Take only every <code class="docutils literal"><span class="pre">thin</span></code> steps from the
+chain. (default: <code class="docutils literal"><span class="pre">1</span></code>)</li>
+<li><strong>discard</strong> (<em>Optional[int]</em>) &#8211; Discard the first <code class="docutils literal"><span class="pre">discard</span></code> steps in
+the chain as burn-in. (default: <code class="docutils literal"><span class="pre">0</span></code>)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The chain of log probabilities.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">array[..., nwalkers]</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="emcee3.samplers.sampler.Sampler.log_likelihood">
+<code class="descname">log_likelihood</code><a class="headerlink" href="#emcee3.samplers.sampler.Sampler.log_likelihood" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="emcee3.samplers.sampler.Sampler.log_prior">
+<code class="descname">log_prior</code><a class="headerlink" href="#emcee3.samplers.sampler.Sampler.log_prior" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="emcee3.samplers.sampler.Sampler.log_probability">
+<code class="descname">log_probability</code><a class="headerlink" href="#emcee3.samplers.sampler.Sampler.log_probability" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="emcee3.samplers.sampler.Sampler.reset">
+<code class="descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.samplers.sampler.Sampler.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear the chain and reset it to its default state.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.samplers.sampler.Sampler.run">
+<code class="descname">run</code><span class="sig-paren">(</span><em>ensemble</em>, <em>niter</em>, <em>progress=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.samplers.sampler.Sampler.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the specified number of iterations of MCMC.</p>
+<p>Starting from a given ensemble, run <code class="docutils literal"><span class="pre">niter</span></code> steps of MCMC. In
+practice, this method just calls <a class="reference internal" href="#emcee3.samplers.sampler.Sampler.sample" title="emcee3.samplers.sampler.Sampler.sample"><code class="xref py py-func docutils literal"><span class="pre">Sampler.sample()</span></code></a> and
+and returns the final ensemble from the iterator.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>ensemble</strong> (<a class="reference internal" href="../emcee3/#emcee3.Ensemble" title="emcee3.Ensemble"><em>Ensemble</em></a>) &#8211; The starting <code class="xref py py-class docutils literal"><span class="pre">Ensemble</span></code>.</li>
+<li><strong>niter</strong> (<em>int</em>) &#8211; The number of steps to run.</li>
+<li><strong>progress</strong> (<em>Optional[bool]</em>) &#8211; Optionally show the sampling progress
+using <a class="reference external" href="https://github.com/tqdm/tqdm">tqdm</a>.
+(default: <code class="docutils literal"><span class="pre">False</span></code>)</li>
+<li><strong>**kwargs</strong> &#8211; Any other arguments are passed to <a class="reference internal" href="#emcee3.samplers.sampler.Sampler.sample" title="emcee3.samplers.sampler.Sampler.sample"><code class="xref py py-func docutils literal"><span class="pre">Sampler.sample()</span></code></a>.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The final state of the ensemble.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="../emcee3/#emcee3.Ensemble" title="emcee3.Ensemble">Ensemble</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.samplers.sampler.Sampler.sample">
+<code class="descname">sample</code><span class="sig-paren">(</span><em>ensemble</em>, <em>niter=None</em>, <em>store=None</em>, <em>thin=1</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.samplers.sampler.Sampler.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run MCMC iterations and yield each updated ensemble.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>ensemble</strong> (<a class="reference internal" href="../emcee3/#emcee3.Ensemble" title="emcee3.Ensemble"><em>Ensemble</em></a>) &#8211; The starting <code class="xref py py-class docutils literal"><span class="pre">Ensemble</span></code>.</li>
+<li><strong>niter</strong> (<em>Optional[int]</em>) &#8211; The number of steps to run. If not provided,
+the sampler will run forever.</li>
+<li><strong>store</strong> (<em>Optional[bool]</em>) &#8211; If <code class="docutils literal"><span class="pre">True</span></code>, save the chain using the
+backend. If <code class="docutils literal"><span class="pre">False</span></code>, reset the backend but don&#8217;t store
+anything.</li>
+<li><strong>thin</strong> (<em>Optional[int]</em>) &#8211; Only store every <code class="docutils literal"><span class="pre">thin</span></code> step. Note: the
+backend won&#8217;t ever know about this thinning. Instead, it will
+just think that the chain had only <code class="docutils literal"><span class="pre">niter</span> <span class="pre">//</span> <span class="pre">thin</span></code> steps.
+(default: <code class="docutils literal"><span class="pre">1</span></code>)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Yields:</th><td class="field-body"><p class="first last"><em>Ensemble</em> &#8211; The state of the ensemble at every <code class="docutils literal"><span class="pre">thin</span></code>-th step.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-emcee3.samplers">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-emcee3.samplers" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="emcee3.samplers.Sampler">
+<em class="property">class </em><code class="descclassname">emcee3.samplers.</code><code class="descname">Sampler</code><span class="sig-paren">(</span><em>moves=None</em>, <em>backend=None</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.samplers.Sampler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>A simple MCMC sampler with a customizable schedule of moves.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>moves</strong> (<em>Optional</em>) &#8211; This can be a single move object, a list of moves,
+or a &#8220;weighted&#8221; list of the form
+<code class="docutils literal"><span class="pre">[(emcee3.moves.StretchMove(),</span> <span class="pre">0.1),</span> <span class="pre">...]</span></code>. When running, the
+sampler will randomly select a move from this list (optionally
+with weights) for each proposal. (default: <code class="xref py py-class docutils literal"><span class="pre">StretchMove</span></code>)</li>
+<li><strong>backend</strong> (<em>Optional</em>) &#8211; The interface used for saving the samples. By
+default, the samples will be saved to memory using the
+<code class="xref py py-class docutils literal"><span class="pre">Backend</span></code> interface.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="emcee3.samplers.Sampler.acceptance">
+<code class="descname">acceptance</code><a class="headerlink" href="#emcee3.samplers.Sampler.acceptance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="emcee3.samplers.Sampler.acceptance_fraction">
+<code class="descname">acceptance_fraction</code><a class="headerlink" href="#emcee3.samplers.Sampler.acceptance_fraction" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="emcee3.samplers.Sampler.coords">
+<code class="descname">coords</code><a class="headerlink" href="#emcee3.samplers.Sampler.coords" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="emcee3.samplers.Sampler.current_coords">
+<code class="descname">current_coords</code><a class="headerlink" href="#emcee3.samplers.Sampler.current_coords" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="emcee3.samplers.Sampler.get_coords">
+<code class="descname">get_coords</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.samplers.Sampler.get_coords" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the stored chain of MCMC samples.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>flat</strong> (<em>Optional[bool]</em>) &#8211; Flatten the chain across the ensemble.
+(default: <code class="docutils literal"><span class="pre">False</span></code>)</li>
+<li><strong>thin</strong> (<em>Optional[int]</em>) &#8211; Take only every <code class="docutils literal"><span class="pre">thin</span></code> steps from the
+chain. (default: <code class="docutils literal"><span class="pre">1</span></code>)</li>
+<li><strong>discard</strong> (<em>Optional[int]</em>) &#8211; Discard the first <code class="docutils literal"><span class="pre">discard</span></code> steps in
+the chain as burn-in. (default: <code class="docutils literal"><span class="pre">0</span></code>)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The MCMC samples.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">array[..., nwalkers, ndim]</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.samplers.Sampler.get_integrated_autocorr_time">
+<code class="descname">get_integrated_autocorr_time</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.samplers.Sampler.get_integrated_autocorr_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the integrated autocorrelation time for each dimension.</p>
+<p>Any arguments are passed directly to <code class="xref py py-func docutils literal"><span class="pre">autocorr.integrated_time()</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The estimated autocorrelation time in each dimension.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">array[ndim]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.samplers.Sampler.get_log_likelihood">
+<code class="descname">get_log_likelihood</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.samplers.Sampler.get_log_likelihood" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the chain of log likelihoods evaluated at the MCMC samples.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>flat</strong> (<em>Optional[bool]</em>) &#8211; Flatten the chain across the ensemble.
+(default: <code class="docutils literal"><span class="pre">False</span></code>)</li>
+<li><strong>thin</strong> (<em>Optional[int]</em>) &#8211; Take only every <code class="docutils literal"><span class="pre">thin</span></code> steps from the
+chain. (default: <code class="docutils literal"><span class="pre">1</span></code>)</li>
+<li><strong>discard</strong> (<em>Optional[int]</em>) &#8211; Discard the first <code class="docutils literal"><span class="pre">discard</span></code> steps in
+the chain as burn-in. (default: <code class="docutils literal"><span class="pre">0</span></code>)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The chain of log likelihoods.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">array[..., nwalkers]</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.samplers.Sampler.get_log_prior">
+<code class="descname">get_log_prior</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.samplers.Sampler.get_log_prior" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the chain of log priors evaluated at the MCMC samples.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>flat</strong> (<em>Optional[bool]</em>) &#8211; Flatten the chain across the ensemble.
+(default: <code class="docutils literal"><span class="pre">False</span></code>)</li>
+<li><strong>thin</strong> (<em>Optional[int]</em>) &#8211; Take only every <code class="docutils literal"><span class="pre">thin</span></code> steps from the
+chain. (default: <code class="docutils literal"><span class="pre">1</span></code>)</li>
+<li><strong>discard</strong> (<em>Optional[int]</em>) &#8211; Discard the first <code class="docutils literal"><span class="pre">discard</span></code> steps in
+the chain as burn-in. (default: <code class="docutils literal"><span class="pre">0</span></code>)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The chain of log priors.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">array[..., nwalkers]</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.samplers.Sampler.get_log_probability">
+<code class="descname">get_log_probability</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.samplers.Sampler.get_log_probability" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the chain of log probabilities evaluated at the MCMC samples.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>flat</strong> (<em>Optional[bool]</em>) &#8211; Flatten the chain across the ensemble.
+(default: <code class="docutils literal"><span class="pre">False</span></code>)</li>
+<li><strong>thin</strong> (<em>Optional[int]</em>) &#8211; Take only every <code class="docutils literal"><span class="pre">thin</span></code> steps from the
+chain. (default: <code class="docutils literal"><span class="pre">1</span></code>)</li>
+<li><strong>discard</strong> (<em>Optional[int]</em>) &#8211; Discard the first <code class="docutils literal"><span class="pre">discard</span></code> steps in
+the chain as burn-in. (default: <code class="docutils literal"><span class="pre">0</span></code>)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The chain of log probabilities.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">array[..., nwalkers]</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="emcee3.samplers.Sampler.log_likelihood">
+<code class="descname">log_likelihood</code><a class="headerlink" href="#emcee3.samplers.Sampler.log_likelihood" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="emcee3.samplers.Sampler.log_prior">
+<code class="descname">log_prior</code><a class="headerlink" href="#emcee3.samplers.Sampler.log_prior" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="emcee3.samplers.Sampler.log_probability">
+<code class="descname">log_probability</code><a class="headerlink" href="#emcee3.samplers.Sampler.log_probability" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="emcee3.samplers.Sampler.reset">
+<code class="descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.samplers.Sampler.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear the chain and reset it to its default state.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.samplers.Sampler.run">
+<code class="descname">run</code><span class="sig-paren">(</span><em>ensemble</em>, <em>niter</em>, <em>progress=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.samplers.Sampler.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the specified number of iterations of MCMC.</p>
+<p>Starting from a given ensemble, run <code class="docutils literal"><span class="pre">niter</span></code> steps of MCMC. In
+practice, this method just calls <a class="reference internal" href="#emcee3.samplers.Sampler.sample" title="emcee3.samplers.Sampler.sample"><code class="xref py py-func docutils literal"><span class="pre">Sampler.sample()</span></code></a> and
+and returns the final ensemble from the iterator.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>ensemble</strong> (<a class="reference internal" href="../emcee3/#emcee3.Ensemble" title="emcee3.Ensemble"><em>Ensemble</em></a>) &#8211; The starting <code class="xref py py-class docutils literal"><span class="pre">Ensemble</span></code>.</li>
+<li><strong>niter</strong> (<em>int</em>) &#8211; The number of steps to run.</li>
+<li><strong>progress</strong> (<em>Optional[bool]</em>) &#8211; <p>Optionally show the sampling progress
+using <a class="reference external" href="https://github.com/tqdm/tqdm">tqdm</a>.
+(default: <code class="docutils literal"><span class="pre">False</span></code>)</p>
+</li>
+<li><strong>**kwargs</strong> &#8211; Any other arguments are passed to <a class="reference internal" href="#emcee3.samplers.Sampler.sample" title="emcee3.samplers.Sampler.sample"><code class="xref py py-func docutils literal"><span class="pre">Sampler.sample()</span></code></a>.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The final state of the ensemble.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="../emcee3/#emcee3.Ensemble" title="emcee3.Ensemble">Ensemble</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="emcee3.samplers.Sampler.sample">
+<code class="descname">sample</code><span class="sig-paren">(</span><em>ensemble</em>, <em>niter=None</em>, <em>store=None</em>, <em>thin=1</em><span class="sig-paren">)</span><a class="headerlink" href="#emcee3.samplers.Sampler.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run MCMC iterations and yield each updated ensemble.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>ensemble</strong> (<a class="reference internal" href="../emcee3/#emcee3.Ensemble" title="emcee3.Ensemble"><em>Ensemble</em></a>) &#8211; The starting <code class="xref py py-class docutils literal"><span class="pre">Ensemble</span></code>.</li>
+<li><strong>niter</strong> (<em>Optional[int]</em>) &#8211; The number of steps to run. If not provided,
+the sampler will run forever.</li>
+<li><strong>store</strong> (<em>Optional[bool]</em>) &#8211; If <code class="docutils literal"><span class="pre">True</span></code>, save the chain using the
+backend. If <code class="docutils literal"><span class="pre">False</span></code>, reset the backend but don&#8217;t store
+anything.</li>
+<li><strong>thin</strong> (<em>Optional[int]</em>) &#8211; Only store every <code class="docutils literal"><span class="pre">thin</span></code> step. Note: the
+backend won&#8217;t ever know about this thinning. Instead, it will
+just think that the chain had only <code class="docutils literal"><span class="pre">niter</span> <span class="pre">//</span> <span class="pre">thin</span></code> steps.
+(default: <code class="docutils literal"><span class="pre">1</span></code>)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Yields:</th><td class="field-body"><p class="first last"><em>Ensemble</em> &#8211; The state of the ensemble at every <code class="docutils literal"><span class="pre">thin</span></code>-th step.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014-2016 Dan Foreman-Mackey &amp; contributors.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'3.0.0.dev0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="../../_static/js/analytics.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1,0 +1,38 @@
+emcee3.pools package
+====================
+
+Submodules
+----------
+
+emcee3.pools.default module
+---------------------------
+
+.. automodule:: emcee3.pools.default
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+emcee3.pools.interruptible module
+---------------------------------
+
+.. automodule:: emcee3.pools.interruptible
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+emcee3.pools.jl module
+----------------------
+
+.. automodule:: emcee3.pools.jl
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: emcee3.pools
+    :members:
+    :undoc-members:
+    :show-inheritance:

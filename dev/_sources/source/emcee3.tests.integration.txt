@@ -1,0 +1,78 @@
+emcee3.tests.integration package
+================================
+
+Submodules
+----------
+
+emcee3.tests.integration.test_de module
+---------------------------------------
+
+.. automodule:: emcee3.tests.integration.test_de
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+emcee3.tests.integration.test_gaussian module
+---------------------------------------------
+
+.. automodule:: emcee3.tests.integration.test_gaussian
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+emcee3.tests.integration.test_hmc module
+----------------------------------------
+
+.. automodule:: emcee3.tests.integration.test_hmc
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+emcee3.tests.integration.test_kde module
+----------------------------------------
+
+.. automodule:: emcee3.tests.integration.test_kde
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+emcee3.tests.integration.test_nuts module
+-----------------------------------------
+
+.. automodule:: emcee3.tests.integration.test_nuts
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+emcee3.tests.integration.test_proposal module
+---------------------------------------------
+
+.. automodule:: emcee3.tests.integration.test_proposal
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+emcee3.tests.integration.test_stretch module
+--------------------------------------------
+
+.. automodule:: emcee3.tests.integration.test_stretch
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+emcee3.tests.integration.test_walk module
+-----------------------------------------
+
+.. automodule:: emcee3.tests.integration.test_walk
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: emcee3.tests.integration
+    :members:
+    :undoc-members:
+    :show-inheritance:
